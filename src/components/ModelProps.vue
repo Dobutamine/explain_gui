@@ -1,0 +1,185 @@
+<template>
+<q-card class="q-pb-sm q-pt-es q-ma-sm">
+   <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline">
+     change properties
+     </div>
+   </div>
+
+    <div class="row q-mt-sm">
+      <div class="q-gutter-es row gutter">
+          <q-select label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 110px" />
+          <q-select label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 110px" />
+      </div>
+      <div v-if="isNumber" class="q-gutter-es q-mt-es row gutter">
+          <q-input type="number" label-color="red-10" v-model="propValue1" filled dense square label="current value" style="width: 110px" />
+          <q-input type="number" label-color="red-10" v-model="propValue1New" filled dense square label="new value" style="width: 110px" />
+      </div>
+      <div v-if="!isNumber" class="q-gutter-sm q-ma-sm row gutter">
+          <q-toggle class="text-caption" label-color="red-10" left-label v-model="propValue1" dense flat label="now"/>
+          <q-toggle class="text-caption" label-color="red-10" left-label v-model="propValue1New" dense flat label="new" style="width: 110px" />
+      </div>
+
+      <div class="q-gutter-es q-mt-es row gutter">
+          <q-input type="number" label-color="red-10" v-model="propValue1In" filled dense square label="change in (s)" style="width: 110px" />
+          <q-input type="number" label-color="red-10" v-model="propValue1At" filled dense square label="change at (s)" style="width: 110px" />
+      </div>
+
+    </div>
+
+  <div class="row q-mb-es q-mt-sm">
+      <div class="q-gutter-es q-ma-es row gutter">
+        <q-btn dense color="secondary"  style="width: 110px" @click="updateProps" >QUE</q-btn>
+      </div>
+  </div>
+  <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline">
+     change list
+     </div>
+   </div>
+
+  <div class="row q-mt-es">
+    <div class="q-gutter-es q-ma-es row gutter">
+      <q-list class="q-ma-es" highlight separator>
+        <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
+          <q-item-label class="text-caption">
+            at {{ field.atTime }}s. {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
+          </q-item-label>
+        </q-item>
+      </q-list>
+    </div>
+    <div class="q-gutter-es q-ma-md row gutter">
+      <q-btn dense color="negative" @click="executeIntervention" style="width: 100px" >EXECUTE</q-btn>
+        <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 100px" class="q-ml-sm"/>
+    </div>
+  </div>
+
+</q-card>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      isEnabled: true,
+      isNumber: true,
+      timeToCalculate: 10,
+      interventionsList: [],
+      modelEventListener: null,
+      set1Enabled: true,
+      model1: '',
+      prop1: '',
+      propValue1: 0,
+      propValue1New: 0,
+      propValue1Bool: false,
+      propValue1In: 5,
+      propValue1At: 0,
+      models: [],
+      props: []
+    }
+  },
+  mounted () {
+    this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
+      switch (message.data.type) {
+        case 'data':
+          switch (message.data.target) {
+            case 'datalogger_output':
+              this.$model.getProperties(null)
+              break
+            case 'props':
+              this.properties = message.data.data
+              this.processModels()
+              break
+            default:
+              break
+          }
+          break
+      }
+    })
+    this.$model.getProperties(null)
+  },
+  beforeDestroy () {
+    delete this.modelEventListener
+  },
+  methods: {
+    selectInterventions (field, index) {
+      const found = this.interventionsList.findIndex(element => element === field)
+      if (found > -1) {
+        this.interventionsList.splice(found, 1)
+      }
+    },
+    executeIntervention () {
+      this.interventionsList.forEach(intervention => {
+        this.$model.setProperty(intervention.model, intervention.prop, intervention.newValue, intervention.inTime, intervention.atTime, 'abs')
+      })
+      this.$model.calculateModel(20)
+      this.interventionsList = []
+      this.model1 = ''
+      this.prop1 = ''
+      this.propValue1 = ''
+      this.propValue1New = ''
+      this.propValue1In = 5
+      this.propValue1At = 0
+    },
+    updateProps () {
+      const intervention = {
+        model: this.model1,
+        prop: this.prop1,
+        currentValue: this.propValue1,
+        newValue: this.propValue1New,
+        inTime: this.propValue1In,
+        atTime: this.propValue1At
+      }
+      this.interventionsList.push(intervention)
+    },
+    propChanged () {
+      if (this.set1Enabled & this.properties[this.model1][this.prop1] !== undefined) {
+        if (typeof this.properties[this.model1][this.prop1] === 'number') {
+          this.isNumber = true
+          this.propValue1 = (this.properties[this.model1][this.prop1]).toFixed(4)
+        } else {
+          this.isNumber = false
+          this.propValue1 = (this.properties[this.model1][this.prop1])
+        }
+      }
+    },
+    modelChanged () {
+      // the selected model changed so we have to update the property list
+      this.prop1 = ''
+      this.props.length = 0
+
+      if (this.model1 !== '') {
+        Object.keys(this.properties[this.model1]).forEach(propName => {
+          if (typeof this.properties[this.model1][propName] === 'number') {
+            this.props.push(propName)
+            if (this.properties[this.model1][this.prop1] !== undefined) {
+              this.isNumber = true
+              this.propValue1 = this.properties[this.model1][this.prop1].toFixed(4)
+            }
+          }
+
+          if (typeof this.properties[this.model1][propName] === 'boolean') {
+            this.props.push(propName)
+            if (this.properties[this.model1][this.prop1] !== undefined) {
+              this.isNumber = false
+              this.propValue1 = this.properties[this.model1][this.prop1]
+            }
+          }
+        })
+      }
+    },
+    processModels () {
+      this.models.length = 0
+
+      Object.keys(this.properties).forEach(modelName => {
+        this.models.push(modelName)
+      })
+    }
+  }
+
+}
+</script>
+
+<style>
+
+</style>
