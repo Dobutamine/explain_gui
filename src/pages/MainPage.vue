@@ -7,8 +7,8 @@
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
-            <controller></controller>
             <LightningChart></LightningChart>
+            <controller></controller>
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">

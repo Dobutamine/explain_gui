@@ -546,9 +546,7 @@ export default {
           switch (message.data.target) {
             case 'datalogger_output':
               this.datalogger_data = message.data.data
-              if (this.isEnabled) {
-                this.callback_datalogger()
-              }
+              this.callback_datalogger()
               break
             case 'state':
               this.snapshot = message.data.data

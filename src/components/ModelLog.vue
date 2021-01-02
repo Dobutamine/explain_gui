@@ -7,7 +7,7 @@
    </div>
   <div v-if="isEnabled" class="row q-mt-es">
       <q-virtual-scroll
-        style="max-height: 300px;"
+        style="max-height: 322px;"
         :items="log"
         separator
         >
@@ -40,12 +40,10 @@ export default {
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
-      if (this.isEnabled) {
-        switch (message.data.type) {
-          case 'mes':
-            this.updateLog({ message: message.data.data[0] })
-            break
-        }
+      switch (message.data.type) {
+        case 'mes':
+          this.updateLog({ message: message.data.data[0] })
+          break
       }
     })
   },
