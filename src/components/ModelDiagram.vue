@@ -1,7 +1,15 @@
 <template>
+  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+    <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
+      model diagram
+      </div>
+    </div>
+
     <div class="stage" :style="{display: display}">
       <canvas id="stage" ></canvas>
     </div>
+  </q-card>
 </template>
 
 <script>
@@ -25,7 +33,7 @@ export default {
         centerX: 0,
         centerY: 0,
         scaling: 40,
-        aspectRatio: 0.7
+        aspectRatio: 0.6
       },
       callback_datalogger: () => {},
       callback_mes: () => {},
@@ -77,12 +85,25 @@ export default {
       }
     })
     this.$model.getProperties()
+
+    // hide the model diagram at startup
+    this.toggleIsEnabled()
   },
   destroyed () {
     // remove eventlistener when destroyed
     delete this.modelEventListener
   },
   methods: {
+    toggleIsEnabled () {
+      this.isEnabled = !this.isEnabled
+      if (this.isEnabled) {
+        this.display = 'block'
+        this.pixiApp.renderer.view.style.display = this.display
+      } else {
+        this.display = 'none'
+        this.pixiApp.renderer.view.style.display = this.display
+      }
+    },
     initDiagram () {
       // get the reference to the canvas
       canvas = document.getElementById('stage')
@@ -90,12 +111,12 @@ export default {
       this.pixiApp = new PIXI.Application({
         transparent: false,
         antialias: true,
-        backgroundColor: 0xeeeeee,
+        backgroundColor: 0xffffff,
         view: canvas
       })
       // add the pixi application to the view
       this.$el.appendChild(this.pixiApp.view)
-      this.pixiApp.renderer.view.style.display = 'block'
+      this.pixiApp.renderer.view.style.display = this.display
       this.pixiApp.renderer.autoResize = true
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)

@@ -2,7 +2,7 @@
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     model graphics
+     model graph
      </div>
    </div>
 
@@ -92,6 +92,7 @@
       </div>
     </div>
   </div>
+
   <div v-if="isEnabled" class="q-gutter-lg row gutter q-ma-xs">
     <q-checkbox v-model="showSummary" dense label="summary"/>
     <q-checkbox v-model="autoScale" dense label="autoscale" @input="autoScaleToggle" />
@@ -137,8 +138,8 @@ export default {
       chartYAxis: null,
       chartCh1Lineseries: null,
       chartCh1Data: [],
-      chartCh1Model: 'none',
-      chartCh1Prop: 'none',
+      chartCh1Model: 'AA',
+      chartCh1Prop: 'pres',
       chartCh1Factor: 1,
       chartCh2Lineseries: null,
       chartCh2Data: [],
