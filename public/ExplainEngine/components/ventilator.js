@@ -1,3 +1,4 @@
+/* eslint-disable */
 class Ventilator {
   constructor(_model) {
     this._model = _model;

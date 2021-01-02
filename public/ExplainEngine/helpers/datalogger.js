@@ -17,6 +17,18 @@ class Datalogger {
     this.data_rt = []
     this.watched_models = ["AA","LV","LA","RV","RA"]
 
+    this.monitorObject = [
+      {label: 'heartrate', model: 'ecg', prop: 'heart_rate', accuracy: 0},
+      {label: 'spo2Pre', model: 'AA', prop: 'so2', accuracy: 2},
+      {label: 'spo2Post', model: 'AD', prop: 'so2', accuracy: 2},
+      {label: 'resprate', model: 'breathing', prop: 'spont_resp_rate', accuracy: 0},
+      {label: 'abp', model: 'AA', prop: 'pres', accuracy: 3},
+      {label: 'pap', model: 'PA', prop: 'pres', accuracy: 3},
+      {label: 'cvp', model: 'RA', prop: 'pres', accuracy: 3},
+      {label: 'etco2', model: 'ventilator', prop: 'etco2_ventilator', accuracy: 0},
+      {label: 'temp', model: 'metabolism', prop: 'body_temp', accuracy: 1},
+    ]
+
   }
 
   // routine to send messages to the main thread
@@ -29,6 +41,13 @@ class Datalogger {
       return_tag
     });
   };
+
+  setMonitoringObject = (monitorObject) => {
+
+  }
+  getMonitoringObject = () => {
+
+  }
 
   getModels(model_type) {
     return false
@@ -83,6 +102,7 @@ class Datalogger {
       }     
     }
   }
+
   removeDuplicates(data) {
     return data.filter((value, index) => data.indexOf(value) === index)
   }
@@ -163,8 +183,12 @@ class Datalogger {
   getModelStateWatched = (_current_model_time, watched_models, annotation = "") => {
     let model_state = {
       time: _current_model_time,
-      ncc_ventricular: this._model.components.ecg.ncc_ventricular
+      ncc_ventricular: this._model.components.ecg.ncc_ventricular,
     }
+
+    this.monitorObject.forEach(mon => {
+      model_state[mon.label] = (this._model.components[mon.model][mon.prop]).toFixed(mon.accuracy)
+    })
 
     model_state["annotation"] = annotation;
 

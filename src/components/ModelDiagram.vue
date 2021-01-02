@@ -138,7 +138,7 @@ export default {
       }
     },
     processProperties () {
-      console.log(this.properties)
+      // console.log(this.properties)
     },
     updateContainers () {
       this.containers.forEach(container => {
@@ -187,7 +187,7 @@ export default {
       return color
     },
     containerClicked (e) {
-      console.log(e.target)
+      // console.log(e.target)
     },
     configureContainer (name, components) {
       const container = {

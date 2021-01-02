@@ -4,6 +4,15 @@
         <div class="col-2 text-center">
           <DiagramEditor></DiagramEditor>
           <ModelProps></ModelProps>
+          <ECGProps></ECGProps>
+          <HeartProps></HeartProps>
+          <CirculationProps></CirculationProps>
+          <BreathingProps></BreathingProps>
+          <LungProps></LungProps>
+          <VentilatorProps></VentilatorProps>
+          <ANSProps></ANSProps>
+          <MetabolismProps></MetabolismProps>
+          <KidneyProps></KidneyProps>
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
@@ -41,6 +50,15 @@ import ModelHeart from 'components/ModelHeart'
 import ModelLungs from 'components/ModelLungs'
 import ModelKidneys from 'components/ModelKidneys'
 import DiagramEditor from 'components/DiagramEditor'
+import ECGProps from 'components/ECGProps'
+import HeartProps from 'components/HeartProps'
+import CirculationProps from 'components/CirculationProps'
+import BreathingProps from 'components/BreathingProps'
+import LungProps from 'components/LungProps'
+import VentilatorProps from 'components/VentilatorProps'
+import ANSProps from 'components/ANSProps'
+import MetabolismProps from 'components/MetabolismProps'
+import KidneyProps from 'components/KidneyProps'
 
 export default {
   name: 'PageIndex',
@@ -57,7 +75,16 @@ export default {
     ModelHeart,
     ModelLungs,
     ModelKidneys,
-    DiagramEditor
+    DiagramEditor,
+    ECGProps,
+    HeartProps,
+    CirculationProps,
+    BreathingProps,
+    LungProps,
+    VentilatorProps,
+    ANSProps,
+    MetabolismProps,
+    KidneyProps
   },
   data () {
     return {

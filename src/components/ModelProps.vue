@@ -2,7 +2,7 @@
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     properties editor
+     model properties
      </div>
    </div>
 
