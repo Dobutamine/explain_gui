@@ -1,12 +1,13 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
      model graphics
      </div>
    </div>
+
   <div :class="graphClass" id="chart"></div>
-  <div class="row q-mt-sm">
+  <div v-if="isEnabled" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
         <q-select label-color="red-10" v-model="xAxisModel" :options="xAxisModels" filled dense square @input="xAxisChanged" label="x model" style="width: 120px" />
@@ -91,8 +92,7 @@
       </div>
     </div>
   </div>
-  <div class="q-gutter-lg row gutter q-ma-xs">
-    <q-checkbox v-model="isEnabled" dense label="enabled"/>
+  <div v-if="isEnabled" class="q-gutter-lg row gutter q-ma-xs">
     <q-checkbox v-model="showSummary" dense label="summary"/>
     <q-checkbox v-model="autoScale" dense label="autoscale" @input="autoScaleToggle" />
     <q-input v-if="!autoScale" v-model.number="minY" type="number" @input="autoScaleToggle" label="min" filled dense hide-bottom-space style="width: 100px"/>
@@ -193,6 +193,16 @@ export default {
     }
   },
   methods: {
+    toggleIsEnabled () {
+      this.isEnabled = !this.isEnabled
+      if (this.isEnabled) {
+        this.graphClass = 'rectangle'
+        this.showSummary = true
+      } else {
+        this.graphClass = 'rectangleHide'
+        this.showSummary = false
+      }
+    },
     hiresToggle () {
       if (this.hires) {
         this.$model.setDataloggerInterval(0.001)
@@ -567,6 +577,11 @@ export default {
 <style>
 .rectangle {
   display: flex;
+  height: 300px;
+  width: 100%;
+}
+.rectangleHide {
+  display: none;
   height: 300px;
   width: 100%;
 }

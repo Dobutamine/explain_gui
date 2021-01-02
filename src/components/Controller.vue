@@ -1,11 +1,11 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
       model controller
       </div>
    </div>
-    <div class="q-gutter-lg row gutter q-mt-es q-mb-sm">
+    <div v-if="isEnabled" class="q-gutter-lg row gutter q-mt-es q-mb-sm">
         <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 150px">{{ caption }}</q-btn>
         <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 85px" class="q-ml-xs"/>
          <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 75px">{{ captionGOTO }}</q-btn>
@@ -19,6 +19,7 @@
 export default {
   data () {
     return {
+      isEnabled: true,
       timeToCalculate: 10,
       caption: 'CALCULATE',
       color: 'secondary',
@@ -32,26 +33,31 @@ export default {
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
-      switch (message.data.type) {
-        case 'data':
-          switch (message.data.target) {
-            case 'datalogger_output':
-              this.caption = 'CALCULATE'
-              this.color = 'secondary'
-              this.rtRunning = false
-              this.captionRT = 'REALTIME'
-              this.colorRT = 'secondary'
-              this.captionGOTO = 'GOTO'
-              this.colorGOTO = 'secondary'
-              break
-            default:
-              break
-          }
-          break
+      if (this.isEnabled) {
+        switch (message.data.type) {
+          case 'data':
+            switch (message.data.target) {
+              case 'datalogger_output':
+                this.caption = 'CALCULATE'
+                this.color = 'secondary'
+                this.rtRunning = false
+                this.captionRT = 'REALTIME'
+                this.colorRT = 'secondary'
+                this.captionGOTO = 'GOTO'
+                this.colorGOTO = 'secondary'
+                break
+              default:
+                break
+            }
+            break
+        }
       }
     })
   },
   methods: {
+    toggleIsEnabled () {
+      this.isEnabled = !this.isEnabled
+    },
     startModel () {
       if (this.rtRunning) {
         this.rtRunning = false

@@ -1,12 +1,12 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
      change properties
      </div>
    </div>
 
-    <div class="row q-mt-sm">
+    <div v-if="isEnabled" class="row q-mt-sm">
       <div class="q-gutter-es row gutter">
           <q-select label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 110px" />
           <q-select label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 110px" />
@@ -27,18 +27,18 @@
 
     </div>
 
-  <div class="row q-mb-es q-mt-sm">
+  <div v-if="isEnabled" class="row q-mb-es q-mt-sm">
       <div class="q-gutter-es q-ma-es row gutter">
         <q-btn dense color="secondary"  style="width: 110px" @click="updateProps" >QUE</q-btn>
       </div>
   </div>
-  <div class="row q-mt-es">
+  <div v-if="isEnabled" class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline">
      change list
      </div>
    </div>
 
-  <div class="row q-mt-es">
+  <div v-if="isEnabled" class="row q-mt-es">
     <div class="q-gutter-es q-ma-es row gutter">
       <q-list class="q-ma-es" highlight separator>
         <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
@@ -80,20 +80,22 @@ export default {
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
-      switch (message.data.type) {
-        case 'data':
-          switch (message.data.target) {
-            case 'datalogger_output':
-              this.$model.getProperties(null)
-              break
-            case 'props':
-              this.properties = message.data.data
-              this.processModels()
-              break
-            default:
-              break
-          }
-          break
+      if (this.isEnabled) {
+        switch (message.data.type) {
+          case 'data':
+            switch (message.data.target) {
+              case 'datalogger_output':
+                this.$model.getProperties(null)
+                break
+              case 'props':
+                this.properties = message.data.data
+                this.processModels()
+                break
+              default:
+                break
+            }
+            break
+        }
       }
     })
     this.$model.getProperties(null)
@@ -102,6 +104,9 @@ export default {
     delete this.modelEventListener
   },
   methods: {
+    toggleIsEnabled () {
+      this.isEnabled = !this.isEnabled
+    },
     selectInterventions (field, index) {
       const found = this.interventionsList.findIndex(element => element === field)
       if (found > -1) {
