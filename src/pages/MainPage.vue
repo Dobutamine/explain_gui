@@ -2,8 +2,8 @@
   <q-page padding>
     <div class="row justify-center items-start q-ma-es">
         <div class="col-2 text-center">
+          <DiagramEditor></DiagramEditor>
           <ModelProps></ModelProps>
-          <Modellog></Modellog>
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
@@ -15,8 +15,12 @@
         <div class="col-2 text-center">
           <ModelVitals></ModelVitals>
           <ModelLabs></ModelLabs>
+          <ModelHeart></ModelHeart>
           <ModelCirculation></ModelCirculation>
           <ModelVentilation></ModelVentilation>
+          <ModelLungs></ModelLungs>
+          <ModelKidneys></ModelKidneys>
+          <Modellog></Modellog>
         </div>
     </div>
   </q-page>
@@ -33,6 +37,10 @@ import ModelVitals from 'components/ModelVitals'
 import ModelLabs from 'components/ModelLabs'
 import ModelCirculation from 'components/ModelCirculation'
 import ModelVentilation from 'components/ModelVentilation'
+import ModelHeart from 'components/ModelHeart'
+import ModelLungs from 'components/ModelLungs'
+import ModelKidneys from 'components/ModelKidneys'
+import DiagramEditor from 'components/DiagramEditor'
 
 export default {
   name: 'PageIndex',
@@ -45,7 +53,11 @@ export default {
     ModelVitals,
     ModelLabs,
     ModelCirculation,
-    ModelVentilation
+    ModelVentilation,
+    ModelHeart,
+    ModelLungs,
+    ModelKidneys,
+    DiagramEditor
   },
   data () {
     return {

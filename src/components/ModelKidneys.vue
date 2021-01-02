@@ -2,21 +2,15 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        labs
+        kidneys
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
       <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="ph" filled dense square label="pH" style="width: 80px" />
-          <q-input label-color="red-10" v-model="po2" filled dense square label="pO2" style="width: 80px" />
-          <q-input label-color="red-10" v-model="pco2" filled dense square label="pCO2" style="width: 80px" />
+          <q-input label-color="red-10" v-model="kidneyFlow" filled dense square label="flow" style="width: 80px" />
+          <q-input label-color="red-10" v-model="filtrationRate" filled dense square label="filtration" style="width: 80px" />
+          <q-input label-color="red-10" v-model="urineProduction" filled dense square label="urine output" style="width: 80px" />
       </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="hco3" filled dense square label="HCO3" style="width: 80px" />
-          <q-input label-color="red-10" v-model="be" filled dense square label="BE" style="width: 80px" />
-          <q-input label-color="red-10" v-model="lactate" filled dense square label="lactate" style="width: 80px" />
-      </div>
-
     </div>
   </q-card>
 </template>
@@ -27,12 +21,9 @@ export default {
     return {
       isEnabled: false,
       modelEventListener: null,
-      ph: 7.40,
-      pco2: 45,
-      po2: 70,
-      hco3: 25.5,
-      be: -4,
-      lactate: 1.4
+      kidneyFlow: 7.40,
+      filtrationRate: 45,
+      urineProduction: 70
     }
   },
   mounted () {

@@ -2,21 +2,20 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        ventilation
+        heart
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
       <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="ventFreq" filled dense square label="vent rate" style="width: 80px" />
-          <q-input label-color="red-10" v-model="tidalVolume" filled dense square label="tidal vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="minuteVolume" filled dense square label="minute vol" style="width: 80px" />
+          <q-input label-color="red-10" v-model="lvVol" filled dense square label="LV vol" style="width: 80px" />
+          <q-input label-color="red-10" v-model="lvPres" filled dense square label="LV pres" style="width: 80px" />
+          <q-input label-color="red-10" v-model="lvStroke" filled dense square label="LV stroke" style="width: 80px" />
       </div>
       <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="maxPIP" filled dense square label="peak pres" style="width: 80px" />
-          <q-input label-color="red-10" v-model="PEEP" filled dense square label="peep" style="width: 80px" />
-          <q-input label-color="red-10" value="" filled dense square label="" style="width: 80px" />
+          <q-input label-color="red-10" v-model="rvVol" filled dense square label="RV vol" style="width: 80px" />
+          <q-input label-color="red-10" v-model="rvPres" filled dense square label="RV pres" style="width: 80px" />
+          <q-input label-color="red-10" v-model="rvStroke" filled dense square label="RV stroke" style="width: 80px" />
       </div>
-
     </div>
   </q-card>
 </template>
@@ -27,12 +26,12 @@ export default {
     return {
       isEnabled: false,
       modelEventListener: null,
-      ventFreq: 30,
-      tidalVolume: 10,
-      minuteVolume: 200,
-      maxPIP: 10,
-      PEEP: 4
-
+      lvVol: '10/2',
+      lvPres: '70/6',
+      lvStroke: 5,
+      rvVol: '10/2',
+      rvPres: '70/6',
+      rvStroke: 5
     }
   },
   mounted () {
