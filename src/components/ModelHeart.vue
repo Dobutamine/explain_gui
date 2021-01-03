@@ -1,30 +1,30 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-es q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         heart
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="laVol" filled dense square label="LA vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="laPres" filled dense square label="LA pres" style="width: 80px" />
-          <q-input label-color="red-10" value='' filled dense square label="" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="laVol" filled dense square label="LA vol"  />
+          <q-input class="col" label-color="red-10" v-model="laPres" filled dense square label="LA pres"  />
+          <q-input class="col" label-color="red-10" value='' filled dense square label=""  />
       </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="raVol" filled dense square label="RA vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="raPres" filled dense square label="RA pres" style="width: 80px" />
-          <q-input label-color="red-10" value='' filled dense square label="" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="raVol" filled dense square label="RA vol"  />
+          <q-input class="col" label-color="red-10" v-model="raPres" filled dense square label="RA pres"  />
+          <q-input class="col" label-color="red-10" value='' filled dense square label=""  />
       </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="lvVol" filled dense square label="LV vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="lvPres" filled dense square label="LV pres" style="width: 80px" />
-          <q-input label-color="red-10" v-model="lvStroke" filled dense square label="LV stroke" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="lvVol" filled dense square label="LV vol"  />
+          <q-input class="col" label-color="red-10" v-model="lvPres" filled dense square label="LV pres"  />
+          <q-input class="col" label-color="red-10" v-model="lvStroke" filled dense square label="LV stroke"  />
       </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="rvVol" filled dense square label="RV vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="rvPres" filled dense square label="RV pres" style="width: 80px" />
-          <q-input label-color="red-10" v-model="rvStroke" filled dense square label="RV stroke" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="rvVol" filled dense square label="RV vol"  />
+          <q-input class="col" label-color="red-10" v-model="rvPres" filled dense square label="RV pres"  />
+          <q-input class="col" label-color="red-10" v-model="rvStroke" filled dense square label="RV stroke"  />
       </div>
     </div>
   </q-card>

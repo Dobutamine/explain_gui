@@ -1,28 +1,29 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-es q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         vitals
       </div>
     </div>
-    <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="heartrate" filled dense square label="heartrate" style="width: 80px" />
-          <q-input label-color="red-10" v-model="spo2Pre" filled dense square label="spo2 pre" style="width: 80px" />
-          <q-input label-color="red-10" v-model="spo2Post" filled dense square label="spo2 post" style="width: 80px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="abp" filled dense square label="abp" style="width: 80px" />
-          <q-input label-color="red-10" v-model="pap" filled dense square label="pap" style="width: 80px" />
-          <q-input label-color="red-10" v-model="cvp" filled dense square label="cvp" style="width: 80px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="resprate" filled dense square label="resp rate" style="width: 80px" />
-          <q-input label-color="red-10" v-model="etco2" filled dense square label="etco2" style="width: 80px" />
-          <q-input label-color="red-10" v-model="temp" filled dense square label="temp" style="width: 80px" />
-      </div>
 
+    <div v-if="isEnabled" class="row q-mt-es">
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="heartrate" filled dense square label="heartrate" />
+          <q-input class="col" label-color="red-10" v-model="spo2Pre" filled dense square label="spo2 pre"  />
+          <q-input class="col" label-color="red-10" v-model="spo2Post" filled dense square label="spo2 post" />
+      </div>
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="abp" filled dense square label="abp" />
+          <q-input class="col" label-color="red-10" v-model="pap" filled dense square label="pap"  />
+          <q-input class="col" label-color="red-10" v-model="cvp" filled dense square label="cvp"  />
+      </div>
+      <div class="row ">
+          <q-input class="col" label-color="red-10" v-model="resprate" filled dense square label="resp rate"/>
+          <q-input class="col" label-color="red-10" v-model="etco2" filled dense square label="etco2" />
+          <q-input class="col" label-color="red-10" v-model="temp" filled dense square label="temp"/>
+      </div>
     </div>
+
   </q-card>
 </template>
 

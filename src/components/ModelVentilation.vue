@@ -1,20 +1,20 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-es q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         ventilation
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="ventFreq" filled dense square label="vent rate" style="width: 80px" />
-          <q-input label-color="red-10" v-model="tidalVolume" filled dense square label="tidal vol" style="width: 80px" />
-          <q-input label-color="red-10" v-model="minuteVolume" filled dense square label="minute vol" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="ventFreq" filled dense square label="vent rate" />
+          <q-input class="col" label-color="red-10" v-model="tidalVolume" filled dense square label="tidal vol" />
+          <q-input class="col" label-color="red-10" v-model="minuteVolume" filled dense square label="minute vol" />
       </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="maxPIP" filled dense square label="peak pres" style="width: 80px" />
-          <q-input label-color="red-10" v-model="PEEP" filled dense square label="peep" style="width: 80px" />
-          <q-input label-color="red-10" value="" filled dense square label="" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="maxPIP" filled dense square label="peak pres" />
+          <q-input class="col" label-color="red-10" v-model="PEEP" filled dense square label="peep" />
+          <q-input class="col" label-color="red-10" value="" filled dense square label="" />
       </div>
 
     </div>

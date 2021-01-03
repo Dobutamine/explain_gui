@@ -1,15 +1,15 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-es q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         kidneys
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="kidneyFlow" filled dense square label="flow" style="width: 80px" />
-          <q-input label-color="red-10" v-model="filtrationRate" filled dense square label="filtration" style="width: 80px" />
-          <q-input label-color="red-10" v-model="urineProduction" filled dense square label="urine output" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="kidneyFlow" filled dense square label="flow" />
+          <q-input class="col" label-color="red-10" v-model="filtrationRate" filled dense square label="filtration" />
+          <q-input class="col" label-color="red-10" v-model="urineProduction" filled dense square label="urine output" />
       </div>
     </div>
   </q-card>

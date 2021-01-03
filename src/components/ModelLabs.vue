@@ -1,22 +1,22 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-es q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         labs
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="ph" filled dense square label="pH" style="width: 80px" />
-          <q-input label-color="red-10" v-model="po2" filled dense square label="pO2" style="width: 80px" />
-          <q-input label-color="red-10" v-model="pco2" filled dense square label="pCO2" style="width: 80px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-          <q-input label-color="red-10" v-model="hco3" filled dense square label="HCO3" style="width: 80px" />
-          <q-input label-color="red-10" v-model="be" filled dense square label="BE" style="width: 80px" />
-          <q-input label-color="red-10" v-model="lactate" filled dense square label="lactate" style="width: 80px" />
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="ph" filled dense square label="pH" />
+          <q-input class="col" label-color="red-10" v-model="po2" filled dense square label="pO2" />
+          <q-input class="col" label-color="red-10" v-model="pco2" filled dense square label="pCO2"/>
       </div>
 
+      <div class="row">
+          <q-input class="col" label-color="red-10" v-model="hco3" filled dense square label="HCO3" />
+          <q-input class="col" label-color="red-10" v-model="be" filled dense square label="BE" />
+          <q-input class="col" label-color="red-10" v-model="lactate" filled dense square label="lactate" />
+      </div>
     </div>
   </q-card>
 </template>

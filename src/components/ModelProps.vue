@@ -7,29 +7,29 @@
    </div>
 
     <div v-if="isEnabled" class="row q-mt-sm">
-      <div class="q-gutter-es row gutter">
-          <q-select label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 110px" />
-          <q-select label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 110px" />
+      <div class="row">
+          <q-select label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model"/>
+          <q-select label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" />
       </div>
-      <div v-if="isNumber" class="q-gutter-es q-mt-es row gutter">
-          <q-input type="number" label-color="red-10" v-model="propValue1" filled dense square label="current value" style="width: 110px" />
-          <q-input type="number" label-color="red-10" v-model="propValue1New" filled dense square label="new value" style="width: 110px" />
+      <div v-if="isNumber" class="row">
+          <q-input class="col" type="number" label-color="red-10" v-model="propValue1" filled dense square label="current value" />
+          <q-input class="col" type="number" label-color="red-10" v-model="propValue1New" filled dense square label="new value" />
       </div>
-      <div v-if="!isNumber" class="q-gutter-sm q-ma-sm row gutter">
-          <q-toggle class="text-caption" label-color="red-10" left-label v-model="propValue1" dense flat label="now"/>
-          <q-toggle class="text-caption" label-color="red-10" left-label v-model="propValue1New" dense flat label="new" style="width: 110px" />
+      <div v-if="!isNumber" class="row">
+          <q-toggle class="col text-caption" style="width: 80px" label-color="red-10" left-label v-model="propValue1" dense flat label="now"/>
+          <q-toggle class="col text-caption" style="width: 80px" label-color="red-10" left-label v-model="propValue1New" dense flat label="new" />
       </div>
 
-      <div class="q-gutter-es q-mt-es row gutter">
-          <q-input type="number" label-color="red-10" v-model="propValue1In" filled dense square label="change in (s)" style="width: 110px" />
-          <q-input type="number" label-color="red-10" v-model="propValue1At" filled dense square label="change at (s)" style="width: 110px" />
+      <div class="row">
+          <q-input class="col" type="number" label-color="red-10" v-model="propValue1In" filled dense square label="change in (s)" />
+          <q-input class="col" type="number" label-color="red-10" v-model="propValue1At" filled dense square label="change at (s)" />
       </div>
 
     </div>
 
   <div v-if="isEnabled" class="row q-mb-es q-mt-sm">
       <div class="q-gutter-es q-ma-es row gutter">
-        <q-btn dense color="secondary"  style="width: 110px" @click="updateProps" >QUE</q-btn>
+        <q-btn dense color="secondary"  @click="updateProps" >QUE</q-btn>
       </div>
   </div>
   <div v-if="isEnabled" class="row q-mt-es">
@@ -67,8 +67,8 @@ export default {
       interventionsList: [],
       modelEventListener: null,
       set1Enabled: true,
-      model1: '',
-      prop1: '',
+      model1: 'PA',
+      prop1: 'pres',
       propValue1: 0,
       propValue1New: 0,
       propValue1Bool: false,
