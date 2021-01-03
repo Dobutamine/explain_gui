@@ -27,6 +27,20 @@ class Datalogger {
       {label: 'cvp', model: 'RA', prop: 'pres', accuracy: 3},
       {label: 'etco2', model: 'ventilator', prop: 'etco2_ventilator', accuracy: 0},
       {label: 'temp', model: 'metabolism', prop: 'body_temp', accuracy: 1},
+      {label: 'ph', model: 'AA', prop: 'ph', accuracy: 2},
+      {label: 'pco2', model: 'AA', prop: 'pco2', accuracy: 0},
+      {label: 'po2', model: 'AA', prop: 'po2', accuracy: 0},
+      {label: 'hco3', model: 'AA', prop: 'hco3p', accuracy: 1},
+      {label: 'be', model: 'AA', prop: 'be', accuracy: 0},
+      {label: 'LAP', model: 'LA', prop: 'pres', accuracy: 6},
+      {label: 'LVP', model: 'LV', prop: 'pres', accuracy: 6},
+      {label: 'RAP', model: 'RA', prop: 'pres', accuracy: 6},
+      {label: 'RVP', model: 'RV', prop: 'pres', accuracy: 6},
+      {label: 'LAV', model: 'LA', prop: 'vol', accuracy: 6},
+      {label: 'LVV', model: 'LV', prop: 'vol', accuracy: 6},
+      {label: 'RAV', model: 'RA', prop: 'vol', accuracy: 6},
+      {label: 'RVV', model: 'RV', prop: 'vol', accuracy: 6},
+
     ]
 
   }

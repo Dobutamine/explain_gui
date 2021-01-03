@@ -32,13 +32,27 @@ export default {
       po2: 70,
       hco3: 25.5,
       be: -4,
-      lactate: 1.4
+      lactate: '-',
+      interval: 2.0,
+      intervalCounter: 0,
+      rtDataStore: [],
+      prevTime: 0
     }
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
       switch (message.data.type) {
-        case 'mes':
+        case 'data':
+          switch (message.data.target) {
+            case 'datalogger_output':
+              this.processData(message.data.data)
+              break
+          }
+          break
+        case 'rt':
+          if (this.isEnabled) {
+            this.storeRTData(message.data.data)
+          }
           break
       }
     })
@@ -49,6 +63,23 @@ export default {
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
+    },
+    storeRTData (data) {
+      if ((data[0].time - this.prevTime) > this.interval) {
+        this.prevTime = data[0].time
+        this.processData(this.rtDataStore)
+        this.rtDataStore = []
+      } else {
+        this.rtDataStore.push(data[0])
+      }
+    },
+    processData (data) {
+      this.ph = data[data.length - 1].ph
+      this.pco2 = data[data.length - 1].pco2
+      this.po2 = data[data.length - 1].po2
+      this.hco3 = data[data.length - 1].hco3
+      this.be = data[data.length - 1].be
+      this.lactate = '-'
     }
   }
 
