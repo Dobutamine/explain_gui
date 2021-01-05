@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+/* eslint-disable */
+
 brentAccuracy = 1e-8;
 maxIterations = 100;
 lefto2 = 0;

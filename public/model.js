@@ -166,6 +166,16 @@ export class Model {
     });
 
   }
+  fastForwardModel = (time_to_calculate) => {
+    // calculate the model 
+    this.engine.postMessage({
+      type: "cmd",
+      target: null,
+      action: "goto",
+      data: time_to_calculate,
+      return_tag: null
+    });
+  }
 
   calculateModel = (time_to_calculate) => {
     // clear the current data object

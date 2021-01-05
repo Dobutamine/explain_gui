@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class BloodConnector {
   constructor(_model) {
 

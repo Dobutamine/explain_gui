@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Liver {
   constructor(_model) {
     this._model = _model;

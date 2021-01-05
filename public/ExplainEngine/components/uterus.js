@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Uterus {
   constructor(_model) {
     this._model = _model;

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class ECG {
   constructor(_model) {
     this._model = {};

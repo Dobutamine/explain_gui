@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Valve {
   constructor(_model) {
 

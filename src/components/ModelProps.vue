@@ -28,10 +28,10 @@
     </div>
 
   <div v-if="isEnabled" class="row q-ma-md">
-        <q-btn dense color="secondary" style="width: 100%"  @click="updateProps" >QUE MODEL CHANGE</q-btn>
+        <q-btn dense color="teal-7" style="width: 100%"  @click="updateProps" >QUE MODEL CHANGE</q-btn>
   </div>
 
-  <div class="row q-mt-es">
+  <div v-if="isEnabled" class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline bg-grey-2">
      change list
      </div>
@@ -47,8 +47,8 @@
       </q-list>
   </div>
 
-  <div class="row q-ma-md">
-    <q-btn dense color="negative" @click="executeIntervention" style="width: 100%" >COMMIT</q-btn>
+  <div v-if="isEnabled" class="row q-ma-md">
+    <q-btn dense color="teal-7" @click="executeIntervention" style="width: 100%" >COMMIT</q-btn>
   </div>
 
 </q-card>

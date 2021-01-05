@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Interventions {
   constructor(_model) {
     // declare a reference to the global model which is injected in this class

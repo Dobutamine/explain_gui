@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class ANS {
   constructor(_model) {
     // declare the instance variables

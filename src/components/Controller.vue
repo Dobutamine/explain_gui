@@ -6,11 +6,11 @@
       </div>
    </div>
     <div v-if="isEnabled" class="q-gutter-lg row gutter q-mt-es q-mb-sm">
-        <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 150px">{{ caption }}</q-btn>
+        <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 100px">{{ caption }}</q-btn>
         <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 85px" class="q-ml-xs"/>
-         <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 75px">{{ captionGOTO }}</q-btn>
-         <q-input v-model.number="gotoTarget" type="number" label="to seconds" filled dense style="width: 85px" class="q-ml-xs"/>
-         <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 150px">{{ captionRT }}</q-btn>
+         <q-btn v-on:click="fastForwardModel" dense :color="colorGOTO" class="q-pl-sm q-pr-sm" style="width: 100px">{{ captionGOTO }}</q-btn>
+         <q-input v-model.number="gotoTarget" type="number" label="seconds" filled dense style="width: 85px" class="q-ml-xs"/>
+         <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 100px">{{ captionRT }}</q-btn>
     </div>
   </q-card>
 </template>
@@ -22,12 +22,12 @@ export default {
       isEnabled: true,
       timeToCalculate: 10,
       caption: 'CALCULATE',
-      color: 'secondary',
+      color: 'teal-7',
       captionRT: 'REALTIME',
-      colorRT: 'secondary',
+      colorRT: 'teal-7',
       rtRunning: false,
-      captionGOTO: 'GOTO',
-      colorGOTO: 'secondary',
+      captionGOTO: 'FORWARD',
+      colorGOTO: 'teal-7',
       gotoTarget: 60
     }
   },
@@ -35,19 +35,15 @@ export default {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
       if (this.isEnabled) {
         switch (message.data.type) {
-          case 'data':
-            switch (message.data.target) {
-              case 'datalogger_output':
-                this.caption = 'CALCULATE'
-                this.color = 'secondary'
-                this.rtRunning = false
-                this.captionRT = 'REALTIME'
-                this.colorRT = 'secondary'
-                this.captionGOTO = 'GOTO'
-                this.colorGOTO = 'secondary'
-                break
-              default:
-                break
+          case 'mes':
+            if (message.data.data[0] === 'ready') {
+              this.caption = 'CALCULATE'
+              this.color = 'teal-7'
+              this.rtRunning = false
+              this.captionRT = 'REALTIME'
+              this.colorRT = 'teal-7'
+              this.captionGOTO = 'FORWARD'
+              this.colorGOTO = 'teal-7'
             }
             break
         }
@@ -63,7 +59,7 @@ export default {
         this.rtRunning = false
         this.$model.stopModel()
         this.captionRT = 'REALTIME'
-        this.colorRT = 'secondary'
+        this.colorRT = 'teal-7'
       } else {
         this.rtRunning = true
         this.$model.startModel()
@@ -76,6 +72,11 @@ export default {
       this.$model.calculateModel(this.timeToCalculate)
       this.caption = 'CALCULATING'
       this.color = 'negative'
+    },
+    fastForwardModel () {
+      this.$model.fastForwardModel(this.gotoTarget)
+      this.captionGOTO = 'WAIT'
+      this.colorGOTO = 'negative'
     }
   }
 

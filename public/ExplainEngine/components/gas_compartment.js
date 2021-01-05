@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class GasCompartment {
 
   // units of the gas compartment

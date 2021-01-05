@@ -117,6 +117,9 @@ onmessage = function (e) {
             calculateModel(e.data.data);
           }
           break;
+        case "goto":
+          fastForwardModel(e.data.data)
+          break
         default:
           break;
       }
@@ -387,6 +390,31 @@ const calculateModel = function (time_to_calculate) {
   stopModel()
 };
 
+const fastForwardModel = function (time_to_calculate) {
+
+  // calculate the number of steps needed for the time_to_calculate
+  let no_needed_steps = parseInt(time_to_calculate / current_model.modeling_stepsize);
+
+  // send starting messages for this model run
+  SendMessage("mes", null, null, ['fast forwarding']);
+  SendMessage("mes", null, null, [`calculating ${time_to_calculate} sec. in ${no_needed_steps} steps.`]);
+
+
+  if (model_definition) {
+    for (let step = 0; step < no_needed_steps; step++) {
+      // do the model step and increase the execution time as the modelstep returns the execution time
+      modelStepFastForward();
+    }
+
+    // send messages containing the performance metrics
+    SendMessage("mes", null, null, ['fast forward ready']);
+    SendMessage("mes", null, null, [`model clock at ${Math.round(current_model.model_time_total)} sec.`]);
+  }
+  
+  // signal model is ready
+  SendMessage("mes", null, null, ['ready']);
+};
+
 // start the realtime model
 const startModel = function () {
   if (model_definition) {
@@ -486,6 +514,19 @@ const modelStepRealtime = function () {
 
    // calculate the model performance -> meaning how long did this model step take in ms
    return (performance.now() - t0) / 1000;
+
+}
+
+const modelStepFastForward = function () {
+
+   // iterate over all components and do the modelstep. The actual modeling is done in this loop
+   for (const key in current_model.components) {
+     current_model.components[key].modelStep();
+   }
+ 
+   // increase the current modeltime
+   current_model.model_time_total += current_model.modeling_stepsize;
+ 
 
 }
 

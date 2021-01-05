@@ -42,7 +42,9 @@ export default {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
       switch (message.data.type) {
         case 'mes':
-          this.updateLog({ message: message.data.data[0] })
+          if (message.data.data[0] !== 'ready') {
+            this.updateLog({ message: message.data.data[0] })
+          }
           break
       }
     })

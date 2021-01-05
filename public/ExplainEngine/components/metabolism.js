@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Metabolism {
   constructor(_model) {
     this._model = _model;

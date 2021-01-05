@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 function activationCurve(value, saturation, operating_point, threshold) {
   let activation = 0;
   if (value >= saturation) {

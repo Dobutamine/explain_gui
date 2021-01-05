@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 class Placenta {
   constructor(_model) {
     this._model = _model;
