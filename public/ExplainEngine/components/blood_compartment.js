@@ -25,8 +25,6 @@ class BloodCompartment {
     this.el_k1_fac = 1;
     this.el_k2_fac = 1;
     this.el_act = 0
-
-    this.test = 0
     
   }
 

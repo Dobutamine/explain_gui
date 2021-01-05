@@ -6,18 +6,18 @@
      </div>
    </div>
 
-    <div v-if="isEnabled" class="row q-mt-sm">
+    <div v-if="isEnabled">
       <div class="row">
-          <q-select label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model"/>
-          <q-select label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" />
+          <q-select class="col" label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
+          <q-select class="col" label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 100%" />
       </div>
       <div v-if="isNumber" class="row">
           <q-input class="col" type="number" label-color="red-10" v-model="propValue1" filled dense square label="current value" />
           <q-input class="col" type="number" label-color="red-10" v-model="propValue1New" filled dense square label="new value" />
       </div>
-      <div v-if="!isNumber" class="row">
-          <q-toggle class="col text-caption" style="width: 80px" label-color="red-10" left-label v-model="propValue1" dense flat label="now"/>
-          <q-toggle class="col text-caption" style="width: 80px" label-color="red-10" left-label v-model="propValue1New" dense flat label="new" />
+      <div v-if="!isNumber" class="bg-grey-2 row">
+          <q-toggle class="col text-caption" style="width: 100%" label-color="red-10" left-label v-model="propValue1"  label="current state"/>
+          <q-toggle class="col text-caption" style="width: 100%" label-color="red-10" left-label v-model="propValue1New" label="new state" />
       </div>
 
       <div class="row">
@@ -27,31 +27,28 @@
 
     </div>
 
-  <div v-if="isEnabled" class="row q-mb-es q-mt-sm">
-      <div class="q-gutter-es q-ma-es row gutter">
-        <q-btn dense color="secondary"  @click="updateProps" >QUE</q-btn>
-      </div>
+  <div v-if="isEnabled" class="row q-ma-md">
+        <q-btn dense color="secondary" style="width: 100%"  @click="updateProps" >QUE MODEL CHANGE</q-btn>
   </div>
-  <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline">
+
+  <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline bg-grey-2">
      change list
      </div>
    </div>
 
   <div v-if="isEnabled" class="row q-mt-es">
-    <div class="q-gutter-es q-ma-es row gutter">
-      <q-list class="q-ma-es" highlight separator>
+      <q-list class="q-ma-sm" highlight separator>
         <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
-          <q-item-label class="text-caption">
+          <q-item-label class="text-caption" style="width: 100%">
             at {{ field.atTime }}s. {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
           </q-item-label>
         </q-item>
       </q-list>
-    </div>
-    <div class="q-gutter-es q-ma-md row gutter">
-      <q-btn dense color="negative" @click="executeIntervention" style="width: 100px" >EXECUTE</q-btn>
-        <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 100px" class="q-ml-sm"/>
-    </div>
+  </div>
+
+  <div class="row q-ma-md">
+    <q-btn dense color="negative" @click="executeIntervention" style="width: 100%" >COMMIT</q-btn>
   </div>
 
 </q-card>
@@ -67,8 +64,8 @@ export default {
       interventionsList: [],
       modelEventListener: null,
       set1Enabled: true,
-      model1: 'PA',
-      prop1: 'pres',
+      model1: '',
+      prop1: '',
       propValue1: 0,
       propValue1New: 0,
       propValue1Bool: false,
@@ -117,7 +114,7 @@ export default {
       this.interventionsList.forEach(intervention => {
         this.$model.setProperty(intervention.model, intervention.prop, intervention.newValue, intervention.inTime, intervention.atTime, 'abs')
       })
-      this.$model.calculateModel(20)
+      // this.$model.calculateModel(20)
       this.interventionsList = []
       this.model1 = ''
       this.prop1 = ''
