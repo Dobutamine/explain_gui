@@ -46,6 +46,8 @@ class Ventilator {
     this.hfo_generated_pressure = 0
     this.hfo_current_freq = 0
     this.hfo_sine_factor = 1
+    this.hfo_tidal_volume = 0
+    this.hfo_tidal_volume_counter = 0
     this.test = 0
     this.test2 = 0
 
@@ -184,7 +186,10 @@ class Ventilator {
 
   hfoVentilator(p_atm) {
 
+    this.hfo_map = 10
     this.hfo_freq = 10
+    this.hfo_amplitude = 20
+    this.hfo_ie_ratio = 0.5
 
     // determine the inspiration and expiration times depending on the ratios 33% : 66%
     this.hfo_insp_time = (1 / this.hfo_freq) * 0.333
@@ -204,36 +209,34 @@ class Ventilator {
       this.hfo_current_freq = 1 / this.hfo_insp_time
       this.hfo_sine_factor = 1
       this.hfo_timer_counter = 0
+      this.hfo_tidal_volume = this.hfo_tidal_volume_counter
+      this.hfo_tidal_volume_counter = 0
     }
     this.hfo_timer_counter += this._model.modeling_stepsize;
 
-    // the timings are now complete, now determine the pressure wave generation
-    // the complete inspiration sine wave can take 0.333 seconds so the frequency of the inspiration sine wave =  1 / 0.333 = 
-    
-    this.hfo_generated_pressure = Math.sin(Math.PI * this.hfo_current_freq * this.hfo_timer_counter) * this.hfo_sine_factor
-
-    this.hfo_amplitude = 25
-    let factor = 2 * Math.PI * this.hfo_freq * this.hfo_timer
-
-    let t = Math.sin(factor + Math.sin(factor) / 1.3)
-    this.test = t
-
-
-
-        
-    // bias flow 
-    let insp_valve_resistance = (this._model.components["VENTIN"].pres - this._model.components["TUBINGIN"].pres) / (this.bias_flow / 60);
-    this._model.components["VENTIN_TUBINGIN"].r_for = insp_valve_resistance;
-    this._model.components["VENTIN_TUBINGIN"].r_back = insp_valve_resistance;
-  
-    //let t = this.hfo_freq * this.hfo_timer
-    // this._model.components['TUBINGIN'].pres_ext = this.hfo_amplitude * t
+     // set the MAP
+    this._model.components["VENTOUT"].vol = this._model.components["VENTOUT"].vol_u + this.hfo_map / (this._model.components["VENTOUT"].el_min * this._model.components["VENTOUT"].el_min_fac);
 
     // open the expiratory valve
     this._model.components["TUBINGOUT_VENTOUT"].r_for = 10;
-    this._model.components["TUBINGOUT_VENTOUT"].r_back = 10;
+    this._model.components["TUBINGOUT_VENTOUT"].no_backflow = true
 
-    this.setPEEP();
+    // bias flow by calculating the resistance of the inspiratory valve depending on the desired flow and MAP
+    // let insp_valve_resistance = (this._model.components["VENTIN"].pres - this._model.components["VENTOUT"].pres) / (this.hfo_bias_flow / 60);
+    let insp_valve_resistance = (960 - this._model.components["VENTOUT"].pres) / (this.hfo_bias_flow / 60);
+    this._model.components["VENTIN_TUBINGIN"].r_for = insp_valve_resistance;
+    this._model.components["VENTIN_TUBINGIN"].no_backflow = true;
+
+    // the timings and valve settings are now complete, now perform the pressure wave generation
+    this.hfo_generated_pressure = this.hfo_amplitude * Math.sin(Math.PI * this.hfo_current_freq * this.hfo_timer_counter) * this.hfo_sine_factor
+
+    // transfer the generated pressure to the ventilator
+    this._model.components['TUBINGIN'].pres_ext = this.hfo_generated_pressure
+  
+    // keep track of the volumes
+    if (this.hfo_expiration) {
+      this.hfo_tidal_volume_counter += this._model.components['YPIECE_NCA'].real_flow * this._model.modeling_stepsize;
+    }
 
   }
 

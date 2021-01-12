@@ -138,18 +138,18 @@ export default {
       chartYAxis: null,
       chartCh1Lineseries: null,
       chartCh1Data: [],
-      chartCh1Model: 'ventilator',
-      chartCh1Prop: 'hfo_generated_pressure',
+      chartCh1Model: 'ALL',
+      chartCh1Prop: 'pres',
       chartCh1Factor: 1,
       chartCh2Lineseries: null,
       chartCh2Data: [],
       chartCh2Model: 'none',
-      chartCh2Prop: 'pres',
+      chartCh2Prop: '',
       chartCh2Factor: 1,
       chartCh3Lineseries: null,
       chartCh3Data: [],
       chartCh3Model: 'none',
-      chartCh3Prop: 'pres',
+      chartCh3Prop: '',
       chartCh3Factor: 1,
       callback: () => {},
       callback_datalogger: this.drawGraph,
@@ -493,38 +493,38 @@ export default {
           }
         })
         if (xValues.length > 0) {
-          this.xMin = Stat.min(xValues).toFixed(3)
-          this.xMax = Stat.max(xValues).toFixed(3)
-          this.xMean = Stat.mean(xValues).toFixed(3)
-          this.xSD = Stat.standardDeviation(xValues).toFixed(3)
-          this.xPerMinute = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(3)
+          this.xMin = Stat.min(xValues).toFixed(4)
+          this.xMax = Stat.max(xValues).toFixed(4)
+          this.xMean = Stat.mean(xValues).toFixed(4)
+          this.xSD = Stat.standardDeviation(xValues).toFixed(4)
+          this.xPerMinute = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
           this.xPerBeat = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
         }
         if (y1Values.length > 0) {
-          this.y1Min = Stat.min(y1Values).toFixed(3)
-          this.y1Max = Stat.max(y1Values).toFixed(3)
-          this.y1Mean = Stat.mean(y1Values).toFixed(3)
-          this.y1SD = Stat.standardDeviation(y1Values).toFixed(3)
-          this.y1PerMinute = ((Stat.sum(y1Values) / this.datalogger_data.length) * 60).toFixed(3)
+          this.y1Min = Stat.min(y1Values).toFixed(4)
+          this.y1Max = Stat.max(y1Values).toFixed(4)
+          this.y1Mean = Stat.mean(y1Values).toFixed(4)
+          this.y1SD = Stat.standardDeviation(y1Values).toFixed(4)
+          this.y1PerMinute = ((Stat.sum(y1Values) / this.datalogger_data.length) * 60).toFixed(4)
           this.y1PerBeat = ((Stat.sum(y1Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
         }
         if (y2Values.length > 0) {
-          this.y2Min = Stat.min(y2Values).toFixed(3)
-          this.y2Max = Stat.max(y2Values).toFixed(3)
-          this.y2Mean = Stat.mean(y2Values).toFixed(3)
-          this.y2SD = Stat.standardDeviation(y2Values).toFixed(3)
-          this.y2PerMinute = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(3)
-          this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(3)
+          this.y2Min = Stat.min(y2Values).toFixed(4)
+          this.y2Max = Stat.max(y2Values).toFixed(4)
+          this.y2Mean = Stat.mean(y2Values).toFixed(4)
+          this.y2SD = Stat.standardDeviation(y2Values).toFixed(4)
+          this.y2PerMinute = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
+          this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
           this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
         }
 
         if (y3Values.length > 0) {
-          this.y3Min = Stat.min(y3Values).toFixed(3)
-          this.y3Max = Stat.max(y3Values).toFixed(3)
-          this.y3Mean = Stat.mean(y3Values).toFixed(3)
-          this.y3SD = Stat.standardDeviation(y3Values).toFixed(3)
-          this.y3PerMinute = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(3)
-          this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(3)
+          this.y3Min = Stat.min(y3Values).toFixed(4)
+          this.y3Max = Stat.max(y3Values).toFixed(4)
+          this.y3Mean = Stat.mean(y3Values).toFixed(4)
+          this.y3SD = Stat.standardDeviation(y3Values).toFixed(4)
+          this.y3PerMinute = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(4)
+          this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(4)
           this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
         }
       }
