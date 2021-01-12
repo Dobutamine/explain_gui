@@ -6,6 +6,7 @@
       </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
+      <q-toggle v-model="ventilatorState" @input="switchVentilator"></q-toggle>
     </div>
   </q-card>
 </template>
@@ -14,7 +15,8 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
+      ventilatorState: false,
       modelEventListener: null
     }
   },
@@ -32,6 +34,11 @@ export default {
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
+    },
+    switchVentilator () {
+      this.$model.setProperty('ventilator', 'is_enabled', this.ventilatorState, 0, 0, 'abs')
+      this.$model.setProperty('breathing', 'is_enabled', !this.ventilatorState, 0, 0, 'abs')
+      console.log('switch')
     }
   }
 

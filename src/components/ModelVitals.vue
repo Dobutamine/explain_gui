@@ -33,7 +33,7 @@ import * as Stat from 'simple-statistics'
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       modelEventListener: null,
       heartrate: 145,
       spo2Pre: '98%',

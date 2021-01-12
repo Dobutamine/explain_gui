@@ -25,7 +25,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       modelEventListener: null,
       ph: 7.40,
       pco2: 45,

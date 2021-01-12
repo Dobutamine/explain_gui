@@ -1,3 +1,4 @@
+
 /* eslint-disable */
 class Ventilator {
   constructor(_model) {
@@ -37,10 +38,25 @@ class Ventilator {
     this.triggered_breath = false
     this._temp_insp_resistance = 0
 
+    this.hfo_insp_time = 0
+    this.hfo_exp_time = 0
+    this.hfo_timer_counter = 0
+    this.hfo_inspiration = true
+    this.hfo_expiration = false
+    this.hfo_generated_pressure = 0
+    this.hfo_current_freq = 0
+    this.hfo_sine_factor = 1
+    this.test = 0
+    this.test2 = 0
+
   }
 
   modelStep() {
     if (this.is_enabled) {
+      this._model.components['OUT_NCA'].no_flow = true
+      this._model.components['TUBINGIN_YPIECE'].no_flow = false
+      this._model.components['YPIECE_TUBINGOUT'].no_flow = false
+      this._model.components['YPIECE_NCA'].no_flow = false
       this.modelCycle();
     }
   }
@@ -132,6 +148,7 @@ class Ventilator {
       let volumeout = delta_p / (this._model.components["TUBINGIN"].el_min * this._model.components["TUBINGIN"].el_min_fac);
       this._model.components["TUBINGIN"].volOut(volumeout);
     }
+
   }
 
   pressureControl(p_atm) {
@@ -165,6 +182,61 @@ class Ventilator {
     
   }
 
+  hfoVentilator(p_atm) {
+
+    this.hfo_freq = 10
+
+    // determine the inspiration and expiration times depending on the ratios 33% : 66%
+    this.hfo_insp_time = (1 / this.hfo_freq) * 0.333
+    this.hfo_exp_time = (1 / this.hfo_freq) * 0.666
+
+    if (this.hfo_timer_counter > this.hfo_insp_time & this.hfo_inspiration === true) {
+      this.hfo_inspiration = false
+      this.hfo_expiration = true
+      this.hfo_current_freq = 1 / this.hfo_exp_time
+      this.hfo_sine_factor = -1
+      this.hfo_timer_counter = 0
+    }
+
+    if (this.hfo_timer_counter > this.hfo_exp_time & this.hfo_expiration === true) {
+      this.hfo_inspiration = true
+      this.hfo_expiration = false
+      this.hfo_current_freq = 1 / this.hfo_insp_time
+      this.hfo_sine_factor = 1
+      this.hfo_timer_counter = 0
+    }
+    this.hfo_timer_counter += this._model.modeling_stepsize;
+
+    // the timings are now complete, now determine the pressure wave generation
+    // the complete inspiration sine wave can take 0.333 seconds so the frequency of the inspiration sine wave =  1 / 0.333 = 
+    
+    this.hfo_generated_pressure = Math.sin(Math.PI * this.hfo_current_freq * this.hfo_timer_counter) * this.hfo_sine_factor
+
+    this.hfo_amplitude = 25
+    let factor = 2 * Math.PI * this.hfo_freq * this.hfo_timer
+
+    let t = Math.sin(factor + Math.sin(factor) / 1.3)
+    this.test = t
+
+
+
+        
+    // bias flow 
+    let insp_valve_resistance = (this._model.components["VENTIN"].pres - this._model.components["TUBINGIN"].pres) / (this.bias_flow / 60);
+    this._model.components["VENTIN_TUBINGIN"].r_for = insp_valve_resistance;
+    this._model.components["VENTIN_TUBINGIN"].r_back = insp_valve_resistance;
+  
+    //let t = this.hfo_freq * this.hfo_timer
+    // this._model.components['TUBINGIN'].pres_ext = this.hfo_amplitude * t
+
+    // open the expiratory valve
+    this._model.components["TUBINGOUT_VENTOUT"].r_for = 10;
+    this._model.components["TUBINGOUT_VENTOUT"].r_back = 10;
+
+    this.setPEEP();
+
+  }
+
   modelCycle() {
     // reference the model parts for performance reasons
 
@@ -181,6 +253,9 @@ class Ventilator {
         break;
       case "volume":
         this.volumeControl(p_atm)
+        break;
+      case "hfov":
+        this.hfoVentilator(p_atm)
         break;
       default:
         this.pressureControl(p_atm)
@@ -215,7 +290,10 @@ class Ventilator {
     this.measured_freq_counter += t;
 
     // determine the ventilator cycling
-    this.ventilatorCycling(p_atm);
+    if (this.ventilator_mode !== 'hfov') {
+      this.ventilatorCycling(p_atm);
+    }
+     
 
     // triggering
     if (this.synchronized) {
@@ -238,6 +316,7 @@ class Ventilator {
     this.measured_freq = 60 / this.measured_freq_counter;
     this.measured_freq_counter = 0;
     this.exhaled_tidal_volume = -this._exhaled_tidal_volume_counter;
+    console.log(this.exhaled_tidal_volume)
     this._exhaled_tidal_volume_counter = 0;
     this.etco2_ventilator = this._model.components["NCA"].pco2;
     this.minute_volume = this.measured_freq * this.exhaled_tidal_volume;
@@ -288,8 +367,17 @@ class Ventilator {
       case "flow":
         this.flowCycling(p_atm)
         break;
+      case "hfov":
+        this.hfoCycling(p_atm)
       default:
         break;
+    }
+  }
+  hfoCycling(p_atm) {
+    if (this.pip < 0) {
+      this.beginExpiration(p_atm)
+    } else {
+      this.beginInspiration(p_atm)
     }
   }
 
