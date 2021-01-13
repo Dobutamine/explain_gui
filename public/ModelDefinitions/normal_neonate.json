@@ -55,6 +55,13 @@
     "is_enabled": true,
     "activation_delay": 0.000
   },
+  "lungs": {
+    "name": "lungs",
+    "description": "lung model",
+    "type": "model",
+    "subtype": "",
+    "is_enabled": true
+  },
   "breathing": {
     "name": "breathing",
     "description": "spontaneous breathing",

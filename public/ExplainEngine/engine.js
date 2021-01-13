@@ -7,6 +7,7 @@
 // First import all the required model components and submodels
 self.importScripts("./components/ecg.js");
 self.importScripts("./components/heart.js");
+self.importScripts("./components/lungs.js");
 self.importScripts("./components/ans.js");
 self.importScripts("./components/breathing.js");
 self.importScripts("./components/ventilator.js");
@@ -259,6 +260,12 @@ const initModel = function (model_definition) {
     current_model.components["heart"] = new Heart(current_model);
     Object.keys(model_definition.heart).forEach(function (key) {
       current_model.components.heart[key] = model_definition.heart[key];
+    });
+
+    // initialize the lungs model
+    current_model.components["lungs"] = new Lungs(current_model);
+    Object.keys(model_definition.lungs).forEach(function (key) {
+      current_model.components.lungs[key] = model_definition.lungs[key];
     });
 
     // initialize the breathing model
