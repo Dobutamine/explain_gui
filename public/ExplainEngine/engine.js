@@ -33,6 +33,7 @@ self.importScripts("./components/exchanger.js");
 self.importScripts("./components/container.js");
 self.importScripts("./components/diffusor.js");
 self.importScripts("./components/valve.js");
+
 self.importScripts("./helpers/math_functions.js");
 self.importScripts("./helpers/datalogger.js");
 self.importScripts("./helpers/interventions.js");
@@ -488,6 +489,8 @@ const loadModel = function (json_model_definition) {
 };
 
 const modelStepRealtime = function () {
+  // this realtime model step has the purpose to calculate a model step in realtime, log the data and process interventions
+
    // model performance calculation start point
    let t0 = performance.now();
 
@@ -525,6 +528,8 @@ const modelStepRealtime = function () {
 }
 
 const modelStepFastForward = function () {
+  // this fast forward step has the purpose of fast forwarding the model in time without doing any datalogging or intervention processing 
+  // this function is realluy fast and can be used to jump to a period in the future of the model
 
    // iterate over all components and do the modelstep. The actual modeling is done in this loop
    for (const key in current_model.components) {
