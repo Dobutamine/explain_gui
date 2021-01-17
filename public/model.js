@@ -22,7 +22,7 @@ export class Model {
     }
 
     // initialize the model engine
-    this.engine = new Worker("./ExplainEngine/engine.js");
+    this.engine = new Worker("./explain_engine/engine.js");
 
     // load the model definition file into the modelengine
     this.loadModelDefinition(model_definition)
