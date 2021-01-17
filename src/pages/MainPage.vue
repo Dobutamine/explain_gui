@@ -6,7 +6,7 @@
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
-             <controller></controller>
+            <controller></controller>
             <LightningChart></LightningChart>
           </q-scroll-area>
         </div>
@@ -31,7 +31,6 @@ export default {
     Controller,
     ModelProps,
     ModelVitals
-
   },
   data () {
     return {
