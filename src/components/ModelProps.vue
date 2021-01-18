@@ -28,6 +28,9 @@
     </div>
 
   <div v-if="isEnabled" class="row q-ma-md">
+        <q-input type="text" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+  </div>
+  <div v-if="isEnabled" class="row q-ma-md">
         <q-btn class="col q-mr-sm" dense color="teal-7"  @click="updateProps" >ADD</q-btn>
         <q-btn class="col" dense color="teal-7"   @click="loadSpecificScript" >LOAD</q-btn>
         <q-btn class="col" dense color="teal-7"   @click="clearScriptList" >CLEAR</q-btn>
@@ -54,6 +57,10 @@
     <q-btn class="col" dense color="teal-7" @click="executeIntervention" style="width: 100%" >EXECUTE</q-btn>
   </div>
 
+  <div v-if="isEnabled" class="row q-ma-md">
+    <q-select :options="scriptNames" v-model="selectedScript"></q-select>
+  </div>
+
 </q-card>
 </template>
 
@@ -66,6 +73,9 @@ export default {
       isNumber: true,
       timeToCalculate: 10,
       interventionsList: [],
+      selectedScript: '',
+      scriptName: 'test',
+      scriptNames: [],
       scriptList: [],
       modelEventListener: null,
       set1Enabled: true,
@@ -102,8 +112,10 @@ export default {
     })
     // get the current model properties
     this.$model.getProperties(null)
-    // get the current script list from the local storage of the browser
-    this.scriptList = JSON.parse(localStorage.explain_scripts)
+    // get the stored scripts from the browser
+    if (localStorage.explain_scripts) {
+      this.scriptList = JSON.parse(localStorage.explain_scripts)
+    }
   },
   beforeDestroy () {
     delete this.modelEventListener
@@ -141,24 +153,28 @@ export default {
         atTime: this.propValue1At
       }
       this.interventionsList.push(intervention)
-      localStorage.test = 'tim'
     },
     updateLocalStorageScriptList () {
+      localStorage.explain_scripts = JSON.stringify(this.scriptList)
       console.log('local storage script list updated')
     },
     clearScriptList () {
-      this.clearScriptList = []
-      console.log('current script list cleared')
+      this.scriptList = []
       this.updateLocalStorageScriptList()
+      console.log('current script list cleared')
     },
     storeCurrentScript () {
-      this.scriptList.push(this.interventionsList)
-      console.log('current script added to list')
-      localStorage.explain_scripts = this.scriptList
+      const script = {
+        name: this.scriptName,
+        interventions: this.interventionsList
+      }
+      console.log('current script added to script list')
+      this.scriptList.push(script)
       this.updateLocalStorageScriptList()
     },
     loadSpecificScript (index) {
-      // test routine
+      this.scriptList = JSON.parse(localStorage.explain_scripts)
+      console.log(this.scriptList)
     },
     propChanged () {
       if (this.set1Enabled & this.properties[this.model1][this.prop1] !== undefined) {
