@@ -2,11 +2,38 @@
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     model properties
+     script editor
      </div>
    </div>
 
-    <div v-if="isEnabled">
+   <div v-if="isEnabled" class="row q-ma-sm">
+    <q-select :options="scriptNames" style="width: 100%" v-model="selectedScript" label="select script"></q-select>
+  </div>
+
+  <div v-if="isEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%"  @click="updateProps" >NEW SCRIPT</q-btn>
+  </div>
+
+   <div v-if="isEnabled && addEnabled" class="row q-ma-sm">
+        <q-input type="text" label="current script name" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+  </div>
+
+  <div v-if="isEnabled && scriptLoaded" class="row q-mt-es bg-grey-2">
+      <q-list class="q-ma-sm" highlight separator>
+        <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
+          <q-item-label class="text-caption" style="width: 100%">
+            at {{ field.atTime }}s. {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
+          </q-item-label>
+        </q-item>
+      </q-list>
+  </div>
+  <!-- <div v-if="isEnabled" class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline bg-grey-2">
+      script content
+     </div>
+  </div> -->
+
+    <div v-if="isEnabled && addEnabled">
       <div class="row">
           <q-select class="col" label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
           <q-select class="col" label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 100%" />
@@ -27,38 +54,15 @@
 
     </div>
 
-  <div v-if="isEnabled" class="row q-ma-md">
-        <q-input type="text" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
-  </div>
-  <div v-if="isEnabled" class="row q-ma-md">
+  <div v-if="isEnabled && addEnabled" class="row q-ma-md">
         <q-btn class="col q-mr-sm" dense color="teal-7"  @click="updateProps" >ADD</q-btn>
         <q-btn class="col" dense color="teal-7"   @click="loadSpecificScript" >LOAD</q-btn>
         <q-btn class="col" dense color="teal-7"   @click="clearScriptList" >CLEAR</q-btn>
+        <q-btn class="col q-mr-sm" dense color="teal-7" @click="storeCurrentScript" style="width: 100%" >STORE</q-btn>
   </div>
 
-  <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline bg-grey-2">
-      current script
-     </div>
-   </div>
-
-  <div v-if="isEnabled" class="row q-mt-es">
-      <q-list class="q-ma-sm" highlight separator>
-        <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
-          <q-item-label class="text-caption" style="width: 100%">
-            at {{ field.atTime }}s. {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
-          </q-item-label>
-        </q-item>
-      </q-list>
-  </div>
-
-  <div v-if="isEnabled" class="row q-ma-md">
-    <q-btn class="col q-mr-sm" dense color="teal-7" @click="storeCurrentScript" style="width: 100%" >STORE</q-btn>
+  <div v-if="isEnabled && scriptReadyForExecution" class="row q-ma-md">
     <q-btn class="col" dense color="teal-7" @click="executeIntervention" style="width: 100%" >EXECUTE</q-btn>
-  </div>
-
-  <div v-if="isEnabled" class="row q-ma-md">
-    <q-select :options="scriptNames" v-model="selectedScript"></q-select>
   </div>
 
 </q-card>
@@ -70,11 +74,14 @@ export default {
   data () {
     return {
       isEnabled: true,
+      addEnabled: false,
+      scriptLoaded: false,
+      scriptReadyForExecution: false,
       isNumber: true,
       timeToCalculate: 10,
       interventionsList: [],
       selectedScript: '',
-      scriptName: 'test',
+      scriptName: '',
       scriptNames: [],
       scriptList: [],
       modelEventListener: null,
@@ -116,6 +123,8 @@ export default {
     if (localStorage.explain_scripts) {
       this.scriptList = JSON.parse(localStorage.explain_scripts)
     }
+    // get the stored list
+    this.loadScriptsFromLocalStorage()
   },
   beforeDestroy () {
     delete this.modelEventListener
@@ -154,12 +163,21 @@ export default {
       }
       this.interventionsList.push(intervention)
     },
+    updateScriptListNames () {
+      this.scriptNames = []
+      this.selectedScript = ''
+      this.scriptList.forEach(script => {
+        this.scriptNames.push(script.name)
+      })
+    },
     updateLocalStorageScriptList () {
       localStorage.explain_scripts = JSON.stringify(this.scriptList)
+      this.updateScriptListNames()
       console.log('local storage script list updated')
     },
     clearScriptList () {
       this.scriptList = []
+      this.scriptNames = []
       this.updateLocalStorageScriptList()
       console.log('current script list cleared')
     },
@@ -172,8 +190,15 @@ export default {
       this.scriptList.push(script)
       this.updateLocalStorageScriptList()
     },
+    loadScriptsFromLocalStorage () {
+      this.scriptList = []
+      this.scriptList = JSON.parse(localStorage.explain_scripts)
+      this.updateScriptListNames()
+      console.log(this.scriptList)
+    },
     loadSpecificScript (index) {
       this.scriptList = JSON.parse(localStorage.explain_scripts)
+      this.updateScriptListNames()
       console.log(this.scriptList)
     },
     propChanged () {
