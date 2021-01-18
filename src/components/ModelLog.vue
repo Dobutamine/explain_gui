@@ -7,7 +7,7 @@
    </div>
   <div v-if="isEnabled" class="row q-mt-es">
       <q-virtual-scroll
-        style="max-height: 322px;"
+        style="max-height: 500px;"
         :items="log"
         separator
         >
@@ -17,7 +17,7 @@
         dense
       >
         <q-item-section>
-          <q-item-label class="text-caption">
+          <q-item-label class="text-caption" style="width: 100%" >
             {{ item.message }}
           </q-item-label>
         </q-item-section>

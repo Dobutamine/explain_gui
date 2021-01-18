@@ -6,35 +6,32 @@
      </div>
    </div>
 
-   <div v-if="isEnabled" class="row q-ma-sm">
-    <q-select :options="scriptNames" style="width: 100%" v-model="selectedScript" label="select script"></q-select>
+   <div v-if="isEnabled && !newScriptEnabled" class="row q-ma-sm">
+    <q-select :options="scriptNames" class="col q-mr-sm" v-model="selectedScript" @input="selectScript" label="select existing script">
+    </q-select>
   </div>
 
-  <div v-if="isEnabled" class="row q-ma-md">
-        <q-btn dense color="teal-7" style="width: 100%"  @click="updateProps" >NEW SCRIPT</q-btn>
+  <div v-if="isEnabled && !scriptLoaded && !newScriptEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="buildNewScript">NEW SCRIPT</q-btn>
   </div>
 
-   <div v-if="isEnabled && addEnabled" class="row q-ma-sm">
-        <q-input type="text" label="current script name" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+ <div v-if="isEnabled && newScriptEnabled" class="row q-ma-sm">
+        <q-input type="text" label="new script name" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
   </div>
 
   <div v-if="isEnabled && scriptLoaded" class="row q-mt-es bg-grey-2">
       <q-list class="q-ma-sm" highlight separator>
-        <q-item v-for="(field, index) in interventionsList" :key='index' dense clickable @click="selectInterventions(field, index)">
+        <q-item v-for="(field, index) in interventionsList" :key='index' dense v-ripple clickable @click="selectIntervention(field, index)">
           <q-item-label class="text-caption" style="width: 100%">
-            at {{ field.atTime }}s. {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
+            {{ field.atTime }}s. -> {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
           </q-item-label>
         </q-item>
       </q-list>
   </div>
-  <!-- <div v-if="isEnabled" class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline bg-grey-2">
-      script content
-     </div>
-  </div> -->
 
-    <div v-if="isEnabled && addEnabled">
-      <div class="row">
+    <div v-if="isEnabled && addEnabled" class="q-mt-sm">
+      <q-separator></q-separator>
+      <div class="row q-mt-sm">
           <q-select class="col" label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
           <q-select class="col" label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 100%" />
       </div>
@@ -54,15 +51,32 @@
 
     </div>
 
-  <div v-if="isEnabled && addEnabled" class="row q-ma-md">
-        <q-btn class="col q-mr-sm" dense color="teal-7"  @click="updateProps" >ADD</q-btn>
-        <q-btn class="col" dense color="teal-7"   @click="loadSpecificScript" >LOAD</q-btn>
-        <q-btn class="col" dense color="teal-7"   @click="clearScriptList" >CLEAR</q-btn>
-        <q-btn class="col q-mr-sm" dense color="teal-7" @click="storeCurrentScript" style="width: 100%" >STORE</q-btn>
+  <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="black"  @click="addIntervention" >
+          <q-icon name="add" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-btn class="col q-mr-sm" dense color="black"   @click="replaceIntervention" >
+          <q-icon name="refresh" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-btn class="col" dense color="black"   @click="deleteIntervention" >
+           <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
   </div>
 
-  <div v-if="isEnabled && scriptReadyForExecution" class="row q-ma-md">
-    <q-btn class="col" dense color="teal-7" @click="executeIntervention" style="width: 100%" >EXECUTE</q-btn>
+  <div v-if="isEnabled && scriptLoaded" class="row q-ma-md">
+    <q-separator></q-separator>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="commmitScriptToModel" style="width: 100%" >
+      <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="cancelScript" style="width: 100%" >
+      <q-icon name="cancel" class="text-white" tag="cancel" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeCurrentScript" style="width: 100%" >
+      <q-icon name="save_alt" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm col" dense color="negative" @click="deleteScript" style="width: 100%" >
+        <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
   </div>
 
 </q-card>
@@ -75,12 +89,14 @@ export default {
     return {
       isEnabled: true,
       addEnabled: false,
+      newScriptEnabled: false,
       scriptLoaded: false,
       scriptReadyForExecution: false,
       isNumber: true,
       timeToCalculate: 10,
       interventionsList: [],
       selectedScript: '',
+      selectedIntervention: -1,
       scriptName: '',
       scriptNames: [],
       scriptList: [],
@@ -133,17 +149,19 @@ export default {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
     },
-    selectInterventions (field, index) {
+    selectIntervention (field, index) {
+      this.addEnabled = true
       const found = this.interventionsList.findIndex(element => element === field)
-      if (found > -1) {
-        this.interventionsList.splice(found, 1)
-      }
+      this.model1 = this.interventionsList[found].model
+      this.prop1 = this.interventionsList[found].prop
+      this.propValue1 = this.interventionsList[found].currentValue
+      this.propValue1New = this.interventionsList[found].newValue
+      this.propValue1In = this.interventionsList[found].inTime
+      this.propValue1At = this.interventionsList[found].atTime
+
+      this.selectedIntervention = found
     },
-    executeIntervention () {
-      this.interventionsList.forEach(intervention => {
-        this.$model.setProperty(intervention.model, intervention.prop, intervention.newValue, intervention.inTime, intervention.atTime, 'abs')
-      })
-      // this.$model.calculateModel(20)
+    cancelScript () {
       this.interventionsList = []
       this.model1 = ''
       this.prop1 = ''
@@ -151,8 +169,37 @@ export default {
       this.propValue1New = ''
       this.propValue1In = 5
       this.propValue1At = 0
+      this.selectedIntervention = ''
+      this.selectedScript = ''
+      this.scriptLoaded = false
+      this.addEnabled = false
+      this.newScriptEnabled = false
+      this.loadScriptsFromLocalStorage()
     },
-    updateProps () {
+    commmitScriptToModel () {
+      // commit the intervention
+      this.interventionsList.forEach(intervention => {
+        this.$model.setProperty(intervention.model, intervention.prop, intervention.newValue, intervention.inTime, intervention.atTime, 'abs')
+      })
+      // clear the interventions list
+      this.interventionsList = []
+      // clear all properties
+      this.model1 = ''
+      this.prop1 = ''
+      this.propValue1 = ''
+      this.propValue1New = ''
+      this.propValue1In = 5
+      this.propValue1At = 0
+      // clear the selected intervention
+      this.selectedIntervention = ''
+      // clear the selected script
+      this.selectedScript = ''
+      this.scriptLoaded = false
+      this.addEnabled = false
+      this.newScriptEnabled = false
+      this.loadScriptsFromLocalStorage()
+    },
+    addIntervention () {
       const intervention = {
         model: this.model1,
         prop: this.prop1,
@@ -163,12 +210,21 @@ export default {
       }
       this.interventionsList.push(intervention)
     },
-    updateScriptListNames () {
-      this.scriptNames = []
-      this.selectedScript = ''
-      this.scriptList.forEach(script => {
-        this.scriptNames.push(script.name)
-      })
+    deleteIntervention () {
+      this.interventionsList.splice(this.selectedIntervention, 1)
+      this.addEnabled = false
+    },
+    replaceIntervention () {
+      const intervention = {
+        model: this.model1,
+        prop: this.prop1,
+        currentValue: this.propValue1,
+        newValue: this.propValue1New,
+        inTime: this.propValue1In,
+        atTime: this.propValue1At
+      }
+      this.interventionsList.splice(this.selectedIntervention, 1, intervention)
+      this.addEnabled = false
     },
     updateLocalStorageScriptList () {
       localStorage.explain_scripts = JSON.stringify(this.scriptList)
@@ -181,25 +237,57 @@ export default {
       this.updateLocalStorageScriptList()
       console.log('current script list cleared')
     },
+    selectScript () {
+      // find selected script in scriptlist
+      const found = this.scriptList.find(element => element.name === this.selectedScript)
+      this.interventionsList = found.interventions
+      this.scriptLoaded = true
+    },
+    deleteScript () {
+      const found = this.scriptList.findIndex(element => element.name === this.selectedScript)
+      if (found > -1) {
+        // it is a new one
+        this.scriptList.splice(found, 1)
+      }
+      this.updateLocalStorageScriptList()
+      this.loadScriptsFromLocalStorage()
+      this.cancelScript()
+    },
     storeCurrentScript () {
       const script = {
         name: this.scriptName,
         interventions: this.interventionsList
       }
-      console.log('current script added to script list')
-      this.scriptList.push(script)
+      let found = this.scriptList.find(element => element.name === this.selectedScript)
+      if (found === undefined) {
+        // it is a new one
+        this.scriptList.push(script)
+      } else {
+        // it is an existing one
+        found = script
+      }
       this.updateLocalStorageScriptList()
+      this.loadScriptsFromLocalStorage()
+    },
+    buildNewScript () {
+      this.newScriptEnabled = true
+      this.addEnabled = true
+      this.scriptLoaded = true
     },
     loadScriptsFromLocalStorage () {
+      // clear the scriptlist
       this.scriptList = []
+      // fill the scriptlist with an array of scripts
       this.scriptList = JSON.parse(localStorage.explain_scripts)
+      // update the scriptlist names array
       this.updateScriptListNames()
-      console.log(this.scriptList)
     },
-    loadSpecificScript (index) {
-      this.scriptList = JSON.parse(localStorage.explain_scripts)
-      this.updateScriptListNames()
-      console.log(this.scriptList)
+    updateScriptListNames () {
+      this.scriptNames = []
+      this.selectedScript = ''
+      this.scriptList.forEach(script => {
+        this.scriptNames.push(script.name)
+      })
     },
     propChanged () {
       if (this.set1Enabled & this.properties[this.model1][this.prop1] !== undefined) {

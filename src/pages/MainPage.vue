@@ -11,7 +11,7 @@
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">
-          <ModelVitals></ModelVitals>
+          <ModelLog></ModelLog>
         </div>
     </div>
   </q-page>
@@ -22,7 +22,7 @@
 import LightningChart from 'components/LightningChart'
 import Controller from 'components/Controller'
 import ModelProps from 'components/ModelProps'
-import ModelVitals from 'components/ModelVitals'
+import ModelLog from 'components/ModelLog'
 
 export default {
   name: 'PageIndex',
@@ -30,7 +30,7 @@ export default {
     LightningChart,
     Controller,
     ModelProps,
-    ModelVitals
+    ModelLog
   },
   data () {
     return {

@@ -6,9 +6,13 @@
       </div>
    </div>
     <div v-if="isEnabled" class="q-gutter-lg row gutter q-mt-es q-mb-sm">
-        <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 100px">{{ caption }}</q-btn>
+        <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 100px">
+          {{ caption }}
+          </q-btn>
         <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 85px" class="q-ml-xs"/>
-         <q-btn v-on:click="fastForwardModel" dense :color="colorGOTO" class="q-pl-sm q-pr-sm" style="width: 100px">{{ captionGOTO }}</q-btn>
+         <q-btn v-on:click="fastForwardModel" dense :color="colorGOTO" class="q-pl-sm q-pr-sm" style="width: 100px">
+           {{ captionGOTO }}
+           </q-btn>
          <q-input v-model.number="gotoTarget" type="number" label="seconds" filled dense style="width: 85px" class="q-ml-xs"/>
          <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 100px">{{ captionRT }}</q-btn>
     </div>
