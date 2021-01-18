@@ -14,18 +14,18 @@ export class Model {
 
   dataMode = mode.REFRESH
 
-  constructor(model_definition, name) {
+  constructor(default_model_definition, name) {
 
     // if no model definition is provided then we load the de fault normal neonate
-    if (!model_definition) {
-      model_definition = 'normal_neonate'
+    if (!default_model_definition) {
+      default_model_definition = 'normal_neonate'
     }
 
     // initialize the model engine
     this.engine = new Worker("./explain_engine/engine.js");
 
     // load the model definition file into the modelengine
-    this.loadModelDefinition(model_definition)
+    this.loadModelDefinition(default_model_definition)
 
     // attach an event handler to receive messages from the model engine 
     this.engine.addEventListener("message", (message) => {
