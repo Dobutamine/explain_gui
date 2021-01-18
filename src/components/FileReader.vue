@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       file: null,
-      isEnabled: true
+      isEnabled: false
     }
   },
   methods: {
