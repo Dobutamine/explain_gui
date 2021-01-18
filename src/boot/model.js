@@ -1,6 +1,7 @@
 import { Model } from 'app/public/model'
 
-const model = new Model('normal_neonate')
+// eslint-disable-next-line prefer-const
+let model = new Model('normal_neonate')
 
 export default ({ Vue }) => {
   Vue.prototype.$model = model
