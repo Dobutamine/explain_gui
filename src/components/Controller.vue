@@ -5,16 +5,17 @@
       model controller
       </div>
    </div>
-    <div v-if="isEnabled" class="q-gutter-lg row gutter q-mt-es q-mb-sm">
-        <q-btn v-on:click="calculateModel" dense :color="color" class="q-pl-sm q-pr-sm" style="width: 100px">
-          {{ caption }}
-          </q-btn>
-        <q-input v-model.number="timeToCalculate" type="number" label="for seconds" filled dense style="width: 85px" class="q-ml-xs"/>
-         <q-btn v-on:click="fastForwardModel" dense :color="colorGOTO" class="q-pl-sm q-pr-sm" style="width: 100px">
-           {{ captionGOTO }}
-           </q-btn>
-         <q-input v-model.number="gotoTarget" type="number" label="seconds" filled dense style="width: 85px" class="q-ml-xs"/>
-         <q-btn v-on:click="startModel" dense :color="colorRT" class="q-pl-sm q-pr-sm" style="width: 100px">{{ captionRT }}</q-btn>
+    <div v-if="isEnabled" class="row q-ml-md q-mr-md q-mb-md q-mt-es">
+        <q-btn v-on:click="startModel" dense :color="colorRT" class="q-mt-sm q-mr-sm col" style="width: 40px">
+           <q-icon name="play_arrow" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-btn v-on:click="fastForwardModel" dense :color="colorGOTO" class="q-mt-sm q-mr-sm col" style="width: 40px">
+           <q-icon name="fast_forward" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-btn v-on:click="calculateModel" dense :color="color" class="q-mt-sm q-mr-sm col" style="width: 40px">
+           <q-icon name="calculate" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-input v-model.number="timeToCalculate" type="number" label="for sec." filled dense style="width: 70px" class="q-mt-sm q-mr-sm col-2"/>
     </div>
   </q-card>
 </template>
@@ -71,14 +72,13 @@ export default {
         this.colorRT = 'negative'
       }
     },
-
     calculateModel () {
       this.$model.calculateModel(this.timeToCalculate)
       this.caption = 'CALCULATING'
       this.color = 'negative'
     },
     fastForwardModel () {
-      this.$model.fastForwardModel(this.gotoTarget)
+      this.$model.fastForwardModel(this.timeToCalculate)
       this.captionGOTO = 'WAIT'
       this.colorGOTO = 'negative'
     }

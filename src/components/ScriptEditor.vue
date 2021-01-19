@@ -6,7 +6,7 @@
      </div>
    </div>
 
-   <div v-if="isEnabled && !newScriptEnabled" class="row q-ma-sm">
+   <div v-if="isEnabled && !newScriptEnabled" class="row q-mt-es q-ml-sm q-mr-sm q-mb-sm">
     <q-select :options="scriptNames" class="col q-mr-sm" v-model="selectedScript" @input="selectScript" label="select existing script">
     </q-select>
   </div>
@@ -87,7 +87,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       addEnabled: false,
       newScriptEnabled: false,
       scriptLoaded: false,

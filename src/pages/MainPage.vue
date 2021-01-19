@@ -3,16 +3,17 @@
     <div class="row justify-center items-start q-ma-es">
         <div class="col-2 text-center">
           <FileReader></FileReader>
-          <ModelProps></ModelProps>
+          <Controller></Controller>
+          <ScriptEditor></ScriptEditor>
+          <ModelLog></ModelLog>
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
-            <controller></controller>
+             <ModelDiagram></ModelDiagram>
             <LightningChart></LightningChart>
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">
-          <ModelLog></ModelLog>
         </div>
     </div>
   </q-page>
@@ -22,18 +23,20 @@
 
 import LightningChart from 'components/LightningChart'
 import Controller from 'components/Controller'
-import ModelProps from 'components/ModelProps'
+import ScriptEditor from 'components/ScriptEditor'
 import ModelLog from 'components/ModelLog'
 import FileReader from 'components/FileReader'
+import ModelDiagram from 'components/ModelDiagram'
 
 export default {
   name: 'PageIndex',
   components: {
     LightningChart,
     Controller,
-    ModelProps,
+    ScriptEditor,
     ModelLog,
-    FileReader
+    FileReader,
+    ModelDiagram
   },
   data () {
     return {

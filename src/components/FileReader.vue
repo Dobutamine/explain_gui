@@ -13,7 +13,9 @@
       filled
       style="max-width: 300px"
       @input="loadTextFromFile"
-    />
+    >
+      <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
+    </q-file>
   </div>
 </q-card>
 </template>

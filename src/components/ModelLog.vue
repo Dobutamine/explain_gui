@@ -7,7 +7,7 @@
    </div>
   <div v-if="isEnabled" class="row q-mt-es">
       <q-virtual-scroll
-        style="max-height: 500px;"
+        style="max-height: 300px;"
         :items="log"
         separator
         >
