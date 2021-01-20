@@ -16,8 +16,8 @@ class DiagramBloodCompartment {
     this.sprite.interactionData = null
     this.sprite.dragging = false
     this.sprite.anchor = { x: 0.5, y: 0.5 }
-    this.sprite.x = 0
-    this.sprite.y = 0
+    this.sprite.x = 50
+    this.sprite.y = 50
     this.sprite.tint = '0xffffff'
     this.sprite.interactive = true
     this.sprite.buttonMode = true

@@ -16,6 +16,7 @@
 
 // import explain from '../assets/container.png'
 import DiagramBloodCompartment from '../classes/DiagramBloodCompartment'
+import DiagramBloodConnector from '../classes/DiagramBloodConnector'
 import * as PIXI from 'pixi.js'
 
 let canvas = null
@@ -25,6 +26,7 @@ export default {
     return {
       isEnabled: true,
       modelEventListener: null,
+      watchedmodels: [],
       display: 'block',
       pixiApp: null,
       stage: {
@@ -50,7 +52,8 @@ export default {
       message: null,
       properties: null,
       rtData: null,
-      diagramComponents: []
+      diagramComponents: {},
+      diagramConnectors: {}
     }
   },
   mounted () {
@@ -101,6 +104,8 @@ export default {
       if (this.isEnabled) {
         this.display = 'block'
         this.pixiApp.renderer.view.style.display = this.display
+        // this.$model.setDataloggerWatchedModelsRT(this.watchedmodels)
+        this.$root.$emit('rt_watch_diagram', this.watchedmodels)
       } else {
         this.display = 'none'
         this.pixiApp.renderer.view.style.display = this.display
@@ -120,6 +125,8 @@ export default {
       this.$el.appendChild(this.pixiApp.view)
       this.pixiApp.renderer.view.style.display = this.display
       this.pixiApp.renderer.autoResize = true
+      this.pixiApp.stage.interactive = true
+      // this.pixiApp.stage.on('mousemove', () => { this.redrawConnectors() })
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
@@ -128,12 +135,20 @@ export default {
       this.callback_rt = this.updateDiagramComponents
     },
     buildDiagram () {
+      this.watchedmodels = ['LA', 'LV', 'RA', 'RV', 'LA_LV', 'RA_RV']
       this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
       this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
       this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
       this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
+
+      this.diagramConnectors.LA_LV = new DiagramBloodConnector('LA_LV', 'LA_LV', 'LA', 'LV', ['LA_LV'], this.pixiApp)
+      this.diagramConnectors.RA_RV = new DiagramBloodConnector('RA_RV', 'RA_RV', 'RA', 'RV', ['RA_RV'], this.pixiApp)
     },
     updateDiagram () {
+      Object.keys(this.diagramConnectors).forEach(id => {
+        this.diagramConnectors[id].draw(this.diagramComponents, this.rtData)
+      })
+
       Object.keys(this.diagramComponents).forEach(id => {
         this.diagramComponents[id].draw(this.stage, this.rtData)
       })

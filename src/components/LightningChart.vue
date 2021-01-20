@@ -246,7 +246,9 @@ export default {
       }
 
       if (watchModels.length > 0) {
-        this.$model.setDataloggerWatchedModels(watchModels)
+        // this.$model.setDataloggerWatchedModels(watchModels)
+        // emit message to the controller
+        this.$root.$emit('rt_watch_chart', watchModels)
       }
     },
     xAxisChanged () {
