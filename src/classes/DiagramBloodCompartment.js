@@ -40,6 +40,11 @@ class DiagramBloodCompartment {
     this.pixiApp.stage.addChild(this.sprite.text)
   }
 
+  remove () {
+    this.pixiApp.stage.removeChild(this.sprite)
+    this.pixiApp.stage.removeChild(this.sprite.text)
+  }
+
   draw (stage, rtData) {
     let volume = 0
     let to2 = 0

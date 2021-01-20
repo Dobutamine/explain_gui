@@ -9,13 +9,26 @@
     <div v-if="isEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
+          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square @input="modelChanged" label="select model to add" style="width: 100%" />
        </div>
     </div>
 
     <div v-if="isEnabled" class="row q-ma-md q-mt-sm">
         <q-btn class="col q-mr-sm" dense color="black"  @click="addToDiagram" >
           <q-icon name="add" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+  </div>
+
+  <div v-if="isEnabled" class="q-mt-sm">
+      <q-separator></q-separator>
+      <div class="row q-mt-sm">
+          <q-select class="col" label-color="red-10" v-model="selectedCurrentModel" :options="currentModelsInDiagram" filled dense square @input="modelChanged" label="edit diagram model" style="width: 100%" />
+       </div>
+    </div>
+
+     <div v-if="isEnabled" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="black"  @click="removeFromDiagram" >
+          <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
         </q-btn>
   </div>
 
@@ -29,7 +42,9 @@ export default {
       isEnabled: true,
       properties: null,
       selectedModel: '',
-      models: []
+      models: [],
+      selectedCurrentModel: '',
+      currentModelsInDiagram: []
     }
   },
   mounted () {
@@ -72,9 +87,17 @@ export default {
     modelChanged () {
       console.log('model changed')
     },
+    removeFromDiagram () {
+      this.$root.$emit('remove_from_diagram', this.selectedCurrentModel)
+      const index = this.currentModelsInDiagram.findIndex((element) => element === this.selectedCurrentModel)
+      if (index > -1) {
+        this.currentModelsInDiagram.splice(index, 1)
+        this.selectedCurrentModel = ''
+      }
+    },
     addToDiagram () {
-      // this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
-      // console.log(this.properties)
+      this.currentModelsInDiagram.push(this.selectedModel)
+
       const diagramComponent = {
         type: this.properties[this.selectedModel].subtype,
         id: this.selectedModel,
@@ -107,6 +130,8 @@ export default {
         }
         this.$root.$emit('add_to_diagram', compTo)
       }
+
+      this.selectedModel = ''
     }
   }
 

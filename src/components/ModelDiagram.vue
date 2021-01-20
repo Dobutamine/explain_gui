@@ -101,6 +101,7 @@ export default {
     this.$root.$on('rt_on', () => { this.isRunning = true })
     this.$root.$on('rt_off', () => { this.isRunning = false })
     this.$root.$on('add_to_diagram', (e) => { this.addToDiagram(e) })
+    this.$root.$on('remove_from_diagram', (e) => { this.removeFromDiagram(e) })
     // hide the model diagram at startup
     this.toggleIsEnabled()
   },
@@ -142,6 +143,20 @@ export default {
       this.handleResize()
       this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
+    },
+    removeFromDiagram (e) {
+      // try to find the model
+      const found = this.diagramComponents[e]
+      if (found !== undefined) {
+        this.diagramComponents[e].remove()
+        delete this.diagramComponents[e]
+        const index = this.watchedmodels.findIndex((element) => element === e)
+        if (index > -1) {
+          this.watchedmodels.splice(index, 1)
+          this.$root.$emit('rt_watch_diagram', this.watchedmodels)
+        }
+      }
+      // remove from watched list
     },
     addToDiagram (e) {
       if (!this.watchedmodels.includes(e.modelComponents[0])) {

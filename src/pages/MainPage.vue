@@ -9,8 +9,8 @@
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 850px; max-width: 3000px;">
-             <ModelDiagram></ModelDiagram>
             <LightningChart></LightningChart>
+            <ModelDiagram></ModelDiagram>
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">
