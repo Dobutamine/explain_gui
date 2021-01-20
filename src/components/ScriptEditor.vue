@@ -69,7 +69,7 @@
       <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
     </q-btn>
     <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="cancelScript" style="width: 100%" >
-      <q-icon name="cancel" class="text-white" tag="cancel" style="font-size: 1rem;" />
+      <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
     </q-btn>
     <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeCurrentScript" style="width: 100%" >
       <q-icon name="save_alt" class="text-white" style="font-size: 1rem;" />
@@ -87,7 +87,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       addEnabled: false,
       newScriptEnabled: false,
       scriptLoaded: false,
@@ -124,6 +124,7 @@ export default {
                 break
               case 'props':
                 this.properties = message.data.data
+                console.log(this.properties)
                 this.processModels()
                 break
               default:
@@ -136,6 +137,7 @@ export default {
     // get the current model properties
     this.$model.getProperties(null)
     // get the stored scripts from the browser
+
     if (localStorage.explain_scripts) {
       this.scriptList = JSON.parse(localStorage.explain_scripts)
     }
@@ -278,7 +280,9 @@ export default {
       // clear the scriptlist
       this.scriptList = []
       // fill the scriptlist with an array of scripts
-      this.scriptList = JSON.parse(localStorage.explain_scripts)
+      if (localStorage.explain_scripts) {
+        this.scriptList = JSON.parse(localStorage.explain_scripts)
+      }
       // update the scriptlist names array
       this.updateScriptListNames()
     },

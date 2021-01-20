@@ -4,6 +4,7 @@
         <div class="col-2 text-center">
           <FileReader></FileReader>
           <Controller></Controller>
+          <ScriptEditor></ScriptEditor>
           <ModelLog></ModelLog>
         </div>
         <div class="col text-center">
@@ -26,6 +27,7 @@ import Controller from 'components/Controller'
 import ModelLog from 'components/ModelLog'
 import FileReader from 'components/FileReader'
 import ModelDiagram from 'components/ModelDiagram'
+import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
 
 export default {
@@ -36,7 +38,8 @@ export default {
     ModelLog,
     FileReader,
     ModelDiagram,
-    DiagramBuilder
+    DiagramBuilder,
+    ScriptEditor
   },
   data () {
     return {
