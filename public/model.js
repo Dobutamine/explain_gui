@@ -82,6 +82,16 @@ export class Model {
     });
   }
 
+  setDataloggerWatchedModelsRT = (models_to_watch) => {
+    this.engine.postMessage({
+      type: "set",
+      target: "datalogger",
+      action: "setWatchedModelsRT",
+      data: models_to_watch,
+      return_tag: null
+    });
+  }
+
   setModelState = (snapshot) => {
     this.engine.postMessage({
       type: "set",

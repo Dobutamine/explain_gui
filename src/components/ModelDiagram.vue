@@ -2,7 +2,7 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-      model diagram
+      animated model diagram
       </div>
     </div>
 
@@ -14,8 +14,8 @@
 
 <script>
 
-import explain from '../assets/container.png'
-
+// import explain from '../assets/container.png'
+import DiagramBloodCompartment from '../classes/DiagramBloodCompartment'
 import * as PIXI from 'pixi.js'
 
 let canvas = null
@@ -35,6 +35,11 @@ export default {
         scaling: 40,
         aspectRatio: 0.6
       },
+      activeDiagramComponent: null,
+      activeSprite: null,
+      interactionData: null,
+      alpha: 1.0,
+      dragging: false,
       callback_datalogger: () => {},
       callback_mes: () => {},
       callback_props: () => {},
@@ -45,10 +50,7 @@ export default {
       message: null,
       properties: null,
       rtData: null,
-      containers: [],
-      connectors: [],
-      componentTypes: ['blood compartment', 'blood connector'],
-      componentType: 'blood compartment'
+      diagramComponents: []
     }
   },
   mounted () {
@@ -79,7 +81,7 @@ export default {
         case 'rt':
           this.rtData = message.data.data
           if (this.isEnabled) {
-            this.callback_rt()
+            requestAnimationFrame(this.updateDiagram)
           }
           break
       }
@@ -123,7 +125,18 @@ export default {
       // size the canvas
       this.handleResize()
       this.buildDiagram()
-      this.callback_rt = this.updateContainers
+      this.callback_rt = this.updateDiagramComponents
+    },
+    buildDiagram () {
+      this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
+      this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
+      this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
+      this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
+    },
+    updateDiagram () {
+      Object.keys(this.diagramComponents).forEach(id => {
+        this.diagramComponents[id].draw(this.stage, this.rtData)
+      })
     },
     handleResize () {
       // get stage sizes
@@ -139,88 +152,6 @@ export default {
     },
     processProperties () {
       // console.log(this.properties)
-    },
-    updateContainers () {
-      this.containers.forEach(container => {
-        let cumVolume = 0
-        let cumTO2 = 0
-        container.components.forEach(comp => {
-          cumVolume += this.rtData[0][comp].vol
-          cumTO2 += this.rtData[0][comp].to2
-        })
-        cumTO2 = cumTO2 / container.components.length
-        container.sprite.tint = this.CalculateColor(cumTO2)
-        container.sprite.scale.set(cumVolume * this.stage.scaling, cumVolume * this.stage.scaling)
-      })
-    },
-    rgbToHex (rgb) {
-      let hex = Number(rgb).toString(16)
-      if (hex.length < 2) {
-        hex = '0' + hex
-      }
-      return hex
-    },
-    fullColorHex  (r, g, b) {
-      const red = this.rgbToHex(r)
-      const green = this.rgbToHex(g)
-      const blue = this.rgbToHex(b)
-      return red + green + blue
-    },
-    Remap (value, from1, to1, from2, to2) {
-      return ((value - from1) / (to1 - from1)) * (to2 - from2) + from2
-    },
-    CalculateColor (to2) {
-      if (to2 > 8.4) {
-        to2 = 8.4
-      }
-
-      let remap = this.Remap(to2, 0, 8.4, -10, 1)
-
-      if (remap < 0) remap = 0
-
-      const red = (remap * 210).toFixed(0)
-      const green = (remap * 80).toFixed(0)
-      const blue = (80 + remap * 75).toFixed(0)
-
-      const color = '0x' + this.fullColorHex(red, green, blue)
-
-      return color
-    },
-    containerClicked (e) {
-      // console.log(e.target)
-    },
-    configureContainer (name, components) {
-      const container = {
-        sprite: null,
-        text: null
-      }
-      // eslint-disable-next-line new-cap
-      container.sprite = new PIXI.Sprite.from(explain)
-      container.textStyle = new PIXI.TextStyle({
-        fill: 'white',
-        fontSize: 16,
-        fontFamily: 'Tahoma'
-      })
-      container.text = new PIXI.Text(name, container.textStyle)
-      container.name = name
-      container.components = components
-      container.sprite.anchor.x = 0.5
-      container.sprite.anchor.y = 0.5
-      container.text.anchor.x = 0.5
-      container.text.anchor.y = 0.5
-      container.sprite.x = this.stage.centerX
-      container.sprite.y = this.stage.centerY
-      container.text.x = this.stage.centerX
-      container.text.y = this.stage.centerY
-      container.sprite.tint = '0xffffff'
-      container.sprite.interactive = true
-      container.sprite.on('mousedown', this.containerClicked)
-      this.pixiApp.stage.addChild(container.sprite)
-      this.pixiApp.stage.addChild(container.text)
-      return container
-    },
-    buildDiagram () {
-      this.containers.push(this.configureContainer('AA', ['AA']))
     }
   }
 }
