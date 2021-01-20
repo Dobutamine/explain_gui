@@ -69,13 +69,12 @@ export default {
     },
     updateWatchedModelsChart (modelsToWatch) {
       this.watchedModelsChart = modelsToWatch
-      this.$model.setDataloggerWatchedModels(modelsToWatch)
       this.updateModelsToWatchRT()
     },
     updateModelsToWatchRT () {
       const rtModels = this.watchedModelsChart.concat(this.watchedModelsDiagram)
-
       this.$model.setDataloggerWatchedModelsRT(rtModels)
+      this.$model.setDataloggerWatchedModels(rtModels)
     },
     startModel () {
       if (this.rtRunning) {
@@ -83,11 +82,13 @@ export default {
         this.$model.stopModel()
         this.captionRT = 'REALTIME'
         this.colorRT = 'teal-7'
+        this.$root.$emit('rt_off')
       } else {
         this.rtRunning = true
         this.$model.startModel()
         this.captionRT = 'REALTIME'
         this.colorRT = 'negative'
+        this.$root.$emit('rt_on')
       }
     },
     calculateModel () {

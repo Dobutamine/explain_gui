@@ -18,6 +18,7 @@ class DiagramBloodCompartment {
     this.sprite.anchor = { x: 0.5, y: 0.5 }
     this.sprite.x = 50
     this.sprite.y = 50
+    this.sprite.scale.set(0.5, 0.5)
     this.sprite.tint = '0xffffff'
     this.sprite.interactive = true
     this.sprite.buttonMode = true
@@ -34,8 +35,8 @@ class DiagramBloodCompartment {
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }
-    this.sprite.text.x = 0
-    this.sprite.text.y = 0
+    this.sprite.text.x = 50
+    this.sprite.text.y = 50
     this.pixiApp.stage.addChild(this.sprite.text)
   }
 

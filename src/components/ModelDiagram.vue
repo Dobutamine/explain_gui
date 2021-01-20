@@ -15,7 +15,9 @@
 <script>
 
 // import explain from '../assets/container.png'
+// eslint-disable-next-line no-unused-vars
 import DiagramBloodCompartment from '../classes/DiagramBloodCompartment'
+// eslint-disable-next-line no-unused-vars
 import DiagramBloodConnector from '../classes/DiagramBloodConnector'
 import * as PIXI from 'pixi.js'
 
@@ -25,6 +27,7 @@ export default {
   data () {
     return {
       isEnabled: true,
+      isRunning: false,
       modelEventListener: null,
       watchedmodels: [],
       display: 'block',
@@ -69,6 +72,11 @@ export default {
           break
         case 'data':
           switch (message.data.target) {
+            case 'datalogger_output':
+              this.rtData = []
+              this.rtData.push(message.data.data[message.data.data.length - 1])
+              requestAnimationFrame(this.updateDiagram)
+              break
             case 'state':
               this.snapshot = message.data.data
               this.callback_state()
@@ -90,7 +98,9 @@ export default {
       }
     })
     this.$model.getProperties()
-
+    this.$root.$on('rt_on', () => { this.isRunning = true })
+    this.$root.$on('rt_off', () => { this.isRunning = false })
+    this.$root.$on('add_to_diagram', (e) => { this.addToDiagram(e) })
     // hide the model diagram at startup
     this.toggleIsEnabled()
   },
@@ -104,7 +114,6 @@ export default {
       if (this.isEnabled) {
         this.display = 'block'
         this.pixiApp.renderer.view.style.display = this.display
-        // this.$model.setDataloggerWatchedModelsRT(this.watchedmodels)
         this.$root.$emit('rt_watch_diagram', this.watchedmodels)
       } else {
         this.display = 'none'
@@ -118,7 +127,7 @@ export default {
       this.pixiApp = new PIXI.Application({
         transparent: false,
         antialias: true,
-        backgroundColor: 0xffffff,
+        backgroundColor: 0xeeeeee,
         view: canvas
       })
       // add the pixi application to the view
@@ -126,7 +135,7 @@ export default {
       this.pixiApp.renderer.view.style.display = this.display
       this.pixiApp.renderer.autoResize = true
       this.pixiApp.stage.interactive = true
-      // this.pixiApp.stage.on('mousemove', () => { this.redrawConnectors() })
+      this.pixiApp.stage.on('mousemove', this.redrawConnector)
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
@@ -134,15 +143,44 @@ export default {
       this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
     },
+    addToDiagram (e) {
+      if (!this.watchedmodels.includes(e.modelComponents[0])) {
+        switch (e.type) {
+          case 'blood_compartment':
+            this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
+            break
+          case 'pump':
+            this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
+            break
+          case 'blood_connector':
+            this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+          case 'valve':
+            this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+        }
+        e.modelComponents.forEach(component => {
+          this.watchedmodels.push(component)
+        })
+        this.$root.$emit('rt_watch_diagram', this.watchedmodels)
+      }
+    },
     buildDiagram () {
-      this.watchedmodels = ['LA', 'LV', 'RA', 'RV', 'LA_LV', 'RA_RV']
-      this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
-      this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
-      this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
-      this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
+      // this.watchedmodels = ['LA', 'LV', 'RA', 'RV', 'LA_LV', 'RA_RV']
+      // this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
+      // this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
+      // this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
+      // this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
 
-      this.diagramConnectors.LA_LV = new DiagramBloodConnector('LA_LV', 'LA_LV', 'LA', 'LV', ['LA_LV'], this.pixiApp)
-      this.diagramConnectors.RA_RV = new DiagramBloodConnector('RA_RV', 'RA_RV', 'RA', 'RV', ['RA_RV'], this.pixiApp)
+      // this.diagramConnectors.LA_LV = new DiagramBloodConnector('LA_LV', 'LA_LV', 'LA', 'LV', ['LA_LV'], this.pixiApp)
+      // this.diagramConnectors.RA_RV = new DiagramBloodConnector('RA_RV', 'RA_RV', 'RA', 'RV', ['RA_RV'], this.pixiApp)
+    },
+    redrawConnector () {
+      if (!this.isRunning) {
+        Object.keys(this.diagramConnectors).forEach(id => {
+          this.diagramConnectors[id].redrawConnectors(this.diagramComponents, this.rtData)
+        })
+      }
     },
     updateDiagram () {
       Object.keys(this.diagramConnectors).forEach(id => {

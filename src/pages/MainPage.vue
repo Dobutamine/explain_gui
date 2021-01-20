@@ -13,6 +13,7 @@
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">
+          <DiagramBuilder></DiagramBuilder>
         </div>
     </div>
   </q-page>
@@ -25,6 +26,7 @@ import Controller from 'components/Controller'
 import ModelLog from 'components/ModelLog'
 import FileReader from 'components/FileReader'
 import ModelDiagram from 'components/ModelDiagram'
+import DiagramBuilder from 'components/DiagramBuilder'
 
 export default {
   name: 'PageIndex',
@@ -33,7 +35,8 @@ export default {
     Controller,
     ModelLog,
     FileReader,
-    ModelDiagram
+    ModelDiagram,
+    DiagramBuilder
   },
   data () {
     return {

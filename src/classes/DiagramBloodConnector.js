@@ -25,6 +25,32 @@ class DiagramBloodConnector {
     this.pixiApp.stage.addChild(this.sprite)
   }
 
+  redrawConnectors (diagramCompartments, rtData) {
+    this.graphics.clear()
+
+    const x1 = diagramCompartments[this.graphics.dbcFrom].sprite.x
+    const y1 = diagramCompartments[this.graphics.dbcFrom].sprite.y
+
+    const x2 = diagramCompartments[this.graphics.dbcTo].sprite.x
+    const y2 = diagramCompartments[this.graphics.dbcTo].sprite.y
+
+    this.graphics.beginFill(0xFF3300)
+    this.graphics.lineStyle(2, 0x000000, 1)
+    this.graphics.moveTo(x1, y1)
+    this.graphics.lineTo(x2, y2)
+    this.graphics.endFill()
+
+    const remapT = this.Remap(this.position, 0, 1, 0, 1)
+    const t = remapT / 1
+    this.sprite.x = (1 - t) * x1 + t * x2
+    this.sprite.y = (1 - t) * y1 + t * y2
+
+    if (remapT > 1) { this.position = 0 }
+    if (remapT < 0) { this.position = 1 }
+
+    this.pixiApp.stage.addChild(this.graphics)
+  }
+
   draw (diagramCompartments, rtData) {
     this.graphics.clear()
 
