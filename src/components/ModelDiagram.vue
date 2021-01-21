@@ -105,6 +105,7 @@ export default {
     this.$root.$on('update_scale', (e) => this.updateScale(e))
     this.$root.$on('update_speed', (e) => this.updateSpeed(e))
     this.$root.$on('clear_diagram', this.clearDiagram)
+    this.$root.$on('get_layout', this.getCoordinates)
     // hide the model diagram at startup
     this.toggleIsEnabled()
   },
@@ -158,6 +159,18 @@ export default {
       })
       this.watchedmodels = []
     },
+    getCoordinates () {
+      const layouts = []
+      Object.keys(this.diagramComponents).forEach(id => {
+        const coordinateObject = {
+          name: id,
+          xSprite: this.diagramComponents[id].sprite.x,
+          ySprite: this.diagramComponents[id].sprite.y
+        }
+        layouts.push(coordinateObject)
+      })
+      this.$root.$emit('diagram_layout', layouts)
+    },
     updateScale (newScale) {
       Object.keys(this.diagramComponents).forEach(id => {
         this.diagramComponents[id].updateScale(newScale)
@@ -195,12 +208,21 @@ export default {
     },
     addToDiagram (e) {
       if (!this.watchedmodels.includes(e.modelComponents[0])) {
+        console.log(e)
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite
             break
           case 'pump':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite
             break
           case 'blood_connector':
             this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)

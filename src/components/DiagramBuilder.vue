@@ -39,16 +39,6 @@
        </div>
     </div>
 
-  <!-- <div v-if="isEnabled && addEnabled" class="row q-mt-es bg-grey-2">
-      <q-list class="q-ma-sm" highlight separator>
-        <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
-          <q-item-label class="text-caption" style="width: 100%">
-            {{ field }}
-          </q-item-label>
-        </q-item>
-      </q-list>
-  </div> -->
-
      <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
         <q-btn class="col q-mr-sm" dense color="black"  @click="removeFromDiagram" >
           <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
@@ -71,7 +61,7 @@
     <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="cancelState"  style="width: 100%" >
       <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
     </q-btn>
-    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeState" style="width: 100%" >
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeDiagram" style="width: 100%" >
       <q-icon name="save_alt" class="text-white" style="font-size: 1rem;" />
     </q-btn>
     <q-btn class="q-mt-sm col" dense color="negative" @click="deleteState" style="width: 100%" >
@@ -100,7 +90,8 @@ export default {
       models: [],
       selectedCurrentModel: '',
       diagramList: [],
-      currentModelsInDiagram: []
+      currentModelsInDiagram: [],
+      layout: []
     }
   },
   mounted () {
@@ -132,6 +123,8 @@ export default {
 
     // get the current model properties
     this.$model.getProperties(null)
+
+    this.$root.$on('diagram_layout', (e) => { this.receivedLayout(e) })
   },
   beforeDestroy () {
     delete this.modelEventListener
@@ -151,6 +144,9 @@ export default {
       this.updateDiagramsListNames()
 
       console.log(this.diagramList)
+    },
+    getLayoutFromDiagram () {
+      this.$root.$emit('get_layout')
     },
     updateDiagramsListNames () {
       this.stateNames = []
@@ -174,8 +170,12 @@ export default {
           this.addEnabled = true
           this.stateName = this.selectedState
           this.newStateEnabled = true
+          this.layout = diagram.layout
         }
       })
+    },
+    clearList () {
+      localStorage.explain_diagrams = []
     },
     cancelState () {
       this.selectedState = ''
@@ -183,13 +183,22 @@ export default {
       this.currentModelsInDiagram = []
       this.addEnabled = false
       this.newStateEnabled = false
+      this.layout = []
+    },
+    receivedLayout (layout) {
+      this.layout = layout
+      this.storeState()
+    },
+    storeDiagram () {
+      this.getLayoutFromDiagram()
     },
     storeState () {
       const newState = {
         name: this.stateName,
         scaling: this.scaling,
         speed: this.speed,
-        currentModelsInDiagram: this.currentModelsInDiagram
+        currentModelsInDiagram: this.currentModelsInDiagram,
+        layout: this.layout
       }
 
       let found = this.diagramList.find(element => element.name === this.stateName)
@@ -261,11 +270,21 @@ export default {
     },
     addToDiagram () {
       this.currentModelsInDiagram.forEach(model => {
+        const layoutIndex = this.layout.findIndex((layout) => layout.name === model)
+        let currentLayout = {
+          name: model,
+          xSprite: 50,
+          ySprite: 50
+        }
+        if (layoutIndex > -1) {
+          currentLayout = this.layout[layoutIndex]
+        }
         const diagramComponent = {
           type: this.properties[model].subtype,
           id: model,
           label: model,
-          modelComponents: [model]
+          modelComponents: [model],
+          layout: currentLayout
         }
 
         if (diagramComponent.type === 'blood_compartment' | diagramComponent.type === 'pump') {
@@ -280,6 +299,8 @@ export default {
 
         this.selectedModel = ''
       })
+      this.updateScale()
+      this.updateSpeed()
     }
   }
 
