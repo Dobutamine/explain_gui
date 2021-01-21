@@ -36,12 +36,6 @@
       </q-list>
   </div>
 
-     <!-- <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
-        <q-btn class="col q-mr-sm" dense color="black"  @click="removeFromDiagram" >
-          <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
-        </q-btn>
-  </div> -->
-
   <div v-if="isEnabled && addEnabled" class="row q-ma-es q-mt-sm">
         <div class="row">
           <q-input class="col" type="number" label-color="red-10" v-model="scaling" @input="updateScale" filled dense square label="scale" />
@@ -171,6 +165,7 @@ export default {
       // find selected state in the diagram list
       this.diagramList.forEach(diagram => {
         if (diagram.name === this.selectedState) {
+          console.log(diagram)
           this.scaling = diagram.scaling
           this.speed = diagram.speed
           this.currentModelsInDiagram = diagram.currentModelsInDiagram
@@ -209,19 +204,18 @@ export default {
           layout: this.layout
         }
 
-        let found = this.diagramList.find(element => element.name === this.stateName)
+        const foundIndex = this.diagramList.findIndex(element => element.name === this.stateName)
 
-        if (found === undefined) {
+        if (foundIndex === -1) {
         // it is a new one
           this.diagramList.push(newState)
           this.stateNames.push(newState.name)
         } else {
-        // it is an existing one
-          found = newState
+          this.diagramList.splice(foundIndex, 1, newState)
         }
         this.showPopUp = true
         this.popUpMessage = 'diagram saved to local storage'
-
+        console.log(this.diagramList)
         this.updateLocalStorageDiagramList()
       } else {
         this.showPopUp = true
@@ -274,13 +268,14 @@ export default {
       }
     },
     addToList () {
+      console.log(this.properties)
       if (this.selectedModel !== '') {
         const found = this.currentModelsInDiagram.includes(this.selectedModel)
         if (!found) {
           this.currentModelsInDiagram.push(this.selectedModel)
         }
         // check whether this is a connector because then we have to add in the connected compartments also
-        if (this.properties[this.selectedModel].subtype === 'blood_connector' | this.properties[this.selectedModel].subtype === 'valve') {
+        if (this.properties[this.selectedModel].subtype === 'blood_connector' | this.properties[this.selectedModel].subtype === 'valve' | this.properties[this.selectedModel].subtype === 'gas_connector') {
           const compFrom = this.properties[this.selectedModel].comp_from
           const compTo = this.properties[this.selectedModel].comp_to
           if (!this.currentModelsInDiagram.includes(compFrom)) { this.currentModelsInDiagram.push(compFrom) }
@@ -314,7 +309,17 @@ export default {
           this.$root.$emit('add_to_diagram', diagramComponent)
         }
 
+        if (diagramComponent.type === 'gas_compartment') {
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
         if (diagramComponent.type === 'blood_connector' | diagramComponent.type === 'valve') {
+          diagramComponent.dbcFrom = this.properties[model].comp_from
+          diagramComponent.dbcTo = this.properties[model].comp_to
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
+        if (diagramComponent.type === 'gas_connector') {
           diagramComponent.dbcFrom = this.properties[model].comp_from
           diagramComponent.dbcTo = this.properties[model].comp_to
           this.$root.$emit('add_to_diagram', diagramComponent)

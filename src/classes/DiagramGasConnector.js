@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import explain from '../assets/container.png'
 
-class DiagramBloodConnector {
+class DiagramGasConnector {
   constructor (id, label, dbcFrom, dbcTo, connectors, pixiApp) {
     this.id = id
     this.position = 0
@@ -86,7 +86,6 @@ class DiagramBloodConnector {
     const t = remapT / 1
     this.sprite.x = (1 - t) * x1 + t * x2
     this.sprite.y = (1 - t) * y1 + t * y2
-    this.sprite.tint = tint1
 
     if (remapT > 1) { this.position = 0 }
     if (remapT < 0) { this.position = 1 }
@@ -109,4 +108,4 @@ class DiagramBloodConnector {
   }
 }
 
-export default DiagramBloodConnector
+export default DiagramGasConnector

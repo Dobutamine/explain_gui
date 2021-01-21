@@ -18,7 +18,11 @@
 // eslint-disable-next-line no-unused-vars
 import DiagramBloodCompartment from '../classes/DiagramBloodCompartment'
 // eslint-disable-next-line no-unused-vars
+import DiagramGasCompartment from '../classes/DiagramGasCompartment'
+// eslint-disable-next-line no-unused-vars
 import DiagramBloodConnector from '../classes/DiagramBloodConnector'
+// eslint-disable-next-line no-unused-vars
+import DiagramGasConnector from '../classes/DiagramGasConnector'
 import * as PIXI from 'pixi.js'
 
 let canvas = null
@@ -37,7 +41,7 @@ export default {
         hieght: 0,
         centerX: 0,
         centerY: 0,
-        scaling: 40,
+        scaling: 60,
         aspectRatio: 0.6
       },
       activeDiagramComponent: null,
@@ -133,13 +137,15 @@ export default {
         transparent: false,
         antialias: true,
         backgroundColor: 0xeeeeee,
-        view: canvas
+        view: canvas,
+        sortableChildren: true
       })
       // add the pixi application to the view
       this.$el.appendChild(this.pixiApp.view)
       this.pixiApp.renderer.view.style.display = this.display
       this.pixiApp.renderer.autoResize = true
       this.pixiApp.stage.interactive = true
+      this.pixiApp.stage.sortableChildren = true
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
@@ -218,6 +224,13 @@ export default {
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
+          case 'gas_compartment':
+            this.diagramComponents[e.id] = new DiagramGasCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
+            break
           case 'pump':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
@@ -230,6 +243,9 @@ export default {
             break
           case 'valve':
             this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+          case 'gas_connector':
+            this.diagramConnectors[e.id] = new DiagramGasConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
         }
         e.modelComponents.forEach(component => {

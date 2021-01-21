@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import explain from '../assets/container.png'
 
-class DiagramBloodCompartment {
+class DiagramGasCompartment {
   constructor (id, label, modelComponents, pixiApp) {
     this.id = id
     this.pixiApp = pixiApp
@@ -11,7 +11,7 @@ class DiagramBloodCompartment {
     this.sprite.id = id
     this.sprite.label = label
     this.sprite.volume = 0
-    this.sprite.to2 = 0
+    this.sprite.co2 = 0
     this.sprite.scalingFactor = 4
     this.sprite.interactionData = null
     this.sprite.dragging = false
@@ -53,14 +53,14 @@ class DiagramBloodCompartment {
 
   draw (stage, rtData) {
     let volume = 0
-    let to2 = 0
+    let co2 = 0
     this.sprite.modelComponents.forEach(modelComponent => {
       volume += rtData[0][modelComponent].vol
-      to2 += rtData[0][modelComponent].to2
+      co2 += rtData[0][modelComponent].co2 * 2
     })
     this.sprite.volume = this.calculateRadius(volume)
-    this.sprite.to2 = to2
-    this.sprite.tint = this.CalculateColor(this.sprite.to2 / this.sprite.modelComponents.length)
+    this.sprite.co2 = co2
+    this.sprite.tint = this.CalculateColor(this.sprite.co2 / this.sprite.modelComponents.length)
     this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactor, this.sprite.volume * this.sprite.scalingFactor)
   }
 
@@ -125,4 +125,4 @@ class DiagramBloodCompartment {
   }
 }
 
-export default DiagramBloodCompartment
+export default DiagramGasCompartment
