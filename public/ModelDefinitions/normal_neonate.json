@@ -224,6 +224,13 @@
     "subtype": "",
     "is_enabled": false
   },
+  "monitor": {
+    "name": "monitor",
+    "description": "",
+    "type": "model",
+    "subtype": "",
+    "is_enabled": false
+  },
   "blood_compartment_definitions": [
     {
       "name": "PA",
