@@ -22,7 +22,7 @@
     <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square @input="modelChanged" label="select model to add" style="width: 100%" />
+          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square label="select model to add" style="width: 100%" />
        </div>
     </div>
 
@@ -32,18 +32,21 @@
         </q-btn>
   </div>
 
-  <div v-if="isEnabled && addEnabled" class="q-mt-sm">
-      <q-separator></q-separator>
-      <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedCurrentModel" :options="currentModelsInDiagram" filled dense square @input="modelChanged" label="diagram model list" style="width: 100%" />
-       </div>
-    </div>
+  <div v-if="isEnabled && addEnabled" class="row q-mt-es bg-grey-2">
+      <q-list class="q-ma-sm" highlight separator>
+        <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
+          <q-item-label class="text-caption" style="width: 100%">
+            {{ field }}
+          </q-item-label>
+        </q-item>
+      </q-list>
+  </div>
 
-     <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
+     <!-- <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
         <q-btn class="col q-mr-sm" dense color="black"  @click="removeFromDiagram" >
           <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
         </q-btn>
-  </div>
+  </div> -->
 
   <div v-if="isEnabled && addEnabled" class="row q-ma-es q-mt-sm">
         <div class="row">
@@ -59,7 +62,7 @@
       <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
     </q-btn>
     <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="cancelState"  style="width: 100%" >
-      <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+      <q-icon name="cancel" label="cancel" class="text-white" style="font-size: 1rem;" />
     </q-btn>
     <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeDiagram" style="width: 100%" >
       <q-icon name="save_alt" class="text-white" style="font-size: 1rem;" />
@@ -68,6 +71,16 @@
         <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
     </q-btn>
   </div>
+
+   <q-dialog v-model="showPopUp" position="top" auto-close>
+        <q-card style="width: 350px">
+          <q-card-section class="row items-center no-wrap">
+            <div>
+              <div class="text-weight-bold">{{ popUpMessage }}</div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
   </q-card>
 </template>
@@ -91,7 +104,9 @@ export default {
       selectedCurrentModel: '',
       diagramList: [],
       currentModelsInDiagram: [],
-      layout: []
+      layout: [],
+      showPopUp: false,
+      popUpMessage: ''
     }
   },
   mounted () {
@@ -142,8 +157,6 @@ export default {
       }
       // update the scriptlist names array
       this.updateDiagramsListNames()
-
-      console.log(this.diagramList)
     },
     getLayoutFromDiagram () {
       this.$root.$emit('get_layout')
@@ -193,26 +206,33 @@ export default {
       this.getLayoutFromDiagram()
     },
     storeState () {
-      const newState = {
-        name: this.stateName,
-        scaling: this.scaling,
-        speed: this.speed,
-        currentModelsInDiagram: this.currentModelsInDiagram,
-        layout: this.layout
-      }
+      if (this.stateName !== '') {
+        const newState = {
+          name: this.stateName,
+          scaling: this.scaling,
+          speed: this.speed,
+          currentModelsInDiagram: this.currentModelsInDiagram,
+          layout: this.layout
+        }
 
-      let found = this.diagramList.find(element => element.name === this.stateName)
+        let found = this.diagramList.find(element => element.name === this.stateName)
 
-      if (found === undefined) {
+        if (found === undefined) {
         // it is a new one
-        this.diagramList.push(newState)
-        this.stateNames.push(newState.name)
-      } else {
+          this.diagramList.push(newState)
+          this.stateNames.push(newState.name)
+        } else {
         // it is an existing one
-        found = newState
-      }
+          found = newState
+        }
+        this.showPopUp = true
+        this.popUpMessage = 'diagram saved to local storage'
 
-      this.updateLocalStorageDiagramList()
+        this.updateLocalStorageDiagramList()
+      } else {
+        this.showPopUp = true
+        this.popUpMessage = 'please provide a diagram name'
+      }
     },
     updateLocalStorageDiagramList () {
       localStorage.explain_diagrams = JSON.stringify(this.diagramList)
@@ -229,6 +249,9 @@ export default {
         this.updateLocalStorageDiagramList()
         this.currentModelsInDiagram = []
         this.stateName = ''
+
+        this.showPopUp = true
+        this.popUpMessage = 'diagram deletred from local storage'
       }
     },
     processModels () {
@@ -239,7 +262,8 @@ export default {
       })
     },
     modelChanged (field, index) {
-      console.log('model changed')
+      this.selectedCurrentModel = field
+      this.removeFromDiagram()
     },
     updateScale () {
       this.$root.$emit('update_scale', this.scaling / 10)
@@ -256,16 +280,21 @@ export default {
       }
     },
     addToList () {
-      const found = this.currentModelsInDiagram.includes(this.selectedModel)
-      if (!found) {
-        this.currentModelsInDiagram.push(this.selectedModel)
-      }
-      // check whether this is a connector because then we have to add in the connected compartments also
-      if (this.properties[this.selectedModel].subtype === 'blood_connector' | this.properties[this.selectedModel].subtype === 'valve') {
-        const compFrom = this.properties[this.selectedModel].comp_from
-        const compTo = this.properties[this.selectedModel].comp_to
-        if (!this.currentModelsInDiagram.includes(compFrom)) { this.currentModelsInDiagram.push(compFrom) }
-        if (!this.currentModelsInDiagram.includes(compTo)) { this.currentModelsInDiagram.push(compTo) }
+      if (this.selectedModel !== '') {
+        const found = this.currentModelsInDiagram.includes(this.selectedModel)
+        if (!found) {
+          this.currentModelsInDiagram.push(this.selectedModel)
+        }
+        // check whether this is a connector because then we have to add in the connected compartments also
+        if (this.properties[this.selectedModel].subtype === 'blood_connector' | this.properties[this.selectedModel].subtype === 'valve') {
+          const compFrom = this.properties[this.selectedModel].comp_from
+          const compTo = this.properties[this.selectedModel].comp_to
+          if (!this.currentModelsInDiagram.includes(compFrom)) { this.currentModelsInDiagram.push(compFrom) }
+          if (!this.currentModelsInDiagram.includes(compTo)) { this.currentModelsInDiagram.push(compTo) }
+        }
+      } else {
+        this.showPopUp = true
+        this.popUpMessage = 'no model selected'
       }
     },
     addToDiagram () {
@@ -273,8 +302,8 @@ export default {
         const layoutIndex = this.layout.findIndex((layout) => layout.name === model)
         let currentLayout = {
           name: model,
-          xSprite: 50,
-          ySprite: 50
+          xSprite: 0.5,
+          ySprite: 0.5
         }
         if (layoutIndex > -1) {
           currentLayout = this.layout[layoutIndex]

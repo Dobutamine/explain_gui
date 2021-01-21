@@ -160,12 +160,13 @@ export default {
       this.watchedmodels = []
     },
     getCoordinates () {
+      // getting relative coords
       const layouts = []
       Object.keys(this.diagramComponents).forEach(id => {
         const coordinateObject = {
           name: id,
-          xSprite: this.diagramComponents[id].sprite.x,
-          ySprite: this.diagramComponents[id].sprite.y
+          xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
         }
         layouts.push(coordinateObject)
       })
@@ -212,17 +213,17 @@ export default {
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
-            this.diagramComponents[e.id].sprite.x = e.layout.xSprite
-            this.diagramComponents[e.id].sprite.y = e.layout.ySprite
-            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite
-            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
           case 'pump':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
-            this.diagramComponents[e.id].sprite.x = e.layout.xSprite
-            this.diagramComponents[e.id].sprite.y = e.layout.ySprite
-            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite
-            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
           case 'blood_connector':
             this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
