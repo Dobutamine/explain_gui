@@ -124,7 +124,6 @@ export default {
                 break
               case 'props':
                 this.properties = message.data.data
-                console.log(this.properties)
                 this.processModels()
                 break
               default:

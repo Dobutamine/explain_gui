@@ -6,6 +6,7 @@ class DiagramBloodConnector {
     this.id = id
     this.position = 0
     this.connectors = connectors
+    this.speed = 1
     this.pixiApp = pixiApp
     this.graphics = new PIXI.Graphics()
     this.graphics.dbcFrom = dbcFrom
@@ -23,6 +24,15 @@ class DiagramBloodConnector {
     this.pos = 0
     this.sprite.scale.set(0.15, 0.15)
     this.pixiApp.stage.addChild(this.sprite)
+  }
+
+  remove () {
+    this.pixiApp.stage.removeChild(this.sprite)
+    this.graphics.clear()
+  }
+
+  updateSpeed (newSpeed) {
+    this.speed = newSpeed
   }
 
   redrawConnectors (diagramCompartments, rtData) {
@@ -76,7 +86,7 @@ class DiagramBloodConnector {
 
     let flow = 0
     this.connectors.forEach(connector => {
-      flow += rtData[0][connector].real_flow
+      flow += rtData[0][connector].real_flow * this.speed
     })
     this.position += flow / this.connectors.length
     this.pixiApp.stage.addChild(this.graphics)

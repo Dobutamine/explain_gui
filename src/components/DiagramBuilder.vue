@@ -6,30 +6,77 @@
      </div>
    </div>
 
-    <div v-if="isEnabled" class="q-mt-sm">
+   <div v-if="isEnabled && !newStateEnabled" class="row q-mt-es q-ml-sm q-mr-sm q-mb-sm">
+    <q-select :options="stateNames" class="col q-mr-sm" v-model="selectedState" @input="selectState" label="select existing diagram">
+    </q-select>
+  </div>
+
+  <div v-if="isEnabled && !stateLoaded && !newStateEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="buildNewState">NEW DIAGRAM</q-btn>
+  </div>
+
+  <div v-if="isEnabled && newStateEnabled" class="row q-ma-sm">
+        <q-input type="text" label="new diagram name" v-model='stateName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+  </div>
+
+    <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
           <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square @input="modelChanged" label="select model to add" style="width: 100%" />
        </div>
     </div>
 
-    <div v-if="isEnabled" class="row q-ma-md q-mt-sm">
-        <q-btn class="col q-mr-sm" dense color="black"  @click="addToDiagram" >
+    <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="black"  @click="addToList" >
           <q-icon name="add" class="text-white" style="font-size: 1rem;" />
         </q-btn>
   </div>
 
-  <div v-if="isEnabled" class="q-mt-sm">
+  <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedCurrentModel" :options="currentModelsInDiagram" filled dense square @input="modelChanged" label="edit diagram model" style="width: 100%" />
+          <q-select class="col" label-color="red-10" v-model="selectedCurrentModel" :options="currentModelsInDiagram" filled dense square @input="modelChanged" label="diagram model list" style="width: 100%" />
        </div>
     </div>
 
-     <div v-if="isEnabled" class="row q-ma-md q-mt-sm">
+  <!-- <div v-if="isEnabled && addEnabled" class="row q-mt-es bg-grey-2">
+      <q-list class="q-ma-sm" highlight separator>
+        <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
+          <q-item-label class="text-caption" style="width: 100%">
+            {{ field }}
+          </q-item-label>
+        </q-item>
+      </q-list>
+  </div> -->
+
+     <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
         <q-btn class="col q-mr-sm" dense color="black"  @click="removeFromDiagram" >
           <q-icon name="remove" class="text-white" style="font-size: 1rem;" />
         </q-btn>
+  </div>
+
+  <div v-if="isEnabled && addEnabled" class="row q-ma-es q-mt-sm">
+        <div class="row">
+          <q-input class="col" type="number" label-color="red-10" v-model="scaling" @input="updateScale" filled dense square label="scale" />
+          <q-input class="col" type="number" label-color="red-10" v-model="speed" @input="updateSpeed" filled dense square label="speed" />
+      </div>
+
+  </div>
+
+  <div v-if="isEnabled && addEnabled" class="row q-ma-md">
+    <q-separator></q-separator>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="addToDiagram" style="width: 100%" >
+      <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="cancelState"  style="width: 100%" >
+      <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="storeState" style="width: 100%" >
+      <q-icon name="save_alt" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm col" dense color="negative" @click="deleteState" style="width: 100%" >
+        <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
   </div>
 
   </q-card>
@@ -40,10 +87,19 @@ export default {
   data () {
     return {
       isEnabled: true,
+      newStateEnabled: false,
+      addEnabled: false,
+      stateName: '',
+      selectedState: '',
+      stateNames: [],
+      stateLoaded: false,
       properties: null,
+      scaling: 40,
+      speed: 10,
       selectedModel: '',
       models: [],
       selectedCurrentModel: '',
+      diagramList: [],
       currentModelsInDiagram: []
     }
   },
@@ -67,6 +123,13 @@ export default {
         }
       }
     })
+
+    if (localStorage.explain_diagrams) {
+      this.diagramList = JSON.parse(localStorage.explain_diagrams)
+    }
+    // get the stored list
+    this.loadDiagramsFromLocalStorage()
+
     // get the current model properties
     this.$model.getProperties(null)
   },
@@ -77,6 +140,88 @@ export default {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
     },
+    loadDiagramsFromLocalStorage () {
+      // clear the diagram list
+      this.diagramList = []
+      // fill the scriptlist with an array of scripts
+      if (localStorage.explain_diagrams) {
+        this.diagramList = JSON.parse(localStorage.explain_diagrams)
+      }
+      // update the scriptlist names array
+      this.updateDiagramsListNames()
+
+      console.log(this.diagramList)
+    },
+    updateDiagramsListNames () {
+      this.stateNames = []
+      this.selectedState = ''
+      this.diagramList.forEach(diagram => {
+        this.stateNames.push(diagram.name)
+      })
+    },
+    buildNewState () {
+      this.addEnabled = true
+      this.newStateEnabled = true
+      this.$root.$emit('clear_diagram')
+    },
+    selectState () {
+      // find selected state in the diagram list
+      this.diagramList.forEach(diagram => {
+        if (diagram.name === this.selectedState) {
+          this.scaling = diagram.scaling
+          this.speed = diagram.speed
+          this.currentModelsInDiagram = diagram.currentModelsInDiagram
+          this.addEnabled = true
+          this.stateName = this.selectedState
+          this.newStateEnabled = true
+        }
+      })
+    },
+    cancelState () {
+      this.selectedState = ''
+      this.stateName = ''
+      this.currentModelsInDiagram = []
+      this.addEnabled = false
+      this.newStateEnabled = false
+    },
+    storeState () {
+      const newState = {
+        name: this.stateName,
+        scaling: this.scaling,
+        speed: this.speed,
+        currentModelsInDiagram: this.currentModelsInDiagram
+      }
+
+      let found = this.diagramList.find(element => element.name === this.stateName)
+
+      if (found === undefined) {
+        // it is a new one
+        this.diagramList.push(newState)
+        this.stateNames.push(newState.name)
+      } else {
+        // it is an existing one
+        found = newState
+      }
+
+      this.updateLocalStorageDiagramList()
+    },
+    updateLocalStorageDiagramList () {
+      localStorage.explain_diagrams = JSON.stringify(this.diagramList)
+      console.log('local storage diagram list updated')
+    },
+    deleteState () {
+      const foundIndex = this.diagramList.findIndex(element => element.name === this.stateName)
+      const foundIndex2 = this.stateNames.findIndex(element => element === this.stateName)
+
+      if (foundIndex > -1) {
+        // it is a new one
+        this.diagramList.splice(foundIndex, 1)
+        this.stateNames.splice(foundIndex2, 1)
+        this.updateLocalStorageDiagramList()
+        this.currentModelsInDiagram = []
+        this.stateName = ''
+      }
+    },
     processModels () {
       this.models.length = 0
 
@@ -84,8 +229,14 @@ export default {
         this.models.push(modelName)
       })
     },
-    modelChanged () {
+    modelChanged (field, index) {
       console.log('model changed')
+    },
+    updateScale () {
+      this.$root.$emit('update_scale', this.scaling / 10)
+    },
+    updateSpeed () {
+      this.$root.$emit('update_speed', this.speed / 10)
     },
     removeFromDiagram () {
       this.$root.$emit('remove_from_diagram', this.selectedCurrentModel)
@@ -95,43 +246,40 @@ export default {
         this.selectedCurrentModel = ''
       }
     },
+    addToList () {
+      const found = this.currentModelsInDiagram.includes(this.selectedModel)
+      if (!found) {
+        this.currentModelsInDiagram.push(this.selectedModel)
+      }
+      // check whether this is a connector because then we have to add in the connected compartments also
+      if (this.properties[this.selectedModel].subtype === 'blood_connector' | this.properties[this.selectedModel].subtype === 'valve') {
+        const compFrom = this.properties[this.selectedModel].comp_from
+        const compTo = this.properties[this.selectedModel].comp_to
+        if (!this.currentModelsInDiagram.includes(compFrom)) { this.currentModelsInDiagram.push(compFrom) }
+        if (!this.currentModelsInDiagram.includes(compTo)) { this.currentModelsInDiagram.push(compTo) }
+      }
+    },
     addToDiagram () {
-      this.currentModelsInDiagram.push(this.selectedModel)
-
-      const diagramComponent = {
-        type: this.properties[this.selectedModel].subtype,
-        id: this.selectedModel,
-        label: this.selectedModel,
-        modelComponents: [this.selectedModel]
-      }
-
-      if (diagramComponent.type === 'blood_compartment' | diagramComponent.type === 'pump') {
-        this.$root.$emit('add_to_diagram', diagramComponent)
-      }
-
-      if (diagramComponent.type === 'blood_connector' | diagramComponent.type === 'valve') {
-        diagramComponent.dbcFrom = this.properties[this.selectedModel].comp_from
-        diagramComponent.dbcTo = this.properties[this.selectedModel].comp_to
-        this.$root.$emit('add_to_diagram', diagramComponent)
-
-        const compFrom = {
-          type: this.properties[diagramComponent.dbcFrom].subtype,
-          id: diagramComponent.dbcFrom,
-          label: diagramComponent.dbcFrom,
-          modelComponents: [diagramComponent.dbcFrom]
+      this.currentModelsInDiagram.forEach(model => {
+        const diagramComponent = {
+          type: this.properties[model].subtype,
+          id: model,
+          label: model,
+          modelComponents: [model]
         }
-        this.$root.$emit('add_to_diagram', compFrom)
 
-        const compTo = {
-          type: this.properties[diagramComponent.dbcTo].subtype,
-          id: diagramComponent.dbcTo,
-          label: diagramComponent.dbcTo,
-          modelComponents: [diagramComponent.dbcTo]
+        if (diagramComponent.type === 'blood_compartment' | diagramComponent.type === 'pump') {
+          this.$root.$emit('add_to_diagram', diagramComponent)
         }
-        this.$root.$emit('add_to_diagram', compTo)
-      }
 
-      this.selectedModel = ''
+        if (diagramComponent.type === 'blood_connector' | diagramComponent.type === 'valve') {
+          diagramComponent.dbcFrom = this.properties[model].comp_from
+          diagramComponent.dbcTo = this.properties[model].comp_to
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
+        this.selectedModel = ''
+      })
     }
   }
 

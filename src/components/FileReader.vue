@@ -44,6 +44,7 @@ export default {
           data: definition,
           return_tag: null
         })
+        this.$model.getProperties(null)
       }
       reader.readAsText(this.file)
     }

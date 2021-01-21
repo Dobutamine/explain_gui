@@ -102,6 +102,9 @@ export default {
     this.$root.$on('rt_off', () => { this.isRunning = false })
     this.$root.$on('add_to_diagram', (e) => { this.addToDiagram(e) })
     this.$root.$on('remove_from_diagram', (e) => { this.removeFromDiagram(e) })
+    this.$root.$on('update_scale', (e) => this.updateScale(e))
+    this.$root.$on('update_speed', (e) => this.updateSpeed(e))
+    this.$root.$on('clear_diagram', this.clearDiagram)
     // hide the model diagram at startup
     this.toggleIsEnabled()
   },
@@ -144,12 +147,44 @@ export default {
       this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
     },
+    clearDiagram () {
+      Object.keys(this.diagramComponents).forEach(id => {
+        this.diagramComponents[id].remove()
+        delete this.diagramComponents[id]
+      })
+      Object.keys(this.diagramConnectors).forEach(id => {
+        this.diagramConnectors[id].remove()
+        delete this.diagramConnectors[id]
+      })
+      this.watchedmodels = []
+    },
+    updateScale (newScale) {
+      Object.keys(this.diagramComponents).forEach(id => {
+        this.diagramComponents[id].updateScale(newScale)
+      })
+      requestAnimationFrame(this.updateDiagram)
+    },
+    updateSpeed (newSpeed) {
+      Object.keys(this.diagramConnectors).forEach(id => {
+        this.diagramConnectors[id].updateSpeed(newSpeed)
+      })
+    },
     removeFromDiagram (e) {
       // try to find the model
-      const found = this.diagramComponents[e]
-      if (found !== undefined) {
+      const foundInComponents = this.diagramComponents[e]
+      if (foundInComponents !== undefined) {
         this.diagramComponents[e].remove()
         delete this.diagramComponents[e]
+        const index = this.watchedmodels.findIndex((element) => element === e)
+        if (index > -1) {
+          this.watchedmodels.splice(index, 1)
+          this.$root.$emit('rt_watch_diagram', this.watchedmodels)
+        }
+      }
+      const foundInConnectors = this.diagramConnectors[e]
+      if (foundInConnectors !== undefined) {
+        this.diagramConnectors[e].remove()
+        delete this.diagramConnectors[e]
         const index = this.watchedmodels.findIndex((element) => element === e)
         if (index > -1) {
           this.watchedmodels.splice(index, 1)

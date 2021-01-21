@@ -40,6 +40,10 @@ class DiagramBloodCompartment {
     this.pixiApp.stage.addChild(this.sprite.text)
   }
 
+  updateScale (newScale) {
+    this.sprite.scalingFactor = newScale
+  }
+
   remove () {
     this.pixiApp.stage.removeChild(this.sprite)
     this.pixiApp.stage.removeChild(this.sprite.text)
