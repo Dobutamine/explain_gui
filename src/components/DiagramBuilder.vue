@@ -2,7 +2,7 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     diagram editor
+     animated diagram editor
      </div>
    </div>
 
@@ -22,20 +22,14 @@
     <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" filled dense square label="select model to add" style="width: 100%" />
+          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" @input="addToList" filled dense square label="select model to add" style="width: 100%" />
        </div>
     </div>
 
-    <div v-if="isEnabled && addEnabled" class="row q-ma-md q-mt-sm">
-        <q-btn class="col q-mr-sm" dense color="black"  @click="addToList" >
-          <q-icon name="add" class="text-white" style="font-size: 1rem;" />
-        </q-btn>
-  </div>
-
-  <div v-if="isEnabled && addEnabled" class="row q-mt-es bg-grey-2">
-      <q-list class="q-ma-sm" highlight separator>
+  <div v-if="isEnabled && addEnabled" class="row q-mt-sm bg-grey-2">
+      <q-list class="q-ma-es q-pa-sm" highlight separator style="width: 100%">
         <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
-          <q-item-label class="text-caption" style="width: 100%">
+          <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field }}
           </q-item-label>
         </q-item>

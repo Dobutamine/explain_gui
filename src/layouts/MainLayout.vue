@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-es">
-    <q-layout view="lHh lpr lFf" container style="height: 920px" class="shadow-2 rounded-borders">
+    <q-layout view="lHh lpr lFf" container style="height: 1300px" class="shadow-2 rounded-borders">
       <q-header elevated>
         <q-bar>
           <q-icon name="laptop_chromebook" />

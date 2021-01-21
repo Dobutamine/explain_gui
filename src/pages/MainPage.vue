@@ -8,7 +8,7 @@
           <ModelLog></ModelLog>
         </div>
         <div class="col text-center">
-           <q-scroll-area style="height: 850px; max-width: 3000px;">
+           <q-scroll-area style="height: 1250px; max-width: 3000px;">
             <LightningChart></LightningChart>
             <ModelDiagram></ModelDiagram>
           </q-scroll-area>

@@ -19,10 +19,10 @@
         <q-input type="text" label="new script name" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
   </div>
 
-  <div v-if="isEnabled && scriptLoaded" class="row q-mt-es bg-grey-2">
-      <q-list class="q-ma-sm" highlight separator>
+  <div v-if="isEnabled && scriptLoaded" class="row q-mt-sm bg-grey-2">
+      <q-list class="q-ma-sm" style="width: 100%" highlight separator>
         <q-item v-for="(field, index) in interventionsList" :key='index' dense v-ripple clickable @click="selectIntervention(field, index)">
-          <q-item-label class="text-caption" style="width: 100%">
+          <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field.atTime }}s. -> {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
           </q-item-label>
         </q-item>
