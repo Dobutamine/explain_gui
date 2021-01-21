@@ -214,22 +214,22 @@ export class Model {
     switch (message.type) {
       // receive status messages
       case "mes":
-        console.log(`%cENGINE: ${message.data[0]}`, "color:green;");
+        // console.log(`%cENGINE: ${message.data[0]}`, "color:green;");
         break;
       // receive data messages
       case "data":
         switch (message.target)
         {
           case "datalogger_output":
-            console.log(`%cENGINE: datalog stored in 'data'`, "color:green;");
+            // console.log(`%cENGINE: datalog stored in 'data'`, "color:green;");
             this.data = message.data
             break;
           case "state":
-            console.log(`%cENGINE: snapshot stored in 'snapshot'`, "color:green;");
+            // console.log(`%cENGINE: snapshot stored in 'snapshot'`, "color:green;");
             this.snapshot = message.data
             break;
           case "props":
-            console.log(`%cMODEL: properties stored in 'properties`, "color:red;")
+            // console.log(`%cMODEL: properties stored in 'properties`, "color:red;")
             this.properties = message.data
           default:
             break;
