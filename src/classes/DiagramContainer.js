@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import explain from '../assets/container.png'
 
-class DiagramBloodCompartment {
+class DiagramContainer {
   constructor (id, label, modelComponents, pixiApp) {
     this.id = id
     this.pixiApp = pixiApp
@@ -26,7 +26,7 @@ class DiagramBloodCompartment {
     this.sprite.on('mouseupoutside', this.onDragEnd)
     this.sprite.on('mouseup', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
-    this.sprite.zIndex = 2
+    this.sprite.zIndex = 0
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
@@ -53,16 +53,10 @@ class DiagramBloodCompartment {
 
   draw (stage, rtData) {
     let volume = 0
-    let to2 = 0
-    if (rtData) {
-      this.sprite.modelComponents.forEach(modelComponent => {
-        volume += rtData[0][modelComponent].vol
-        to2 += rtData[0][modelComponent].to2
-      })
-    }
+    this.sprite.modelComponents.forEach(modelComponent => {
+      volume += rtData[0][modelComponent].vol
+    })
     this.sprite.volume = this.calculateRadius(volume)
-    this.sprite.to2 = to2
-    this.sprite.tint = this.CalculateColor(this.sprite.to2 / this.sprite.modelComponents.length)
     this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactor, this.sprite.volume * this.sprite.scalingFactor)
   }
 
@@ -95,36 +89,6 @@ class DiagramBloodCompartment {
     const _radius = Math.pow(_cubicRadius, 1.0 / 3.0)
     return _radius
   }
-
-  rgbToHex (rgb) {
-    let hex = Number(rgb).toString(16)
-    if (hex.length < 2) {
-      hex = '0' + hex
-    }
-    return hex
-  }
-
-  fullColorHex (r, g, b) {
-    const red = this.rgbToHex(r)
-    const green = this.rgbToHex(g)
-    const blue = this.rgbToHex(b)
-    return red + green + blue
-  }
-
-  Remap (value, from1, to1, from2, to2) {
-    return ((value - from1) / (to1 - from1)) * (to2 - from2) + from2
-  }
-
-  CalculateColor (to2) {
-    if (to2 > 8.4) { to2 = 8.4 }
-    let remap = this.Remap(to2, 0, 8.4, -10, 1)
-    if (remap < 0) remap = 0
-    const red = (remap * 210).toFixed(0)
-    const green = (remap * 80).toFixed(0)
-    const blue = (80 + remap * 75).toFixed(0)
-    const color = '0x' + this.fullColorHex(red, green, blue)
-    return color
-  }
 }
 
-export default DiagramBloodCompartment
+export default DiagramContainer

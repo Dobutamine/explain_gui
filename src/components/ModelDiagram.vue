@@ -22,6 +22,7 @@ import * as PIXI from 'pixi.js'
 import DiagramGasExchanger from 'src/classes/DiagramGasExchanger'
 import DiagramValve from 'src/classes/DiagramValve'
 import DiagramDiffusor from 'src/classes/DiagramDiffusor'
+import DiagramContainer from 'src/classes/DiagramContainer'
 
 let canvas = null
 
@@ -212,7 +213,7 @@ export default {
       // remove from watched list
     },
     addToDiagram (e) {
-      if (!this.watchedmodels.includes(e.modelComponents[0])) {
+      if (!this.watchedmodels.includes(e.modelComponents[0]) | (e.type === 'container')) {
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
@@ -243,6 +244,14 @@ export default {
             break
           case 'gas_connector':
             this.diagramConnectors[e.id] = new DiagramGasConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+          case 'container':
+            console.log(e)
+            this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
+            // this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            // this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            // this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            // this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
           case 'exchanger':
             this.diagramConnectors[e.id] = new DiagramGasExchanger(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)

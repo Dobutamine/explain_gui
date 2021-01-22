@@ -91,10 +91,11 @@ class DiagramDiffusor {
     if (remapT < 0) { this.position = 1 }
 
     let flux = 0
-    this.connectors.forEach(connector => {
-      flux += rtData[0][connector].flux_o2 * this.speed
-    })
-
+    if (rtData) {
+      this.connectors.forEach(connector => {
+        flux += rtData[0][connector].flux_o2 * this.speed
+      })
+    }
     this.sprite.rotation -= flux * 5000
     if (this.sprite.rotation > Math.PI * 2) {
       this.sprite.rotation = 0

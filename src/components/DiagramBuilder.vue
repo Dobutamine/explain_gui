@@ -328,6 +328,12 @@ export default {
           this.$root.$emit('add_to_diagram', diagramComponent)
         }
 
+        if (diagramComponent.type === 'container') {
+          diagramComponent.modelComponents = this.properties[model].comps.split(',')
+          console.log(diagramComponent)
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
         if (diagramComponent.type === 'exchanger') {
           diagramComponent.dbcFrom = this.properties[model].comp_blood
           diagramComponent.dbcTo = this.properties[model].comp_gas

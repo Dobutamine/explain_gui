@@ -91,9 +91,11 @@ class DiagramGasConnector {
     if (remapT < 0) { this.position = 1 }
 
     let flow = 0
-    this.connectors.forEach(connector => {
-      flow += rtData[0][connector].real_flow * this.speed
-    })
+    if (rtData) {
+      this.connectors.forEach(connector => {
+        flow += rtData[0][connector].real_flow * this.speed
+      })
+    }
     this.sprite.tint = tint1
     if (flow < 0) {
       this.sprite.tint = tint2

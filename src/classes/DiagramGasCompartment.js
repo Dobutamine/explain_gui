@@ -54,10 +54,12 @@ class DiagramGasCompartment {
   draw (stage, rtData) {
     let volume = 0
     let co2 = 0
-    this.sprite.modelComponents.forEach(modelComponent => {
-      volume += rtData[0][modelComponent].vol
-      co2 += rtData[0][modelComponent].co2 * 2
-    })
+    if (rtData) {
+      this.sprite.modelComponents.forEach(modelComponent => {
+        volume += rtData[0][modelComponent].vol
+        co2 += rtData[0][modelComponent].co2 * 2
+      })
+    }
     this.sprite.volume = this.calculateRadius(volume)
     this.sprite.co2 = co2
     this.sprite.tint = this.CalculateColor(this.sprite.co2 / this.sprite.modelComponents.length)
