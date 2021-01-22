@@ -46,7 +46,7 @@ class DiagramGasExchanger {
     const y2 = diagramCompartments[this.graphics.dbcTo].sprite.y
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(1, 0x666666, 1)
+    this.graphics.lineStyle(1, 0xaa0000, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()
@@ -77,7 +77,7 @@ class DiagramGasExchanger {
     // const tint2 = diagramCompartments[this.graphics.dbcTo].sprite.tint
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(1, 0x666666, 1)
+    this.graphics.lineStyle(1, 0xaa0000, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()

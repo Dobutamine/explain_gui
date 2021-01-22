@@ -260,6 +260,10 @@ export default {
       if (e.type === 'container') {
         if (!this.watchedmodels.includes(e.id)) {
           this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
+          this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+          this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+          this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+          this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
           this.watchedmodels.push(e.id)
         }
       }

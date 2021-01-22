@@ -18,6 +18,7 @@ class DiagramContainer {
     this.sprite.anchor = { x: 0.5, y: 0.5 }
     this.sprite.x = 50
     this.sprite.y = 50
+    this.sprite.y_offset = 50
     this.sprite.scale.set(0.5, 0.5)
     this.sprite.tint = '0x999999'
     this.sprite.interactive = true
@@ -30,15 +31,15 @@ class DiagramContainer {
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
-      fill: 'white',
+      fill: 'black',
       fontSize: 12,
       fontFamily: 'Tahoma'
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }
     this.sprite.text.x = 50
-    this.sprite.text.y = 50
-    this.sprite.text.zIndex = 3
+    this.sprite.text.y = 50 + this.sprite.y_offset
+    this.sprite.text.zIndex = 0
     this.pixiApp.stage.addChild(this.sprite.text)
   }
 
@@ -53,9 +54,11 @@ class DiagramContainer {
 
   draw (stage, rtData) {
     let volume = 0
-    this.sprite.modelComponents.forEach(modelComponent => {
-      volume += rtData[0][modelComponent].vol
-    })
+    if (rtData) {
+      this.sprite.modelComponents.forEach(modelComponent => {
+        volume += rtData[0][modelComponent].vol
+      })
+    }
     this.sprite.volume = this.calculateRadius(volume * 2)
     this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactor, this.sprite.volume * this.sprite.scalingFactor)
   }
@@ -80,7 +83,7 @@ class DiagramContainer {
       this.x = this.interactionData.global.x
       this.y = this.interactionData.global.y
       this.text.x = this.interactionData.global.x
-      this.text.y = this.interactionData.global.y
+      this.text.y = this.interactionData.global.y + this.y_offset
     }
   }
 
