@@ -165,7 +165,6 @@ export default {
       // find selected state in the diagram list
       this.diagramList.forEach(diagram => {
         if (diagram.name === this.selectedState) {
-          console.log(diagram)
           this.scaling = diagram.scaling
           this.speed = diagram.speed
           this.currentModelsInDiagram = diagram.currentModelsInDiagram
@@ -215,7 +214,6 @@ export default {
         }
         this.showPopUp = true
         this.popUpMessage = 'diagram saved to local storage'
-        console.log(this.diagramList)
         this.updateLocalStorageDiagramList()
       } else {
         this.showPopUp = true
@@ -268,7 +266,6 @@ export default {
       }
     },
     addToList () {
-      console.log(this.properties)
       if (this.selectedModel !== '') {
         const found = this.currentModelsInDiagram.includes(this.selectedModel)
         if (!found) {
@@ -280,6 +277,12 @@ export default {
           const compTo = this.properties[this.selectedModel].comp_to
           if (!this.currentModelsInDiagram.includes(compFrom)) { this.currentModelsInDiagram.push(compFrom) }
           if (!this.currentModelsInDiagram.includes(compTo)) { this.currentModelsInDiagram.push(compTo) }
+        }
+        if (this.properties[this.selectedModel].subtype === 'exchanger') {
+          const compBlood = this.properties[this.selectedModel].comp_blood
+          const compGas = this.properties[this.selectedModel].comp_gas
+          if (!this.currentModelsInDiagram.includes(compBlood)) { this.currentModelsInDiagram.push(compBlood) }
+          if (!this.currentModelsInDiagram.includes(compGas)) { this.currentModelsInDiagram.push(compGas) }
         }
       } else {
         this.showPopUp = true
@@ -322,6 +325,19 @@ export default {
         if (diagramComponent.type === 'gas_connector') {
           diagramComponent.dbcFrom = this.properties[model].comp_from
           diagramComponent.dbcTo = this.properties[model].comp_to
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
+        if (diagramComponent.type === 'exchanger') {
+          diagramComponent.dbcFrom = this.properties[model].comp_blood
+          diagramComponent.dbcTo = this.properties[model].comp_gas
+          this.$root.$emit('add_to_diagram', diagramComponent)
+        }
+
+        if (diagramComponent.type === 'diffusor') {
+          console.log(this.properties[model])
+          diagramComponent.dbcFrom = this.properties[model].comp1
+          diagramComponent.dbcTo = this.properties[model].comp2
           this.$root.$emit('add_to_diagram', diagramComponent)
         }
 

@@ -14,16 +14,14 @@
 
 <script>
 
-// import explain from '../assets/container.png'
-// eslint-disable-next-line no-unused-vars
 import DiagramBloodCompartment from '../classes/DiagramBloodCompartment'
-// eslint-disable-next-line no-unused-vars
 import DiagramGasCompartment from '../classes/DiagramGasCompartment'
-// eslint-disable-next-line no-unused-vars
 import DiagramBloodConnector from '../classes/DiagramBloodConnector'
-// eslint-disable-next-line no-unused-vars
 import DiagramGasConnector from '../classes/DiagramGasConnector'
 import * as PIXI from 'pixi.js'
+import DiagramGasExchanger from 'src/classes/DiagramGasExchanger'
+import DiagramValve from 'src/classes/DiagramValve'
+import DiagramDiffusor from 'src/classes/DiagramDiffusor'
 
 let canvas = null
 
@@ -215,7 +213,6 @@ export default {
     },
     addToDiagram (e) {
       if (!this.watchedmodels.includes(e.modelComponents[0])) {
-        console.log(e)
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
@@ -242,10 +239,16 @@ export default {
             this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
           case 'valve':
-            this.diagramConnectors[e.id] = new DiagramBloodConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            this.diagramConnectors[e.id] = new DiagramValve(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
           case 'gas_connector':
             this.diagramConnectors[e.id] = new DiagramGasConnector(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+          case 'exchanger':
+            this.diagramConnectors[e.id] = new DiagramGasExchanger(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
+            break
+          case 'diffusor':
+            this.diagramConnectors[e.id] = new DiagramDiffusor(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
         }
         e.modelComponents.forEach(component => {
