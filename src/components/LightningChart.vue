@@ -138,7 +138,7 @@ export default {
       chartYAxis: null,
       chartCh1Lineseries: null,
       chartCh1Data: [],
-      chartCh1Model: 'none',
+      chartCh1Model: 'monitor',
       chartCh1Prop: '',
       chartCh1Factor: 1,
       chartCh2Lineseries: null,
