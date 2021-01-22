@@ -51,6 +51,8 @@ class DiagramValve {
 
   remove () {
     this.pixiApp.stage.removeChild(this.sprite)
+    this.pixiApp.stage.removeChild(this.spriteValveClosed)
+    this.pixiApp.stage.removeChild(this.spriteValveOpen)
     this.graphics.clear()
   }
 
@@ -66,6 +68,20 @@ class DiagramValve {
 
     const x2 = diagramCompartments[this.graphics.dbcTo].sprite.x
     const y2 = diagramCompartments[this.graphics.dbcTo].sprite.y
+
+    const angle = Math.atan2((y2 - y1), x2 - x1) - 0.785 * 2
+
+    const tOpen = 0.5
+    this.spriteValveOpen.x = (1 - tOpen) * x1 + tOpen * x2
+    this.spriteValveOpen.y = (1 - tOpen) * y1 + tOpen * y2
+
+    const tClosed = 0.5
+    this.spriteValveClosed.x = (1 - tClosed) * x1 + tClosed * x2
+    this.spriteValveClosed.y = (1 - tClosed) * y1 + tClosed * y2
+
+    this.spriteValveClosed.visible = true
+    this.spriteValveOpen.visible = false
+    this.spriteValveClosed.rotation = angle
 
     this.graphics.beginFill(0xFF3300)
     this.graphics.lineStyle(3, 0x666666, 1)

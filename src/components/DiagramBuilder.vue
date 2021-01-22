@@ -28,11 +28,13 @@
 
   <div v-if="isEnabled && addEnabled" class="row q-mt-sm bg-grey-2">
       <q-list class="q-ma-es q-pa-sm" highlight separator style="width: 100%">
+        <q-scroll-area style="height: 445px">
         <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
           <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field }}
           </q-item-label>
         </q-item>
+         </q-scroll-area>
       </q-list>
   </div>
 
@@ -185,6 +187,7 @@ export default {
       this.addEnabled = false
       this.newStateEnabled = false
       this.layout = []
+      this.$root.$emit('clear_diagram')
     },
     receivedLayout (layout) {
       this.layout = layout
