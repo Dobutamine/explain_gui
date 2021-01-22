@@ -19,7 +19,7 @@ class DiagramContainer {
     this.sprite.x = 50
     this.sprite.y = 50
     this.sprite.scale.set(0.5, 0.5)
-    this.sprite.tint = '0xffffff'
+    this.sprite.tint = '0x999999'
     this.sprite.interactive = true
     this.sprite.buttonMode = true
     this.sprite.on('mousedown', this.onDragStart)
@@ -56,7 +56,7 @@ class DiagramContainer {
     this.sprite.modelComponents.forEach(modelComponent => {
       volume += rtData[0][modelComponent].vol
     })
-    this.sprite.volume = this.calculateRadius(volume)
+    this.sprite.volume = this.calculateRadius(volume * 2)
     this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactor, this.sprite.volume * this.sprite.scalingFactor)
   }
 

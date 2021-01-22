@@ -330,7 +330,6 @@ export default {
 
         if (diagramComponent.type === 'container') {
           diagramComponent.modelComponents = this.properties[model].comps.split(',')
-          console.log(diagramComponent)
           this.$root.$emit('add_to_diagram', diagramComponent)
         }
 
@@ -341,7 +340,6 @@ export default {
         }
 
         if (diagramComponent.type === 'diffusor') {
-          console.log(this.properties[model])
           diagramComponent.dbcFrom = this.properties[model].comp1
           diagramComponent.dbcTo = this.properties[model].comp2
           this.$root.$emit('add_to_diagram', diagramComponent)
