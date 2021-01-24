@@ -187,14 +187,22 @@
     "description": "",
     "type": "model",
     "subtype": "",
-    "is_enabled": true
+    "is_enabled": true,
+    "compounds": {
+      "to2": 4,
+      "tco2": 25.18,
+      "sodium": 136,
+      "potassium": 4.5
+    }
   },
   "gas": {
     "name": "gas",
     "description": "",
     "type": "model",
     "subtype": "",
-    "is_enabled": true
+    "is_enabled": true,
+    "gas_constant": 62.36367,
+    "temp": 20
   },
   "uterus": {
     "name": "uterus",
