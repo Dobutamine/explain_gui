@@ -19,16 +19,7 @@
     "dpg": 5.0,
     "albumin": 30.0,
     "phosphates": 1.5,
-    "sid": 31.6,
-    "metabolizing_components": [
-      { "comp": "LB",  "fvatp": 0.4 },
-      { "comp": "LIVER",  "fvatp": 0.1 },
-      { "comp": "KIDNEYS",  "fvatp": 0.1 },
-      { "comp": "UB",  "fvatp": 0.1 },
-      { "comp": "BRAIN",  "fvatp": 0.2 },
-      { "comp": "SVC",  "fvatp": 0.1 },
-      { "comp": "MYO",  "fvatp": 0.1 }
-    ]
+    "sid": 31.6
   },
   "ecg": {
     "name": "ecg",
@@ -190,6 +181,20 @@
     "type": "model",
     "subtype": "",
     "is_enabled": false
+  },
+  "blood": {
+    "name": "blood",
+    "description": "",
+    "type": "model",
+    "subtype": "",
+    "is_enabled": true
+  },
+  "gas": {
+    "name": "gas",
+    "description": "",
+    "type": "model",
+    "subtype": "",
+    "is_enabled": true
   },
   "uterus": {
     "name": "uterus",
