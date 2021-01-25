@@ -202,7 +202,13 @@
     "subtype": "",
     "is_enabled": true,
     "gas_constant": 62.36367,
-    "temp": 20
+    "temp_room": 20,
+    "dry_air": {
+      "fo2": 0.2095,
+      "fargon": 0.0092,
+      "fco2": 0.0004,
+      "fn2": 0.7809
+    }
   },
   "uterus": {
     "name": "uterus",
@@ -1268,12 +1274,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
-      "fh2o": 0.025,
-      "temp": 20.0
+      "fh2o": 0.01,
+      "temp_source": "room"
     },
     {
       "name": "NCA",
@@ -1288,12 +1290,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 37.0
+      "temp_source": "body"
     },
     {
       "name": "ALL",
@@ -1308,12 +1306,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 37.0
+      "temp_source": "body"
     },
     {
       "name": "ALR",
@@ -1328,12 +1322,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 37.0
+      "temp_source": "body"
     },
     {
       "name": "VENTIN",
@@ -1348,12 +1338,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 20.0
+      "temp_source": "room"
     },
     {
       "name": "VENTOUT",
@@ -1368,12 +1354,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 20.0
+      "temp_source": "room"
     },
     {
       "name": "TUBINGIN",
@@ -1388,12 +1370,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 20.0
+      "temp_source": "room"
     },
     {
       "name": "YPIECE",
@@ -1408,12 +1386,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 20.0
+      "temp_source": "room"
     },
     {
       "name": "TUBINGOUT",
@@ -1428,12 +1402,8 @@
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,
-      "fo2": 0.20696,
-      "fn2": 0.7809,
-      "fco2": 0.0004,
-      "fother": 0.0092,
       "fh2o": 0.025,
-      "temp": 20.0
+      "temp_source": "room"
     }
   ],
   "gas_connector_definitions": [
