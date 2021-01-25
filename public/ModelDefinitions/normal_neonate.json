@@ -14,12 +14,7 @@
     "resp_q": 0.8,
     "p_atm": 760.0,
     "outside_temp": 20.0,
-    "body_temp": 36.9,
-    "hemoglobin": 10.0,
-    "dpg": 5.0,
-    "albumin": 30.0,
-    "phosphates": 1.5,
-    "sid": 31.6
+    "body_temp": 36.9
   },
   "ecg": {
     "name": "ecg",
@@ -191,8 +186,13 @@
     "compounds": {
       "to2": 4,
       "tco2": 25.18,
-      "sodium": 136,
-      "potassium": 4.5
+      "sodium": 138,
+      "chloride": 100,
+      "hemoglobin": 10.0,
+      "albumin": 30.0,
+      "phosphates": 1.5,
+      "sid": 41.6,
+      "uma": 10
     }
   },
   "gas": {

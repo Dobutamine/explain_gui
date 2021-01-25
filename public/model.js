@@ -32,7 +32,7 @@ export class Model {
       this._receiveMessageFromModel(message.data)
     });
 
-    console.log(`%cMODEL: created model instance`, "color:red;")
+    // console.log(`%cMODEL: created model instance`, "color:red;")
 
   }
 
@@ -206,7 +206,7 @@ export class Model {
 
   clearData = () => {
     // clear the data object
-    console.log(`%cMODEL: reset all model output data`, "color:red;")
+    // console.log(`%cMODEL: reset all model output data`, "color:red;")
     this.data = []
   }
 
@@ -241,7 +241,7 @@ export class Model {
         break;
       // message type not recognized
       default:
-        console.log(message)
+        // console.log(message)
         break;
     }
     
