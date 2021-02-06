@@ -6,6 +6,7 @@
           <Controller></Controller>
           <ScriptEditor></ScriptEditor>
           <ModelLog></ModelLog>
+          <LungProps></LungProps>
         </div>
         <div class="col text-center">
            <q-scroll-area style="height: 1250px; max-width: 3000px;">
@@ -29,6 +30,7 @@ import FileReader from 'components/FileReader'
 import ModelDiagram from 'components/ModelDiagram'
 import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
+import LungProps from 'components/LungProps'
 
 export default {
   name: 'PageIndex',
@@ -39,7 +41,8 @@ export default {
     FileReader,
     ModelDiagram,
     DiagramBuilder,
-    ScriptEditor
+    ScriptEditor,
+    LungProps
   },
   data () {
     return {

@@ -102,6 +102,15 @@ export class Model {
     });
   }
 
+  setPropertyDirect = (model, property, new_value) => {
+    this.engine.postMessage({
+      type: "set_direct",
+      target: model,
+      action: property,
+      data: new_value
+    })
+  }
+
   setProperty = (model, property, new_value, in_time = 0, at_time = 0, mode = "abs") => {
     this.engine.postMessage({
       type: "set",

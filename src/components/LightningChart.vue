@@ -139,7 +139,7 @@ export default {
       chartCh1Lineseries: null,
       chartCh1Data: [],
       chartCh1Model: 'monitor',
-      chartCh1Prop: 'ecg_signal',
+      chartCh1Prop: 'pao2',
       chartCh1Factor: 1,
       chartCh2Lineseries: null,
       chartCh2Data: [],
