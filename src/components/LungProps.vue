@@ -7,7 +7,15 @@
     </div>
     <div v-if="isEnabled" class="row q-ml-md q-mr-md q-mb-md q-mt-es">
       <q-badge color="teal-7">
-        PVR {{ value }}x
+        pulm vascular resistance
+      </q-badge>
+      <q-slider v-model="standard" @change="translateSlider" :min="-50" :max="50" color="teal-7"/>
+      <q-badge color="teal-7">
+        intra pulmonary shunt
+      </q-badge>
+      <q-slider v-model="standard" @change="translateSlider" :min="-50" :max="50" color="teal-7"/>
+      <q-badge color="teal-7">
+        left lung elastance
       </q-badge>
       <q-slider v-model="standard" @change="translateSlider" :min="-50" :max="50" color="teal-7"/>
     </div>

@@ -28,7 +28,7 @@
 
   <div v-if="isEnabled && addEnabled" class="row q-mt-sm bg-grey-2">
       <q-list class="q-ma-es q-pa-sm" highlight separator style="width: 100%">
-        <q-scroll-area style="height: 445px">
+        <q-scroll-area style="height: 350px">
         <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
           <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field }}
@@ -36,6 +36,23 @@
         </q-item>
          </q-scroll-area>
       </q-list>
+  </div>
+
+ <div v-if="isEnabled && addEnabled" class="q-mt-sm">
+      <div class="row q-mt-sm">
+           <q-input class="col" label-color="red-10" :value="selectedCurrentModel" filled dense square label="selected model" style="width: 100%" />
+        </div>
+
+  </div>
+
+  <div v-if="isEnabled && showActions" class="row q-ma-md">
+    <q-separator></q-separator>
+    <q-btn class="q-mt-sm q-mr-sm col" dense color="black" @click="addToGraph2" style="width: 100%" >
+      <q-icon name="2k" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
+    <q-btn class="q-mt-sm col" dense color="negative" @click="removeFromDiagram" style="width: 100%" >
+        <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
+    </q-btn>
   </div>
 
   <div v-if="isEnabled && addEnabled" class="row q-ma-es q-mt-sm">
@@ -80,6 +97,7 @@ export default {
   data () {
     return {
       isEnabled: true,
+      showActions: false,
       newStateEnabled: false,
       addEnabled: false,
       stateName: '',
@@ -252,13 +270,20 @@ export default {
     },
     modelChanged (field, index) {
       this.selectedCurrentModel = field
-      this.removeFromDiagram()
+      this.addToGraph1()
+      this.showActions = true
     },
     updateScale () {
       this.$root.$emit('update_scale', this.scaling / 10)
     },
     updateSpeed () {
       this.$root.$emit('update_speed', this.speed / 10)
+    },
+    addToGraph1 () {
+      this.$root.$emit('add_to_graph1', this.selectedCurrentModel)
+    },
+    addToGraph2 () {
+      this.$root.$emit('add_to_graph2', this.selectedCurrentModel)
     },
     removeFromDiagram () {
       this.$root.$emit('remove_from_diagram', this.selectedCurrentModel)

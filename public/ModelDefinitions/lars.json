@@ -845,6 +845,36 @@
       "r_k2": 0.0
     },
     {
+      "name": "AA_PV",
+      "description": "ascending aorta to pulmonary veins",
+      "type": "component",
+      "subtype": "blood_connector",
+      "is_enabled": false,
+      "no_flow": true,
+      "no_backflow": false,
+      "comp_from": "AA",
+      "comp_to": "PV",
+      "r_for": 30000,
+      "r_back": 30000,
+      "r_k1": 0.0,
+      "r_k2": 0.0
+    },
+    {
+      "name": "AA_PA",
+      "description": "ascending aorta to pulmonary artery",
+      "type": "component",
+      "subtype": "blood_connector",
+      "is_enabled": false,
+      "no_flow": true,
+      "no_backflow": false,
+      "comp_from": "AA",
+      "comp_to": "PA",
+      "r_for": 30000,
+      "r_back": 30000,
+      "r_k1": 0.0,
+      "r_k2": 0.0
+    },
+    {
       "name": "AA_UB",
       "description": "ascending aorta to upper body",
       "type": "component",

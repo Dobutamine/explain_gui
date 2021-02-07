@@ -110,7 +110,7 @@ export default {
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
     // hide the model diagram at startup
-    this.toggleIsEnabled()
+    // this.toggleIsEnabled()
   },
   destroyed () {
     // remove eventlistener when destroyed
@@ -192,6 +192,7 @@ export default {
       // try to find the model
       const foundInComponents = this.diagramComponents[e]
       if (foundInComponents !== undefined) {
+        this.pixiApp.stage.removeChild(this.diagramComponents[e].sprite)
         this.diagramComponents[e].remove()
         delete this.diagramComponents[e]
         const index = this.watchedmodels.findIndex((element) => element === e)
@@ -202,6 +203,7 @@ export default {
       }
       const foundInConnectors = this.diagramConnectors[e]
       if (foundInConnectors !== undefined) {
+        this.pixiApp.stage.removeChild(this.diagramConnectors[e].sprite)
         this.diagramConnectors[e].remove()
         delete this.diagramConnectors[e]
         const index = this.watchedmodels.findIndex((element) => element === e)

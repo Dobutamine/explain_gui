@@ -9,9 +9,9 @@
           <LungProps></LungProps>
         </div>
         <div class="col text-center">
-           <q-scroll-area style="height: 1250px; max-width: 3000px;">
-            <LightningChart></LightningChart>
-            <ModelDiagram></ModelDiagram>
+           <q-scroll-area style="height: 2000px; max-width: 3000px;">
+             <LightningChart></LightningChart>
+             <ModelDiagram></ModelDiagram>
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">

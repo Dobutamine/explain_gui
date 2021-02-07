@@ -122,7 +122,7 @@ export default {
       graphClass: 'rectangle',
       box: false,
       isEnabled: true,
-      showSummary: true,
+      showSummary: false,
       chart: null,
       autoScale: true,
       minY: 0,
@@ -530,6 +530,55 @@ export default {
           this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
         }
       }
+    },
+    removeGraphFromOutside (model) {
+      if (this.chartCh1Model === model) {
+        this.chartCh1Model = 'none'
+        this.chartCh1Prop = ''
+        this.chartCh1Data = []
+      }
+      if (this.chartCh2Model === model) {
+        this.chartCh2Model = 'none'
+        this.chartCh2Prop = ''
+        this.chartCh2Data = []
+      }
+      if (this.chartCh3Model === model) {
+        this.chartCh3Model = 'none'
+        this.chartCh3Prop = ''
+        this.chartCh3Data = []
+      }
+      this.setDatalogger()
+    },
+    selectNewGraphFromOutside (model, graphNo) {
+      let prop = ''
+      if (this.properties[model].subtype === 'blood_compartment' | this.properties[model].subtype === 'gas_compartment') {
+        prop = 'pres'
+      }
+      if (this.properties[model].subtype === 'pump' | this.properties[model].subtype === 'container') {
+        prop = 'pres'
+      }
+      if (this.properties[model].subtype === 'blood_connector' | this.properties[model].subtype === 'gas_connector') {
+        prop = 'real_flow'
+      }
+      if (this.properties[model].subtype === 'valve') {
+        prop = 'real_flow'
+      }
+      if (this.properties[model].subtype === 'exchanger' | this.properties[model].subtype === 'diffusor') {
+        prop = 'flux_o2'
+      }
+      switch (graphNo) {
+        case 1:
+          this.chartCh1Model = model
+          this.chartCh1Prop = prop
+          break
+        case 2:
+          this.chartCh2Model = model
+          this.chartCh2Prop = prop
+          break
+        default:
+          break
+      }
+      this.setDatalogger()
     }
   },
   destroyed () {
@@ -571,6 +620,9 @@ export default {
       }
     })
     this.$model.getProperties(null)
+    this.$root.$on('add_to_graph1', (e) => { this.selectNewGraphFromOutside(e, 1) })
+    this.$root.$on('add_to_graph2', (e) => { this.selectNewGraphFromOutside(e, 2) })
+    this.$root.$on('remove_from_diagram', (e) => { this.removeGraphFromOutside(e) })
   }
 }
 </script>
