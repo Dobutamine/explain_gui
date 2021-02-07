@@ -87,7 +87,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       addEnabled: false,
       newScriptEnabled: false,
       scriptLoaded: false,

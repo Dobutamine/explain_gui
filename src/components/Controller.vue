@@ -2,7 +2,7 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-      model controller
+        controller
       </div>
    </div>
     <div v-if="isEnabled" class="row q-ml-md q-mr-md q-mb-md q-mt-es">

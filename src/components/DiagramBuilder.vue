@@ -28,7 +28,7 @@
 
   <div v-if="isEnabled && addEnabled" class="row q-mt-sm bg-grey-2">
       <q-list class="q-ma-es q-pa-sm" highlight separator style="width: 100%">
-        <q-scroll-area style="height: 350px">
+        <q-scroll-area style="height: 320px">
         <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
           <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field }}
