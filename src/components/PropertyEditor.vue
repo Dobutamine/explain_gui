@@ -91,6 +91,26 @@ export default {
       this.selectedComponentName = model
       this.selectedComponentPropertyList = []
 
+      if (this.properties[model].subtype === '') {
+        // find the property names stored in the model definition file
+        Object.keys(this.model_definition).forEach(compartment => {
+          if (this.model_definition[compartment].name === model) {
+            Object.keys(this.model_definition[compartment]).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
       if (this.properties[model].subtype === 'blood_compartment' | this.properties[model].subtype === 'pump') {
         // find the property names stored in the model definition file
         this.model_definition.blood_compartment_definitions.forEach(compartment => {

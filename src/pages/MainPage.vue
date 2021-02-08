@@ -26,12 +26,12 @@
 
 import LightningChart from 'components/LightningChart'
 import Controller from 'components/Controller'
-import ModelLog from 'components/ModelLog'
+import ModelLog from 'components/Log'
 import FileReader from 'components/FileReader'
-import ModelDiagram from 'components/ModelDiagram'
+import ModelDiagram from 'components/Diagram'
 import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
-import ModelProps from 'components/ModelProps'
+import ModelProps from 'components/PropertyEditor'
 import PatientMonitor from 'components/PatientMonitor'
 
 export default {
