@@ -8,89 +8,17 @@
 
     <div v-if="isEnabled" class="q-mt-sm">
       <div class="row q-mt-sm">
-        <q-input class="col" label-color="red-10" :value="currentModel" filled dense square label="selected model" style="width: 100%" />
+        <q-input class="col" label-color="red-10" :value="selectedComponentName" filled dense square label="selected model" style="width: 100%" />
       </div>
     </div>
 
-    <div v-if="isEnabled && blood_compartment" class="ow q-ma-es q-mt-sm">
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="is_enabled"  label="enabled"/>
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="elMin" filled dense square label="el min" />
-          <q-input class="col" type="number" label-color="red-10" v-model="elMax" filled dense square label="el max" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="elK1" filled dense square label="elK1" />
-          <q-input class="col" type="number" label-color="red-10" v-model="elK2" filled dense square label="elK2" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="volU" filled dense square label="unstressed vol" />
-          <q-input class="col" type="number" label-color="red-10" v-model="fvatp" filled dense square label="fvatp" />
-      </div>
-    </div>
-
-    <div v-if="isEnabled && gas_compartment" class="ow q-ma-es q-mt-sm">
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="is_enabled"  label="enabled"/>
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="elMin" filled dense square label="el min" />
-          <q-input class="col" type="number" label-color="red-10" v-model="elMax" filled dense square label="el max" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="elK1" filled dense square label="elK1" />
-          <q-input class="col" type="number" label-color="red-10" v-model="elK2" filled dense square label="elK2" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="volU" filled dense square label="unstressed vol" />
-          <q-input class="col" type="number" label-color="red-10" v-model="fh2o" filled dense square label="fh2o" />
-      </div>
-    </div>
-
-    <div v-if="isEnabled && blood_connector" class="ow q-ma-es q-mt-sm">
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="is_enabled"  label="enabled"/>
-      </div>
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="no_flow"  label="no flow"/>
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="no_backflow"  label="no backflow"/>
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="rFor" filled dense square label="res forward" />
-          <q-input class="col" type="number" label-color="red-10" v-model="rBack" filled dense square label="res backward" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="rK1" filled dense square label="res K1" />
-          <q-input class="col" type="number" label-color="red-10" v-model="rK2" filled dense square label="res K2" />
-      </div>
-    </div>
-
-    <div v-if="isEnabled && gas_connector" class="ow q-ma-es q-mt-sm">
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="is_enabled"  label="enabled"/>
-      </div>
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="no_flow"  label="no flow"/>
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="no_backflow"  label="no backflow"/>
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="rFor" filled dense square label="res forward" />
-          <q-input class="col" type="number" label-color="red-10" v-model="rBack" filled dense square label="res backward" />
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="rK1" filled dense square label="res K1" />
-          <q-input class="col" type="number" label-color="red-10" v-model="rK2" filled dense square label="res K2" />
-      </div>
-    </div>
-
-    <div v-if="isEnabled && diffusor" class="ow q-ma-es q-mt-sm">
-      <div class="bg-grey-2 row">
-          <q-toggle class="col text-caption" color="teal-7" size="sm" style="width: 100%" label-color="red-10"  v-model="is_enabled"  label="enabled"/>
-      </div>
-      <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="dif_o2" filled dense square label="dif_o2" />
-          <q-input class="col" type="number" label-color="red-10" v-model="dif_co2" filled dense square label="dif_co2" />
+    <div v-if="isEnabled && propsFound" class="row q-ma-es q-mt-sm">
+      <div class="row q-col-gutter-x-md q-ma-sm" >
+        <div v-for="(field, index) in selectedComponentPropertyList" :key='index'>
+          <q-input v-if="field.type === 'string'" class="text-caption q-pt-sm" :label="field.name" v-model="field.value"></q-input>
+          <q-input v-if="field.type === 'number'" type="number" class="text-caption q-pt-sm" :label="field.name" v-model="field.value" ></q-input>
+          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-sm" color="teal-7" size="sm" label-color="red-10" :label="field.name" left-label v-model="field.value"/>
+        </div>
       </div>
     </div>
 
@@ -103,33 +31,13 @@ export default {
     return {
       isEnabled: true,
       modelEventListener: null,
-      currentModel: '',
       properties: null,
       standard: 0,
       value: 0,
-      blood_compartment: false,
-      blood_connector: false,
-      gas_compartment: false,
-      gas_connector: false,
-      diffusor: false,
-      is_enabled: false,
-      elMin: 0,
-      elMax: 0,
-      elK1: 0,
-      elK2: 0,
-      vol: 0,
-      volU: 0,
-      fvatp: 0,
-      rFor: 0,
-      rBack: 0,
-      rK1: 0,
-      rK2: 0,
-      fh2o: 0,
-      dif_o2: 0.01,
-      dif_co2: 0.01,
-      no_flow: false,
-      no_backflow: false,
-      compIsEnabled: false
+      propsFound: false,
+      model_definition: null,
+      selectedComponentName: '',
+      selectedComponentPropertyList: []
 
     }
   },
@@ -146,6 +54,9 @@ export default {
                 this.properties = message.data.data
                 break
               default:
+              case 'model_definition':
+                this.model_definition = message.data.data
+                console.log(message.data.data)
                 break
             }
             break
@@ -154,6 +65,7 @@ export default {
     })
 
     this.$root.$on('add_to_graph1', (e) => { this.selectNewModelFromOutside(e) })
+    this.getModelDefinition()
   },
   beforeDestroy () {
     delete this.modelEventListener
@@ -163,91 +75,32 @@ export default {
       this.isEnabled = !this.isEnabled
       this.$model.getProperties(null)
     },
+    getModelDefinition () {
+      this.$model.getModelDefinition(null)
+    },
     selectNewModelFromOutside (model) {
-      this.currentModel = model
-      if (this.properties[this.currentModel].subtype === 'blood_compartment' | this.properties[this.currentModel].subtype === 'pump') {
-        this.elMin = this.properties[this.currentModel].el_min
-        this.elMax = this.properties[this.currentModel].el_max
-        this.elK1 = this.properties[this.currentModel].el_k1
-        this.elK2 = this.properties[this.currentModel].el_k2
-        this.vol = this.properties[this.currentModel].vol
-        this.volU = this.properties[this.currentModel].vol_u
-        this.fvatp = this.properties[this.currentModel].fvatp
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.blood_compartment = true
-        this.blood_connector = false
-        this.gas_compartment = false
-        this.gas_connector = false
-        this.diffusor = false
+      this.selectedComponentName = model
+      this.selectedComponentPropertyList = []
+
+      if (this.properties[model].subtype === 'blood_compartment' | this.properties[model].subtype === 'pump') {
+        // find the property names stored in the model definition file
+        this.model_definition.blood_compartment_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              const prop = {
+                name: propName,
+                value: this.properties[model][propName],
+                type: typeof this.properties[model][propName]
+              }
+              this.selectedComponentPropertyList.push(prop)
+            })
+          }
+        })
       }
-      if (this.properties[this.currentModel].subtype === 'gas_compartment') {
-        this.elMin = this.properties[this.currentModel].el_min
-        this.elMax = this.properties[this.currentModel].el_max
-        this.elK1 = this.properties[this.currentModel].el_k1
-        this.elK2 = this.properties[this.currentModel].el_k2
-        this.vol = this.properties[this.currentModel].vol
-        this.volU = this.properties[this.currentModel].vol_u
-        this.fh2o = this.properties[this.currentModel].fh2o
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.blood_compartment = false
-        this.blood_connector = false
-        this.gas_compartment = true
-        this.gas_connector = false
-        this.diffusor = false
-      }
-      if (this.properties[this.currentModel].subtype === 'blood_connector' | this.properties[this.currentModel].subtype === 'valve') {
-        this.rFor = this.properties[this.currentModel].r_for
-        this.rBack = this.properties[this.currentModel].r_back
-        this.rK1 = this.properties[this.currentModel].r_k1
-        this.rK2 = this.properties[this.currentModel].r_k2
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.no_flow = this.properties[this.currentModel].no_flow
-        this.no_backflow = this.properties[this.currentModel].no_backflow
-        this.blood_compartment = false
-        this.blood_connector = true
-        this.gas_compartment = false
-        this.gas_connector = false
-        this.diffusor = false
-      }
-      if (this.properties[this.currentModel].subtype === 'gas_connector') {
-        this.rFor = this.properties[this.currentModel].r_for
-        this.rBack = this.properties[this.currentModel].r_back
-        this.rK1 = this.properties[this.currentModel].r_k1
-        this.rK2 = this.properties[this.currentModel].r_k2
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.no_flow = this.properties[this.currentModel].no_flow
-        this.no_backflow = this.properties[this.currentModel].no_backflow
-        this.blood_compartment = false
-        this.blood_connector = false
-        this.gas_compartment = false
-        this.gas_connector = true
-        this.diffusor = false
-      }
-      if (this.properties[this.currentModel].subtype === 'container') {
-        this.elMin = this.properties[this.currentModel].el_min
-        this.elMax = this.properties[this.currentModel].el_max
-        this.elK1 = this.properties[this.currentModel].el_k1
-        this.elK2 = this.properties[this.currentModel].el_k2
-        this.vol = this.properties[this.currentModel].vol
-        this.volU = this.properties[this.currentModel].vol_u
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.fvatp = '-'
-        this.blood_compartment = true
-        this.blood_connector = false
-        this.gas_compartment = false
-        this.gas_connector = false
-        this.diffusor = false
-      }
-      if (this.properties[this.currentModel].subtype === 'exchanger' | this.properties[this.currentModel].subtype === 'diffusor') {
-        this.dif_o2 = this.properties[this.currentModel].dif_o2
-        this.dif_co2 = this.properties[this.currentModel].dif_co2
-        this.is_enabled = this.properties[this.currentModel].is_enabled
-        this.blood_compartment = false
-        this.blood_connector = false
-        this.gas_compartment = false
-        this.gas_connector = false
-        this.diffusor = true
-      }
+      console.log(this.selectedComponentPropertyList)
+      this.propsFound = true
     },
 
     testMe () {

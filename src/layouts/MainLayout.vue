@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-es">
-    <q-layout view="lHh lpr lFf" container style="height: 1300px" class="shadow-2 rounded-borders">
+    <q-layout view="lHh lpr lFf" container v-bind:style="{ height: height + 'px'}" class="shadow-2 rounded-borders">
       <q-header elevated>
         <q-bar>
           <q-icon name="laptop_chromebook" />
@@ -21,9 +21,13 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      height: 1300
 
     }
+  },
+  mounted () {
+    this.height = this.$q.screen.height
   }
 }
 </script>

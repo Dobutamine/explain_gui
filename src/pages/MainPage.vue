@@ -9,7 +9,7 @@
           <ModelLog></ModelLog>
         </div>
         <div class="col text-center">
-           <q-scroll-area style="height: 2000px; max-width: 3000px;">
+           <q-scroll-area v-bind:style="{ height: height + 'px'}">
              <LightningChart></LightningChart>
              <ModelDiagram></ModelDiagram>
           </q-scroll-area>
@@ -46,10 +46,13 @@ export default {
   },
   data () {
     return {
+      height: 9000
     }
   },
   mounted () {
     // attach an event handler to the model instance
+    this.height = this.$q.screen.height
+    this.max_width = this.$q.screen.width
   },
   beforeDestroy () {
     // remove the event handler from memory
