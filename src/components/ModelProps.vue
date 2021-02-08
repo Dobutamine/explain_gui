@@ -15,11 +15,19 @@
     <div v-if="isEnabled && propsFound" class="row q-ma-es q-mt-sm">
       <div class="row q-col-gutter-x-md q-ma-sm" >
         <div v-for="(field, index) in selectedComponentPropertyList" :key='index'>
-          <q-input v-if="field.type === 'string'" class="text-caption q-pt-sm" :label="field.name" v-model="field.value"></q-input>
-          <q-input v-if="field.type === 'number'" type="number" class="text-caption q-pt-sm" :label="field.name" v-model="field.value" ></q-input>
-          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-sm" color="teal-7" size="sm" label-color="red-10" :label="field.name" left-label v-model="field.value"/>
+          <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
+          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-7" size="sm" label-color="red-10" :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
         </div>
       </div>
+
+    <div v-if="isEnabled" class="row q-ma-md">
+      <q-separator></q-separator>
+      <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="changeProperties" style="width: 100%" >
+        <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
+      </q-btn>
+  </div>
+
     </div>
 
   </q-card>
@@ -89,20 +97,164 @@ export default {
             Object.keys(compartment).forEach(propName => {
               // now we have the name of de model in model and the name of the property in propName
               // combine this with the actual current value
-              const prop = {
-                name: propName,
-                value: this.properties[model][propName],
-                type: typeof this.properties[model][propName]
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
               }
-              this.selectedComponentPropertyList.push(prop)
             })
           }
         })
       }
+
+      if (this.properties[model].subtype === 'blood_connector') {
+        // find the property names stored in the model definition file
+        this.model_definition.blood_connector_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
+      if (this.properties[model].subtype === 'valve') {
+        // find the property names stored in the model definition file
+        this.model_definition.valve_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
+      if (this.properties[model].subtype === 'gas_compartment') {
+        // find the property names stored in the model definition file
+        this.model_definition.gas_compartment_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
+      if (this.properties[model].subtype === 'gas_connector') {
+        // find the property names stored in the model definition file
+        this.model_definition.gas_connector_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
+      if (this.properties[model].subtype === 'container') {
+        // find the property names stored in the model definition file
+        this.model_definition.container_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
+      if (this.properties[model].subtype === 'exchanger') {
+        // find the property names stored in the model definition file
+        this.model_definition.exchanger_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+      if (this.properties[model].subtype === 'diffusor') {
+        // find the property names stored in the model definition file
+        this.model_definition.diffusor_definitions.forEach(compartment => {
+          if (compartment.name === model) {
+            Object.keys(compartment).forEach(propName => {
+              // now we have the name of de model in model and the name of the property in propName
+              // combine this with the actual current value
+              if (propName !== 'name') {
+                const prop = {
+                  name: propName,
+                  value: this.properties[model][propName],
+                  type: typeof this.properties[model][propName]
+                }
+                this.selectedComponentPropertyList.push(prop)
+              }
+            })
+          }
+        })
+      }
+
       console.log(this.selectedComponentPropertyList)
       this.propsFound = true
     },
-
+    changeProperties (event, name) {
+      this.$model.setPropertyDirect(this.selectedComponentName, name, event)
+    },
     testMe () {
       this.$model.setPropertyDirect('LV_AA', 'is_enabled', false)
     }
