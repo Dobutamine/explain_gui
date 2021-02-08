@@ -41,7 +41,10 @@
  <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <div class="row q-mt-sm">
            <q-input class="col" label-color="red-10" :value="selectedCurrentModel" filled dense square label="selected model" style="width: 100%" />
-        </div>
+      </div>
+      <div class="row q-mt-sm">
+           <q-toggle class="col q-ml-sm" color="teal-7" v-model="autoSelectInGraph" size="sm" filled dense square label="auto show graph" style="width: 100%" />
+      </div>
 
   </div>
 
@@ -100,6 +103,8 @@ export default {
       showActions: false,
       newStateEnabled: false,
       addEnabled: false,
+      autoSelectInGraph: true,
+      autoSelectInPropertyEditor: true,
       stateName: '',
       selectedState: '',
       stateNames: [],
@@ -280,7 +285,9 @@ export default {
       this.$root.$emit('update_speed', this.speed / 10)
     },
     addToGraph1 () {
-      this.$root.$emit('add_to_graph1', this.selectedCurrentModel)
+      if (this.autoSelectInGraph) {
+        this.$root.$emit('add_to_graph1', this.selectedCurrentModel)
+      }
     },
     addToGraph2 () {
       this.$root.$emit('add_to_graph2', this.selectedCurrentModel)

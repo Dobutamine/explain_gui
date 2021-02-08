@@ -284,6 +284,7 @@
     "liver_flow_source": ["AD_LIVER", "real_flow"],
     "kidney_flow_source": ["AD_KIDNEYS", "real_flow"],
     "brain_flow_source": ["AA_BRAIN", "real_flow"],
+    "lungshunt_flow_source": ["LUNGSHUNT", "real_flow"],
     "myocardium_flow_source": ["AA_MYO", "real_flow"],
     "vsd_flow_source": ["VSD", "real_flow"],
     "ofo_flow_source": ["OFO", "real_flow"],
@@ -1199,8 +1200,8 @@
       "no_backflow": false,
       "comp_from": "PA",
       "comp_to": "PV",
-      "r_for": 8000,
-      "r_back": 8000,
+      "r_for": 25100,
+      "r_back": 25100,
       "r_k1": 0.0,
       "r_k2": 0.0
     }
@@ -1370,7 +1371,7 @@
       "fixed_composition": false,
       "vol": 0.045,
       "vol_u": 0.03,
-      "el_min": 1000.0,
+      "el_min": 600.0,
       "el_max": 0.0,
       "el_k1": 0.0,
       "el_k2": 0.0,

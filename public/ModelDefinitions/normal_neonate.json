@@ -284,6 +284,7 @@
     "liver_flow_source": ["AD_LIVER", "real_flow"],
     "kidney_flow_source": ["AD_KIDNEYS", "real_flow"],
     "brain_flow_source": ["AA_BRAIN", "real_flow"],
+    "lungshunt_flow_source": ["LUNGSHUNT", "real_flow"],
     "myocardium_flow_source": ["AA_MYO", "real_flow"],
     "vsd_flow_source": ["VSD", "real_flow"],
     "ofo_flow_source": ["OFO", "real_flow"],

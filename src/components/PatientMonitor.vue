@@ -1,9 +1,9 @@
 <template>
   <q-card class="q-pb-es q-pt-es q-ma-sm">
+
     <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="isEnabled = !isEnabled">
         patient monitor
-      </div>
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
       <div class="row">
@@ -21,35 +21,82 @@
           <q-input class="col" label-color="red-10" v-model="etco2" filled dense square label="etco2" />
           <q-input class="col" label-color="red-10" v-model="temp" filled dense square label="temp" />
       </div>
-      <q-separator></q-separator>
+    </div>
+
+    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="bloodgasEnabled = !bloodgasEnabled">
+          bloodgas
+    </div>
+    <div v-if="bloodgasEnabled" class="row q-mt-es">
       <div class="row">
-          <q-input class="col" label-color="red-10" v-model="ph" filled dense square label="pH" />
-          <q-input class="col" label-color="red-10" v-model="po2" filled dense square label="pO2" />
-          <q-input class="col" label-color="red-10" v-model="pco2" filled dense square label="pCO2" />
-      </div>
-      <q-separator></q-separator>
-      <div class="row">
-          <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
-          <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
-          <q-input class="col" label-color="red-10" v-model="myo_flow" filled dense square label="myo flow" />
-      </div>
-      <div class="row">
-          <q-input class="col" label-color="red-10" v-model="pda_flow" filled dense square label="pda flow" />
-          <q-input class="col" label-color="red-10" v-model="ofo_flow" filled dense square label="ofo flow" />
-          <q-input class="col" label-color="red-10" v-model="vsd_flow" filled dense square label="vsd flow" />
-      </div>
-      <div class="row">
-          <q-input class="col" label-color="red-10" v-model="kidney_flow" filled dense square label="kidney flow" />
-          <q-input class="col" label-color="red-10" v-model="liver_flow" filled dense square label="liver flow" />
-          <q-input class="col" label-color="red-10" v-model="brain_flow" filled dense square label="brain flow" />
-      </div>
-      <div class="row">
-          <q-input class="col" label-color="red-10" v-model="lvo" filled dense square label="lvo" />
-          <q-input class="col" label-color="red-10" v-model="lv_stroke" filled dense square label="lv stroke" />
-          <q-input class="col" label-color="red-10" v-model="rvo" filled dense square label="rvo" />
-          <q-input class="col" label-color="red-10" v-model="rv_stroke" filled dense square label="rv stroke" />
+            <q-input class="col" label-color="red-10" v-model="ph" filled dense square label="pH" />
+            <q-input class="col" label-color="red-10" v-model="po2" filled dense square label="pO2" />
+            <q-input class="col" label-color="red-10" v-model="pco2" filled dense square label="pCO2" />
       </div>
     </div>
+
+    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="hemodynamicEnabled = !hemodynamicEnabled">
+          hemodynamic monitor
+    </div>
+    <div v-if="hemodynamicEnabled" class="row q-mt-es">
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
+            <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
+            <q-input class="col" label-color="red-10" v-model="myo_flow" filled dense square label="myo flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="pda_flow" filled dense square label="pda flow" />
+            <q-input class="col" label-color="red-10" v-model="ofo_flow" filled dense square label="ofo flow" />
+            <q-input class="col" label-color="red-10" v-model="vsd_flow" filled dense square label="vsd flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="kidney_flow" filled dense square label="kidney flow" />
+            <q-input class="col" label-color="red-10" v-model="liver_flow" filled dense square label="liver flow" />
+            <q-input class="col" label-color="red-10" v-model="brain_flow" filled dense square label="brain flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="lvo" filled dense square label="lvo" />
+            <q-input class="col" label-color="red-10" v-model="lv_stroke" filled dense square label="lv stroke" />
+            <q-input class="col" label-color="red-10" v-model="rvo" filled dense square label="rvo" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="rv_stroke" filled dense square label="rv stroke" />
+            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+        </div>
+      </div>
+    </div>
+
+    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
+          respiratory monitor
+    </div>
+    <div v-if="respiratoryEnabled" class="row q-mt-es">
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
+            <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
+            <q-input class="col" label-color="red-10" v-model="myo_flow" filled dense square label="myo flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="pda_flow" filled dense square label="pda flow" />
+            <q-input class="col" label-color="red-10" v-model="ofo_flow" filled dense square label="ofo flow" />
+            <q-input class="col" label-color="red-10" v-model="vsd_flow" filled dense square label="vsd flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="kidney_flow" filled dense square label="kidney flow" />
+            <q-input class="col" label-color="red-10" v-model="liver_flow" filled dense square label="liver flow" />
+            <q-input class="col" label-color="red-10" v-model="brain_flow" filled dense square label="brain flow" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="lvo" filled dense square label="lvo" />
+            <q-input class="col" label-color="red-10" v-model="lv_stroke" filled dense square label="lv stroke" />
+            <q-input class="col" label-color="red-10" v-model="rvo" filled dense square label="rvo" />
+        </div>
+        <div class="row">
+            <q-input class="col" label-color="red-10" v-model="rv_stroke" filled dense square label="rv stroke" />
+            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+        </div>
+      </div>
+
   </q-card>
 </template>
 
@@ -57,7 +104,10 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
+      bloodgasEnabled: false,
+      hemodynamicEnabled: false,
+      respiratoryEnabled: false,
       modelEventListener: null,
       heartrate: '-',
       abp: '-/-',
@@ -77,6 +127,7 @@ export default {
       kidney_flow: 0,
       liver_flow: 0,
       brain_flow: 0,
+      lungshunt_flow: 0,
       lvo: 0,
       rvo: 0,
       lv_stroke: 0,
@@ -107,7 +158,7 @@ export default {
           break
         case 'rt':
           this.rt_data = message.data.data
-          if (this.isEnabled) {
+          if (this.isEnabled | this.bloodgasEnabled | this.hemodynamicEnabled) {
             this.updateMonitorRealtime(message.data.data[0])
           }
           break
@@ -127,35 +178,45 @@ export default {
     updateMonitorRealtime (data) {
       if (data.time - this.prevTime > 1) {
         this.prevTime = data.time
-        this.heartrate = parseInt(data.monitor.heart_rate)
-        this.abp = `${parseInt(data.monitor.abp_syst)}/${parseInt(data.monitor.abp_diast)} (${parseInt(data.monitor.abp_mean)})`
-        this.pap = `${parseInt(data.monitor.pap_syst)}/${parseInt(data.monitor.pap_diast)} (${parseInt(data.monitor.pap_mean)})`
-        this.sao2_pre = parseInt(data.monitor.saO2_pre)
-        this.sao2_post = parseInt(data.monitor.saO2_post)
-        this.resp_rate = parseInt(data.monitor.resp_rate)
-        this.etco2 = parseInt(data.monitor.etco2)
-        this.temp = (data.monitor.temperature).toFixed(1)
-        this.cvp = (data.monitor.cvp).toFixed(1)
-        this.ph = (data.monitor.ph).toFixed(2)
-        this.po2 = (data.monitor.pao2).toFixed(0)
-        this.pco2 = (data.monitor.paco2).toFixed(0)
+        if (this.isEnabled) {
+          this.heartrate = parseInt(data.monitor.heart_rate)
+          this.abp = `${parseInt(data.monitor.abp_syst)}/${parseInt(data.monitor.abp_diast)} (${parseInt(data.monitor.abp_mean)})`
+          this.pap = `${parseInt(data.monitor.pap_syst)}/${parseInt(data.monitor.pap_diast)} (${parseInt(data.monitor.pap_mean)})`
+          this.sao2_pre = parseInt(data.monitor.saO2_pre)
+          this.sao2_post = parseInt(data.monitor.saO2_post)
+          this.resp_rate = parseInt(data.monitor.resp_rate)
+          this.etco2 = parseInt(data.monitor.etco2)
+          this.temp = (data.monitor.temperature).toFixed(1)
+          this.cvp = (data.monitor.cvp).toFixed(1)
+        }
 
-        this.ivc_flow = (data.monitor.ivc_flow).toFixed(4)
-        this.svc_flow = (data.monitor.svc_flow).toFixed(4)
-        this.myo_flow = (data.monitor.myo_flow).toFixed(4)
+        if (this.bloodgasEnabled) {
+          this.ph = (data.monitor.ph).toFixed(2)
+          this.po2 = (data.monitor.pao2).toFixed(0)
+          this.pco2 = (data.monitor.paco2).toFixed(0)
+        }
 
-        this.pda_flow = (data.monitor.pda_flow).toFixed(4)
-        this.ofo_flow = (data.monitor.ofo_flow).toFixed(4)
-        this.vsd_flow = (data.monitor.vsd_flow).toFixed(4)
+        if (this.hemodynamicEnabled) {
+          this.ivc_flow = (data.monitor.ivc_flow).toFixed(4)
+          this.svc_flow = (data.monitor.svc_flow).toFixed(4)
+          this.myo_flow = (data.monitor.myo_flow).toFixed(4)
 
-        this.kidney_flow = (data.monitor.kidney_flow).toFixed(4)
-        this.liver_flow = (data.monitor.liver_flow).toFixed(4)
-        this.brain_flow = (data.monitor.brain_flow).toFixed(4)
+          this.pda_flow = (data.monitor.pda_flow).toFixed(4)
+          this.ofo_flow = (data.monitor.ofo_flow).toFixed(4)
+          this.vsd_flow = (data.monitor.vsd_flow).toFixed(4)
+          this.lungshunt_flow = (data.monitor.lungshunt_flow).toFixed(4)
 
-        this.lvo = (data.monitor.lvo).toFixed(4)
-        this.lv_stroke = (data.monitor.lv_stroke).toFixed(4)
-        this.rvo = (data.monitor.rvo).toFixed(4)
-        this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
+          this.kidney_flow = (data.monitor.kidney_flow).toFixed(4)
+          this.liver_flow = (data.monitor.liver_flow).toFixed(4)
+          this.brain_flow = (data.monitor.brain_flow).toFixed(4)
+
+          this.lvo = (data.monitor.lvo).toFixed(4)
+          this.lv_stroke = (data.monitor.lv_stroke).toFixed(4)
+          this.rvo = (data.monitor.rvo).toFixed(4)
+          this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
+        }
+
+        if (this.respiratoryEnabled) { }
       }
     }
   }

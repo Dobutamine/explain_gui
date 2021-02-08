@@ -8,7 +8,7 @@
 
     <div v-if="isEnabled" class="q-mt-sm">
       <div class="row q-mt-sm">
-        <q-input class="col" label-color="red-10" :value="selectedComponentName" filled dense square label="selected model" style="width: 100%" />
+        <q-select class="col" label-color="red-10" v-model="selectedComponentName" :value="selectedComponentName" :options="modelList" @input="selectNewModelFromOutside" filled dense square label="selected model" style="width: 100%" />
       </div>
     </div>
 
@@ -20,13 +20,6 @@
           <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-7" size="sm" label-color="red-10" :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
         </div>
       </div>
-
-    <div v-if="isEnabled" class="row q-ma-md">
-      <q-separator></q-separator>
-      <q-btn class="q-mt-sm q-mr-sm col" dense color="teal-7" @click="changeProperties" style="width: 100%" >
-        <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
-      </q-btn>
-  </div>
 
     </div>
 
@@ -45,7 +38,8 @@ export default {
       propsFound: false,
       model_definition: null,
       selectedComponentName: '',
-      selectedComponentPropertyList: []
+      selectedComponentPropertyList: [],
+      modelList: []
 
     }
   },
@@ -60,6 +54,7 @@ export default {
                 break
               case 'props':
                 this.properties = message.data.data
+                this.createModelList()
                 break
               default:
               case 'model_definition':
@@ -85,6 +80,12 @@ export default {
     },
     getModelDefinition () {
       this.$model.getModelDefinition(null)
+    },
+    createModelList () {
+      this.modelList = []
+      Object.keys(this.properties).forEach(property => {
+        this.modelList.push(property)
+      })
     },
     selectNewModelFromOutside (model) {
       this.selectedComponentName = model
