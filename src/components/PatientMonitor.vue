@@ -67,33 +67,28 @@
     </div>
 
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
-          respiratory monitor
+          ventilator monitor
     </div>
     <div v-if="respiratoryEnabled" class="row q-mt-es">
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
-            <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
-            <q-input class="col" label-color="red-10" v-model="myo_flow" filled dense square label="myo flow" />
+            <q-input class="col" label-color="red-10" v-model="vent_peak_presssure" filled dense square label="peak pressure" />
+            <q-input class="col" label-color="red-10" v-model="vent_plateau_pressure" filled dense square label="plateau pressure" />
+            <q-input class="col" label-color="red-10" v-model="vent_peep" filled dense square label="peep" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="pda_flow" filled dense square label="pda flow" />
-            <q-input class="col" label-color="red-10" v-model="ofo_flow" filled dense square label="ofo flow" />
-            <q-input class="col" label-color="red-10" v-model="vsd_flow" filled dense square label="vsd flow" />
+            <q-input class="col" label-color="red-10" v-model="vent_freq" filled dense square label="frequence" />
+            <q-input class="col" label-color="red-10" v-model="vent_tidal_volume" filled dense square label="tidal volume" />
+            <q-input class="col" label-color="red-10" v-model="vent_minute_volume" filled dense square label="minute volume" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="kidney_flow" filled dense square label="kidney flow" />
-            <q-input class="col" label-color="red-10" v-model="liver_flow" filled dense square label="liver flow" />
-            <q-input class="col" label-color="red-10" v-model="brain_flow" filled dense square label="brain flow" />
+            <q-input class="col" label-color="red-10" v-model="vent_insp_time" filled dense square label="insp time" />
+            <q-input class="col" label-color="red-10" v-model="vent_compliance" filled dense square label="compliance" />
+            <q-input class="col" label-color="red-10" v-model="vent_resistance" filled dense square label="resistance" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="lvo" filled dense square label="lvo" />
-            <q-input class="col" label-color="red-10" v-model="lv_stroke" filled dense square label="lv stroke" />
-            <q-input class="col" label-color="red-10" v-model="rvo" filled dense square label="rvo" />
-        </div>
-        <div class="row">
-            <q-input class="col" label-color="red-10" v-model="rv_stroke" filled dense square label="rv stroke" />
-            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
-            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+            <q-input class="col" label-color="red-10" v-model="vent_insp_flow" filled dense square label="insp flow" />
+            <q-input class="col" label-color="red-10" v-model="vent_exp_flow" filled dense square label="exp flow" />
+            <q-input class="col" label-color="red-10" v-model="etco2" filled dense square label="etco2" />
         </div>
       </div>
 
@@ -135,6 +130,17 @@ export default {
       ph: 0,
       po2: 0,
       pco2: 0,
+      vent_peak_presssure: 0,
+      vent_plateau_pressure: 0,
+      vent_compliance: 0,
+      vent_resistance: 0,
+      vent_peep: 0,
+      vent_freq: 0,
+      vent_minute_volume: 0,
+      vent_tidal_volume: 0,
+      vent_insp_flow: 0,
+      vent_exp_flow: 0,
+      vent_insp_time: 0,
       datalogger_data: null,
       rtUpdateFreq: 1,
       prevTime: 0
@@ -216,7 +222,19 @@ export default {
           this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
         }
 
-        if (this.respiratoryEnabled) { }
+        if (this.respiratoryEnabled) {
+          this.vent_peak_presssure = ((data.monitor.vent_peak_presssure) * 1.35951).toFixed(1)
+          this.vent_plateau_pressure = ((data.monitor.vent_peak_presssure) * 1.35951).toFixed(1)
+          this.vent_compliance = (data.monitor.vent_compliance).toFixed(3)
+          this.vent_resistance = (data.monitor.vent_resistance).toFixed(3)
+          this.vent_peep = ((data.monitor.vent_peep) * 1.35951).toFixed(0)
+          this.vent_freq = (data.monitor.vent_freq).toFixed(0)
+          this.vent_minute_volume = (data.monitor.vent_minute_volume).toFixed(1)
+          this.vent_tidal_volume = ((data.monitor.vent_tidal_volume) * 1000).toFixed(1)
+          this.vent_insp_flow = (data.monitor.vent_insp_flow).toFixed(1)
+          this.vent_exp_flow = (data.monitor.vent_exp_flow).toFixed(1)
+          this.vent_insp_time = (data.monitor.vent_insp_time).toFixed(1)
+        }
       }
     }
   }

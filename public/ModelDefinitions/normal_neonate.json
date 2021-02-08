@@ -292,7 +292,18 @@
     "ivc_flow_source": ["IVC_RA", "real_flow"],
     "svc_flow_source": ["SVC_RA", "real_flow"],
     "lvo_source": ["LV_AA", "real_flow"],
-    "rvo_source": ["RV_PA", "real_flow"]
+    "rvo_source": ["RV_PA", "real_flow"],
+    "vent_peak_pressure_source": ["ventilator", "peak_pressure"],
+    "vent_plateau_pressure_source": ["ventilator", "plateau_pressure"],
+    "vent_compliance_source": ["ventilator", "compliance_static"],
+    "vent_resistance_source": ["ventilator", "resistance_airway"],
+    "vent_peep_source": ["ventilator", "peep"],
+    "vent_freq_source": ["ventilator", "measured_freq"],
+    "vent_minute_volume_source": ["ventilator", "minute_volume"],
+    "vent_tidal_volume_source": ["ventilator", "exhaled_tidal_volume"],
+    "vent_insp_flow_source": ["ventilator", "insp_flow"],
+    "vent_exp_flow_source": ["ventilator", "exp_flow"],
+    "vent_insp_time_source": ["ventilator", "t_in"]
   },
   "blood_compartment_definitions": [
     {

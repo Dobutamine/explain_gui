@@ -43,7 +43,7 @@
            <q-input class="col" label-color="red-10" :value="selectedCurrentModel" filled dense square label="selected model" style="width: 100%" />
       </div>
       <div class="row q-mt-sm">
-           <q-toggle class="col q-ml-sm" color="teal-7" v-model="autoSelectInGraph" size="sm" filled dense square label="auto show graph" style="width: 100%" />
+           <q-toggle class="col q-ml-sm center" color="teal-7" v-model="autoSelectInGraph" size="sm" filled dense square label="show in graph and editor" style="width: 100%" />
       </div>
 
   </div>
@@ -58,10 +58,10 @@
     </q-btn>
   </div>
 
-  <div v-if="isEnabled && addEnabled" class="row q-ma-es q-mt-sm">
-        <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="scaling" @input="updateScale" filled dense square label="scale" />
-          <q-input class="col" type="number" label-color="red-10" v-model="speed" @input="updateSpeed" filled dense square label="speed" />
+  <div v-if="isEnabled && addEnabled" class="q-mt-sm">
+        <div class="row q-mt-sm">
+          <q-input class="col" type="number" label-color="red-10" v-model="scaling" @input="updateScale" filled dense square label="scale" style="width: 100%" />
+          <q-input class="col" type="number" label-color="red-10" v-model="speed" @input="updateSpeed" filled dense square label="speed" style="width: 100%" />
       </div>
 
   </div>
