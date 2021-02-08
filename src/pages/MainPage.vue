@@ -15,6 +15,7 @@
           </q-scroll-area>
         </div>
         <div class="col-2 text-center">
+          <PatientMonitor></PatientMonitor>
           <DiagramBuilder></DiagramBuilder>
         </div>
     </div>
@@ -31,6 +32,7 @@ import ModelDiagram from 'components/ModelDiagram'
 import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
 import ModelProps from 'components/ModelProps'
+import PatientMonitor from 'components/PatientMonitor'
 
 export default {
   name: 'PageIndex',
@@ -42,7 +44,8 @@ export default {
     ModelDiagram,
     DiagramBuilder,
     ScriptEditor,
-    ModelProps
+    ModelProps,
+    PatientMonitor
   },
   data () {
     return {
