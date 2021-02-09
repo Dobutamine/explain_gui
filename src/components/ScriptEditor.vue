@@ -78,6 +78,30 @@
         <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
     </q-btn>
   </div>
+  <q-separator class="q-ma-sm"></q-separator>
+
+    <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="scriptIOEnabled = !scriptIOEnabled">
+        script i/o
+      </div>
+    </div>
+    <div v-if="scriptIOEnabled" class="row q-ml-md q-mr-md">
+          <q-input type="text" label="new script list name" v-model='exportFileName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+    </div>
+    <div v-if="scriptIOEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="exportScriptList">export scripts</q-btn>
+    </div>
+    <div v-if="scriptIOEnabled" class="row q-ma-md">
+    <q-file
+      v-model="fileToBeImported"
+      dense
+      label="load script list from disk"
+      filled
+      @input="importScriptList"
+    >
+      <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
+    </q-file>
+    </div>
 
 </q-card>
 </template>
@@ -90,6 +114,7 @@ export default {
       isEnabled: false,
       addEnabled: false,
       newScriptEnabled: false,
+      scriptIOEnabled: false,
       scriptLoaded: false,
       scriptReadyForExecution: false,
       isNumber: true,
@@ -110,7 +135,9 @@ export default {
       propValue1In: 5,
       propValue1At: 0,
       models: [],
-      props: []
+      props: [],
+      exportFileName: '',
+      fileToBeImported: null
     }
   },
   mounted () {
@@ -149,6 +176,9 @@ export default {
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
+      if (this.isEnabled) {
+        this.$model.getProperties(null)
+      }
     },
     selectIntervention (field, index) {
       this.addEnabled = true
@@ -210,6 +240,28 @@ export default {
         atTime: this.propValue1At
       }
       this.interventionsList.push(intervention)
+    },
+    importScriptList () {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.scriptList = JSON.parse(e.target.result)
+        this.updateLocalStorageScriptList()
+        this.loadScriptsFromLocalStorage()
+      }
+      reader.readAsText(this.fileToBeImported)
+    },
+    exportScriptList () {
+      // download to local disk
+      const data = JSON.stringify(this.scriptList)
+      const blob = new Blob([data], { type: 'text/json' })
+      const e = document.createEvent('MouseEvents')
+      const a = document.createElement('a')
+      a.download = this.exportFileName
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
     },
     deleteIntervention () {
       this.interventionsList.splice(this.selectedIntervention, 1)

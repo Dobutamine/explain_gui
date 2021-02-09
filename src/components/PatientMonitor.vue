@@ -37,7 +37,7 @@
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="hemodynamicEnabled = !hemodynamicEnabled">
           hemodynamic monitor
     </div>
-    <div v-if="hemodynamicEnabled" class="row q-mt-es">
+    <div v-if="hemodynamicEnabled" class="row q-mt-es q-mb-md">
         <div class="row">
             <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
             <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
@@ -69,7 +69,7 @@
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
           ventilator monitor
     </div>
-    <div v-if="respiratoryEnabled" class="row q-mt-es">
+    <div v-if="respiratoryEnabled" class="row q-mt-es q-mb-md">
         <div class="row">
             <q-input class="col" label-color="red-10" v-model="vent_peak_presssure" filled dense square label="peak pressure" />
             <q-input class="col" label-color="red-10" v-model="vent_plateau_pressure" filled dense square label="plateau pressure" />

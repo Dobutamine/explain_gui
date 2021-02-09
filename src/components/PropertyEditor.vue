@@ -30,7 +30,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       modelEventListener: null,
       properties: null,
       standard: 0,
@@ -75,7 +75,9 @@ export default {
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
-      this.$model.getProperties(null)
+      if (this.isEnabled) {
+        this.$model.getProperties(null)
+      }
     },
     getModelDefinition () {
       this.$model.getModelDefinition(null)

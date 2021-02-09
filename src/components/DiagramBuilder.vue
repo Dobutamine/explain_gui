@@ -2,11 +2,11 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm">
    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     animated diagram editor
+      diagram editor
      </div>
    </div>
 
-   <div v-if="isEnabled && !newStateEnabled" class="row q-mt-es q-ml-sm q-mr-sm q-mb-sm">
+   <div v-if="isEnabled && !newStateEnabled" class="row q-mt-es q-ml-md q-mr-md q-mb-sm">
     <q-select :options="stateNames" class="col q-mr-sm" v-model="selectedState" @input="selectState" label="select existing diagram">
     </q-select>
   </div>
@@ -92,6 +92,30 @@
         </q-card>
       </q-dialog>
 
+     <q-separator class="q-ma-sm"></q-separator>
+
+    <div class="row q-mt-es">
+      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="diagramIOEnabled = !diagramIOEnabled">
+        diagrams i/o
+      </div>
+    </div>
+    <div v-if="diagramIOEnabled" class="row q-ml-md q-mr-md">
+          <q-input type="text" label="new diagram list name" v-model='exportFileName' class="col q-mr-sm" dense color="teal-7" ></q-input>
+    </div>
+    <div v-if="diagramIOEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="exportDiagramList">export diagrams</q-btn>
+    </div>
+    <div v-if="diagramIOEnabled" class="row q-ma-md">
+    <q-file
+      v-model="fileToBeImported"
+      dense
+      label="load diagram list from disk"
+      filled
+      @input="importDiagramList"
+    >
+      <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
+    </q-file>
+    </div>
   </q-card>
 </template>
 
@@ -99,7 +123,8 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
+      diagramIOEnabled: false,
       showActions: false,
       newStateEnabled: false,
       addEnabled: false,
@@ -119,7 +144,9 @@ export default {
       currentModelsInDiagram: [],
       layout: [],
       showPopUp: false,
-      popUpMessage: ''
+      popUpMessage: '',
+      exportFileName: '',
+      fileToBeImported: null
     }
   },
   mounted () {
@@ -160,6 +187,9 @@ export default {
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
+      if (this.isEnabled) {
+        this.$model.getProperties(null)
+      }
     },
     loadDiagramsFromLocalStorage () {
       // clear the diagram list
@@ -209,6 +239,7 @@ export default {
       this.currentModelsInDiagram = []
       this.addEnabled = false
       this.newStateEnabled = false
+      this.showActions = false
       this.layout = []
       this.$root.$emit('clear_diagram')
     },
@@ -239,16 +270,37 @@ export default {
           this.diagramList.splice(foundIndex, 1, newState)
         }
         this.showPopUp = true
-        this.popUpMessage = 'diagram saved to local storage'
         this.updateLocalStorageDiagramList()
       } else {
         this.showPopUp = true
         this.popUpMessage = 'please provide a diagram name'
       }
     },
+    importDiagramList () {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.diagramList = JSON.parse(e.target.result)
+        this.updateLocalStorageDiagramList()
+        this.loadDiagramsFromLocalStorage()
+      }
+      reader.readAsText(this.fileToBeImported)
+    },
+    exportDiagramList () {
+      // download to local disk
+      const data = JSON.stringify(this.diagramList)
+      const blob = new Blob([data], { type: 'text/json' })
+      const e = document.createEvent('MouseEvents')
+      const a = document.createElement('a')
+      a.download = this.exportFileName
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
+    },
     updateLocalStorageDiagramList () {
+      this.popUpMessage = 'diagramlist updated'
       localStorage.explain_diagrams = JSON.stringify(this.diagramList)
-      console.log('local storage diagram list updated')
     },
     deleteState () {
       const foundIndex = this.diagramList.findIndex(element => element.name === this.stateName)
@@ -263,7 +315,6 @@ export default {
         this.stateName = ''
 
         this.showPopUp = true
-        this.popUpMessage = 'diagram deletred from local storage'
       }
     },
     processModels () {

@@ -2,8 +2,8 @@
   <q-page padding>
     <div class="row justify-center items-start q-ma-es">
         <div class="col-2 text-center">
-          <FileReader></FileReader>
           <Controller></Controller>
+          <FileReader></FileReader>
           <ModelProps></ModelProps>
           <ScriptEditor></ScriptEditor>
           <ModelLog></ModelLog>

@@ -25,6 +25,9 @@
       snapshots
     </div>
   </div>
+   <div v-if="snapshotEnabled" class="row q-ml-md q-mr-md">
+        <q-input type="text" label="new snapshot name" v-model='snapshot_file_name' class="col q-mr-sm" dense color="teal-7" ></q-input>
+  </div>
   <div v-if="snapshotEnabled" class="row q-ma-md">
       <q-btn dense color="teal-7" style="width: 100%" @click="setSnapshot">take snapshot</q-btn>
   </div>
@@ -50,14 +53,15 @@ export default {
     return {
       file: null,
       snapshot_file: null,
+      snapshot_file_name: 'snapshot',
       isEnabled: false,
-      snapshotEnabled: true,
+      snapshotEnabled: false,
       snapshot: null
     }
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
-      if (this.isEnabled) {
+      if (this.isEnabled | this.snapshotEnabled) {
         switch (message.data.type) {
           case 'data':
             switch (message.data.target) {
@@ -91,6 +95,7 @@ export default {
         this.$model.getProperties(null)
       }
       reader.readAsText(this.snapshot_file)
+      this.snapshot_file_name = this.snapshot_file.name
     },
     setSnapshot () {
       this.snapshot_requested = true
@@ -101,7 +106,7 @@ export default {
       const blob = new Blob([data], { type: 'text/json' })
       const e = document.createEvent('MouseEvents')
       const a = document.createElement('a')
-      a.download = 'test.json'
+      a.download = this.snapshot_file_name
       a.href = window.URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
       e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
