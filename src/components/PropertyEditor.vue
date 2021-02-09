@@ -59,7 +59,6 @@ export default {
               default:
               case 'model_definition':
                 this.model_definition = message.data.data
-                console.log(message.data.data)
                 break
             }
             break

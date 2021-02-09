@@ -22,7 +22,7 @@
           <q-input class="col" label-color="red-10" v-model="temp" filled dense square label="temp" />
       </div>
     </div>
-
+    <q-separator class="q-ma-sm"></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="bloodgasEnabled = !bloodgasEnabled">
           bloodgas
     </div>
@@ -33,7 +33,7 @@
             <q-input class="col" label-color="red-10" v-model="pco2" filled dense square label="pCO2" />
       </div>
     </div>
-
+    <q-separator class="q-ma-sm"></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="hemodynamicEnabled = !hemodynamicEnabled">
           hemodynamic monitor
     </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-
+    <q-separator class="q-ma-sm"></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
           ventilator monitor
     </div>
