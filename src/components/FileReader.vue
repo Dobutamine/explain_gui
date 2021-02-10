@@ -2,8 +2,15 @@
 <q-card class="q-pb-sm q-pt-es q-ma-sm">
   <div class="row q-mt-es">
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        base model loader
+        model loader
     </div>
+  </div>
+
+  <div v-if="isEnabled" class="row q-ml-md q-mr-md">
+        <q-input type="text" label="new model name" v-model='json_filename' class="col q-mr-sm" dense color="teal-7" ></q-input>
+  </div>
+  <div v-if="isEnabled" class="row q-ma-md">
+      <q-btn dense color="teal-7" style="width: 100%" @click="setJSON">save model</q-btn>
   </div>
 
   <div v-if="isEnabled" class="row q-ma-md">
@@ -52,6 +59,9 @@ export default {
   data () {
     return {
       file: null,
+      json: null,
+      json_filename: 'test',
+      json_requested: false,
       snapshot_file: null,
       snapshot_file_name: 'snapshot',
       isEnabled: false,
@@ -70,6 +80,14 @@ export default {
                   this.snapshot = message.data.data
                   this.downloadSnapshot()
                   this.snapshot_requested = false
+                }
+                break
+              case 'json':
+                if (this.json_requested) {
+                  this.json = message.data.data
+                  console.log(this.json)
+                  this.downloadJSON()
+                  this.json_requested = false
                 }
                 break
             }
@@ -97,9 +115,29 @@ export default {
       reader.readAsText(this.snapshot_file)
       this.snapshot_file_name = this.snapshot_file.name
     },
+    setJSON () {
+      this.json_requested = true
+      this.$model.getModelJSON()
+    },
     setSnapshot () {
       this.snapshot_requested = true
       this.$model.getModelState()
+    },
+    downloadJSON () {
+      this.json.name = this.json_filename
+      const data = JSON.stringify(this.json)
+      const blob = new Blob([data], { type: 'text/json' })
+      const e = document.createEvent('MouseEvents')
+      const a = document.createElement('a')
+      if (this.json_filename.includes('.json')) {
+        a.download = this.json_filename
+      } else {
+        a.download = this.json_filename + '.json'
+      }
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
     },
     downloadSnapshot () {
       const data = JSON.stringify(this.snapshot)

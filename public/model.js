@@ -128,7 +128,15 @@ export class Model {
       return_tag: null
     });
   }
-
+  getModelJSON = () => {
+    this.engine.postMessage({
+      type:"get",
+      target:"datalogger",
+      action:"getModelJSON",
+      data: null,
+      return_tag: "json"
+    })
+  }
   getModelState = () => {
     // if model is not specified this gets all the properties of the model engine
     this.engine.postMessage({
