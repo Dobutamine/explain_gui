@@ -56,6 +56,8 @@ export default {
     // attach an event handler to the model instance
     this.height = this.$q.screen.height
     this.max_width = this.$q.screen.width
+
+    this.$q.dark.set(false)
   },
   beforeDestroy () {
     // remove the event handler from memory

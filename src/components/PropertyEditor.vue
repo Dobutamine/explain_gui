@@ -1,16 +1,50 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm">
+  <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        component properties
+        components
       </div>
     </div>
 
-    <div v-if="isEnabled" class="q-mt-sm">
+    <div v-if="isEnabled && !newComponentMode" class="q-mt-md">
       <div class="row q-mt-sm">
         <q-select class="col" label-color="red-10" v-model="selectedComponentName" :value="selectedComponentName" :options="modelList" @input="selectNewModelFromOutside" filled dense square label="selected model" style="width: 100%" />
       </div>
     </div>
+
+   <div v-if="isEnabled && newComponentMode && !propsFound" class="row q-mt-es q-ml-md q-mr-sm q-mb-md">
+    <q-select :options="componentCategories" class="col q-mr-sm" v-model="newComponentSelectedCategory" @input="newComponentCategorySelected" label="select component category">
+    </q-select>
+  </div>
+
+   <div v-if="isEnabled && newComponentMode && !propsFound && !configureComponentMode" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="negative" @click="returnToStart">
+          <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+  </div>
+
+  <div v-if="isEnabled && configureComponentMode && !propsFound" class="row q-ma-es q-mt-sm">
+      <div  class="row q-col-gutter-x-md q-ma-sm" >
+        <div v-for="(field, index) in newComponentProps" :key='index'>
+          <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
+          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-7" size="sm" label-color="red-10" :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
+        </div>
+      </div>
+  </div>
+
+<div v-if="isEnabled && configureComponentMode && !propsFound" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="negative" @click="returnToStart">
+          <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+        <q-btn class="col q-mr-sm" dense color="teal-7">
+          <q-icon name="add_to_queue" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+  </div>
+
+   <div v-if="isEnabled && !propsFound && !newComponentMode" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="buildNewComponent">build new component</q-btn>
+  </div>
 
     <div v-if="isEnabled && propsFound" class="row q-ma-es q-mt-sm">
       <div class="row q-col-gutter-x-md q-ma-sm" >
@@ -23,6 +57,12 @@
 
     </div>
 
+    <div v-if="isEnabled && propsFound" class="row q-ma-md q-mt-sm">
+        <q-btn class="col q-mr-sm" dense color="negative" @click="returnToStart">
+          <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+  </div>
+
   </q-card>
 </template>
 
@@ -31,6 +71,11 @@ export default {
   data () {
     return {
       isEnabled: true,
+      newComponentMode: false,
+      configureComponentMode: false,
+      newComponentSelectedCategory: '',
+      componentCategories: ['blood_compartment', 'blood_connector', 'gas_compartment', 'gas_connector', 'valve', 'container', 'diffusor', 'exchanger'],
+      newComponentProps: [],
       modelEventListener: null,
       properties: null,
       standard: 0,
@@ -77,6 +122,84 @@ export default {
       if (this.isEnabled) {
         this.$model.getProperties(null)
       }
+    },
+    returnToStart () {
+      this.propsFound = false
+      this.newComponentMode = false
+      this.configureComponentMode = false
+    },
+    buildNewComponent () {
+      this.newComponentMode = true
+    },
+    newComponentCategorySelected () {
+      // find the properties of the selected type
+      this.newComponentProps = []
+      switch (this.newComponentSelectedCategory) {
+        case 'blood_compartment':
+          Object.keys(this.model_definition.blood_compartment_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property] }
+            )
+          })
+          break
+        case 'blood_connector':
+          Object.keys(this.model_definition.blood_connector_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.blood_connector_definitions[0][property], type: typeof this.model_definition.blood_connector_definitions[0][property] }
+            )
+          })
+          break
+        case 'valve':
+          Object.keys(this.model_definition.valve_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.valve_definitions[0][property], type: typeof this.model_definition.valve_definitions[0][property] }
+            )
+          })
+          break
+        case 'pump':
+          Object.keys(this.model_definition.blood_compartment_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property] }
+            )
+          })
+          break
+        case 'gas_compartment':
+          Object.keys(this.model_definition.gas_compartment_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.gas_compartment_definitions[0][property], type: typeof this.model_definition.gas_compartment_definitions[0][property] }
+            )
+          })
+          break
+        case 'gas_connector':
+          Object.keys(this.model_definition.gas_connector_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.gas_connector_definitions[0][property], type: typeof this.model_definition.gas_connector_definitions[0][property] }
+            )
+          })
+          break
+        case 'container':
+          Object.keys(this.model_definition.container_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.container_definitions[0][property], type: typeof this.model_definition.container_definitions[0][property] }
+            )
+          })
+          break
+        case 'diffusor':
+          Object.keys(this.model_definition.diffusor_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.diffusor_definitions[0][property], type: typeof this.model_definition.diffusor_definitions[0][property] }
+            )
+          })
+          break
+        case 'exchanger':
+          Object.keys(this.model_definition.exchanger_definitions[0]).forEach(property => {
+            this.newComponentProps.push(
+              { name: property, value: this.model_definition.exchanger_definitions[0][property], type: typeof this.model_definition.exchanger_definitions[0][property] }
+            )
+          })
+          break
+      }
+      this.configureComponentMode = true
     },
     getModelDefinition () {
       this.$model.getModelDefinition(null)
