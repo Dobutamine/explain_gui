@@ -106,7 +106,12 @@ export default {
       const blob = new Blob([data], { type: 'text/json' })
       const e = document.createEvent('MouseEvents')
       const a = document.createElement('a')
-      a.download = this.snapshot_file_name
+      if (this.snapshot_file_name.includes('.json')) {
+        a.download = this.snapshot_file_name
+      } else {
+        a.download = this.snapshot_file_name + '.json'
+      }
+
       a.href = window.URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
       e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
