@@ -143,7 +143,7 @@ export class Model {
     this.engine.postMessage({
       type: "get",
       target: "model_definition",
-      action: null,
+      action: "null",
       data: null,
       return_tag: "model_definition"
     });

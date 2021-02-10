@@ -30,7 +30,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       modelEventListener: null,
       properties: null,
       standard: 0,
@@ -56,7 +56,6 @@ export default {
                 this.properties = message.data.data
                 this.createModelList()
                 break
-              default:
               case 'model_definition':
                 this.model_definition = message.data.data
                 break
@@ -91,7 +90,6 @@ export default {
     selectNewModelFromOutside (model) {
       this.selectedComponentName = model
       this.selectedComponentPropertyList = []
-
       if (this.properties[model].subtype === '') {
         // find the property names stored in the model definition file
         Object.keys(this.model_definition).forEach(compartment => {
@@ -271,7 +269,6 @@ export default {
         })
       }
 
-      console.log(this.selectedComponentPropertyList)
       this.propsFound = true
     },
     changeProperties (event, name) {
