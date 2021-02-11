@@ -19,9 +19,9 @@
         <q-input type="text" label="new script name" v-model='scriptName' class="col q-mr-sm" dense color="teal-7" ></q-input>
   </div>
 
-  <div v-if="isEnabled && scriptLoaded" class="row q-mt-sm bg-grey-2">
-      <q-list class="q-ma-sm" style="width: 100%" highlight separator>
-        <q-item v-for="(field, index) in interventionsList" :key='index' dense v-ripple clickable @click="selectIntervention(field, index)">
+  <div v-if="isEnabled && scriptLoaded" class="row q-mt-sm">
+      <q-list class="q-ma-sm" style="width: 100%" highlight dark separator>
+        <q-item v-for="(field, index) in interventionsList" :key='index' dense v-ripple dark clickable @click="selectIntervention(field, index)">
           <q-item-label class="text-caption q-pt-sm" style="width: 100%">
             {{ field.atTime }}s. -> {{ field.model }}.{{ field.prop }} to {{ field.newValue }} in {{ field.inTime }} s.
           </q-item-label>
@@ -32,21 +32,21 @@
     <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
-          <q-select class="col" label-color="red-10" v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 100%" />
+          <q-select class="col"  v-model="model1" :options="models" filled dense square @input="modelChanged" label="model" style="width: 100%" />
+          <q-select class="col"  v-model="prop1" :options="props" filled dense square @input="propChanged" label="property" style="width: 100%" />
       </div>
       <div v-if="isNumber" class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="propValue1" filled dense square label="current value" />
-          <q-input class="col" type="number" label-color="red-10" v-model="propValue1New" filled dense square label="new value" />
+          <q-input class="col" type="number"  v-model="propValue1" filled dense square label="current value" />
+          <q-input class="col" type="number"  v-model="propValue1New" filled dense square label="new value" />
       </div>
       <div v-if="!isNumber" class="bg-grey-2 row">
-          <q-toggle class="col text-caption" style="width: 100%" label-color="red-10" left-label v-model="propValue1"  label="current state"/>
-          <q-toggle class="col text-caption" style="width: 100%" label-color="red-10" left-label v-model="propValue1New" label="new state" />
+          <q-toggle class="col text-caption" style="width: 100%"  left-label v-model="propValue1"  label="current state"/>
+          <q-toggle class="col text-caption" style="width: 100%"  left-label v-model="propValue1New" label="new state" />
       </div>
 
       <div class="row">
-          <q-input class="col" type="number" label-color="red-10" v-model="propValue1In" filled dense square label="change in (s)" />
-          <q-input class="col" type="number" label-color="red-10" v-model="propValue1At" filled dense square label="change at (s)" />
+          <q-input class="col" type="number"  v-model="propValue1In" filled dense square label="change in (s)" />
+          <q-input class="col" type="number"  v-model="propValue1At" filled dense square label="change at (s)" />
       </div>
 
     </div>
@@ -78,7 +78,8 @@
         <q-icon name="delete_forever" class="text-white" style="font-size: 1rem;" />
     </q-btn>
   </div>
-  <q-separator class="q-ma-sm"></q-separator>
+
+  <q-separator ></q-separator>
 
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="scriptIOEnabled = !scriptIOEnabled">

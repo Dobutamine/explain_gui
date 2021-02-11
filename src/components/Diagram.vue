@@ -110,7 +110,7 @@ export default {
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
     // hide the model diagram at startup
-    // this.toggleIsEnabled()
+    this.toggleIsEnabled()
   },
   destroyed () {
     // remove eventlistener when destroyed
@@ -135,7 +135,7 @@ export default {
       this.pixiApp = new PIXI.Application({
         transparent: false,
         antialias: true,
-        backgroundColor: 0xeeeeee,
+        backgroundColor: 0x333333,
         view: canvas,
         sortableChildren: true
       })

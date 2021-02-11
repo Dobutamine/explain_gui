@@ -25,7 +25,7 @@
     </q-file>
   </div>
 
-  <q-separator class="q-ma-sm"></q-separator>
+  <q-separator></q-separator>
 
   <div class="row q-mt-es">
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleSnapshotEnabled">

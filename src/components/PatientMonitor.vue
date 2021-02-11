@@ -7,88 +7,88 @@
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
       <div class="row">
-          <q-input class="col" label-color="red-10" v-model="heartrate" filled dense square label="heartrate" />
-          <q-input class="col" label-color="red-10" v-model="abp" filled dense square label="abp" />
-          <q-input class="col" label-color="red-10" v-model="pap" filled dense square label="pap" />
+          <q-input class="col" v-model="heartrate" filled dense square label="heartrate" />
+          <q-input class="col" v-model="abp" filled dense square label="abp" />
+          <q-input class="col" v-model="pap" filled dense square label="pap" />
       </div>
       <div class="row">
-          <q-input class="col" label-color="red-10" v-model="sao2_pre" filled dense square label="sao2 pre" />
-          <q-input class="col" label-color="red-10" v-model="sao2_post" filled dense square label="sao2 post" />
-          <q-input class="col" label-color="red-10" v-model="cvp" filled dense square label="cvp" />
+          <q-input class="col" v-model="sao2_pre" filled dense square label="sao2 pre" />
+          <q-input class="col" v-model="sao2_post" filled dense square label="sao2 post" />
+          <q-input class="col" v-model="cvp" filled dense square label="cvp" />
       </div>
       <div class="row">
-          <q-input class="col" label-color="red-10" v-model="resp_rate" filled dense square label="resp rate" />
-          <q-input class="col" label-color="red-10" v-model="etco2" filled dense square label="etco2" />
-          <q-input class="col" label-color="red-10" v-model="temp" filled dense square label="temp" />
+          <q-input class="col" v-model="resp_rate" filled dense square label="resp rate" />
+          <q-input class="col" v-model="etco2" filled dense square label="etco2" />
+          <q-input class="col" v-model="temp" filled dense square label="temp" />
       </div>
     </div>
-    <q-separator class="q-ma-sm"></q-separator>
+    <q-separator></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="bloodgasEnabled = !bloodgasEnabled">
           bloodgas
     </div>
     <div v-if="bloodgasEnabled" class="row q-mt-es">
       <div class="row">
-            <q-input class="col" label-color="red-10" v-model="ph" filled dense square label="pH" />
-            <q-input class="col" label-color="red-10" v-model="po2" filled dense square label="pO2" />
-            <q-input class="col" label-color="red-10" v-model="pco2" filled dense square label="pCO2" />
+            <q-input class="col" v-model="ph" filled dense square label="pH" />
+            <q-input class="col" v-model="po2" filled dense square label="pO2" />
+            <q-input class="col" v-model="pco2" filled dense square label="pCO2" />
       </div>
     </div>
-    <q-separator class="q-ma-sm"></q-separator>
+    <q-separator></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="hemodynamicEnabled = !hemodynamicEnabled">
           hemodynamic monitor
     </div>
     <div v-if="hemodynamicEnabled" class="row q-mt-es q-mb-md">
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="ivc_flow" filled dense square label="ivc flow" />
-            <q-input class="col" label-color="red-10" v-model="svc_flow" filled dense square label="svc flow" />
-            <q-input class="col" label-color="red-10" v-model="myo_flow" filled dense square label="myo flow" />
+            <q-input class="col" v-model="ivc_flow" filled dense square label="ivc flow" />
+            <q-input class="col" v-model="svc_flow" filled dense square label="svc flow" />
+            <q-input class="col" v-model="myo_flow" filled dense square label="myo flow" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="pda_flow" filled dense square label="pda flow" />
-            <q-input class="col" label-color="red-10" v-model="ofo_flow" filled dense square label="ofo flow" />
-            <q-input class="col" label-color="red-10" v-model="vsd_flow" filled dense square label="vsd flow" />
+            <q-input class="col" v-model="pda_flow" filled dense square label="pda flow" />
+            <q-input class="col" v-model="ofo_flow" filled dense square label="ofo flow" />
+            <q-input class="col" v-model="vsd_flow" filled dense square label="vsd flow" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="kidney_flow" filled dense square label="kidney flow" />
-            <q-input class="col" label-color="red-10" v-model="liver_flow" filled dense square label="liver flow" />
-            <q-input class="col" label-color="red-10" v-model="brain_flow" filled dense square label="brain flow" />
+            <q-input class="col" v-model="kidney_flow" filled dense square label="kidney flow" />
+            <q-input class="col" v-model="liver_flow" filled dense square label="liver flow" />
+            <q-input class="col" v-model="brain_flow" filled dense square label="brain flow" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="lvo" filled dense square label="lvo" />
-            <q-input class="col" label-color="red-10" v-model="lv_stroke" filled dense square label="lv stroke" />
-            <q-input class="col" label-color="red-10" v-model="rvo" filled dense square label="rvo" />
+            <q-input class="col" v-model="lvo" filled dense square label="lvo" />
+            <q-input class="col" v-model="lv_stroke" filled dense square label="lv stroke" />
+            <q-input class="col" v-model="rvo" filled dense square label="rvo" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="rv_stroke" filled dense square label="rv stroke" />
-            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
-            <q-input class="col" label-color="red-10" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+            <q-input class="col" v-model="rv_stroke" filled dense square label="rv stroke" />
+            <q-input class="col" v-model="lungshunt_flow" filled dense square label="lung shunt" />
+            <q-input class="col" v-model="lungshunt_flow" filled dense square label="lung shunt" />
         </div>
       </div>
     </div>
-    <q-separator class="q-ma-sm"></q-separator>
+    <q-separator></q-separator>
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
           ventilator monitor
     </div>
     <div v-if="respiratoryEnabled" class="row q-mt-es q-mb-md">
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="vent_peak_presssure" filled dense square label="peak pressure" />
-            <q-input class="col" label-color="red-10" v-model="vent_plateau_pressure" filled dense square label="plateau pressure" />
-            <q-input class="col" label-color="red-10" v-model="vent_peep" filled dense square label="peep" />
+            <q-input class="col" v-model="vent_peak_presssure" filled dense square label="peak pressure" />
+            <q-input class="col" v-model="vent_plateau_pressure" filled dense square label="plateau pressure" />
+            <q-input class="col" v-model="vent_peep" filled dense square label="peep" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="vent_freq" filled dense square label="frequence" />
-            <q-input class="col" label-color="red-10" v-model="vent_tidal_volume" filled dense square label="tidal volume" />
-            <q-input class="col" label-color="red-10" v-model="vent_minute_volume" filled dense square label="minute volume" />
+            <q-input class="col" v-model="vent_freq" filled dense square label="frequence" />
+            <q-input class="col" v-model="vent_tidal_volume" filled dense square label="tidal volume" />
+            <q-input class="col" v-model="vent_minute_volume" filled dense square label="minute volume" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="vent_insp_time" filled dense square label="insp time" />
-            <q-input class="col" label-color="red-10" v-model="vent_compliance" filled dense square label="compliance" />
-            <q-input class="col" label-color="red-10" v-model="vent_resistance" filled dense square label="resistance" />
+            <q-input class="col" v-model="vent_insp_time" filled dense square label="insp time" />
+            <q-input class="col" v-model="vent_compliance" filled dense square label="compliance" />
+            <q-input class="col" v-model="vent_resistance" filled dense square label="resistance" />
         </div>
         <div class="row">
-            <q-input class="col" label-color="red-10" v-model="vent_insp_flow" filled dense square label="insp flow" />
-            <q-input class="col" label-color="red-10" v-model="vent_exp_flow" filled dense square label="exp flow" />
-            <q-input class="col" label-color="red-10" v-model="etco2" filled dense square label="etco2" />
+            <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow" />
+            <q-input class="col" v-model="vent_exp_flow" filled dense square label="exp flow" />
+            <q-input class="col" v-model="etco2" filled dense square label="etco2" />
         </div>
       </div>
 

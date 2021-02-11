@@ -10,26 +10,20 @@
   <div v-if="isEnabled" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="red-10" v-model="xAxisModel" :options="xAxisModels" filled dense square @input="xAxisChanged" label="x model" style="width: 120px" />
-        <q-select label-color="red-10" v-model="xAxisProp" :options="xAxisProps" filled dense square label="property" style="width: 120px" />
+        <q-select label-color="white" v-model="xAxisModel" :options="xAxisModels" filled dense square @input="xAxisChanged" label="x model" style="width: 120px" />
+        <q-select label-color="white" v-model="xAxisProp" :options="xAxisProps" filled dense square label="property" style="width: 120px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="red-10" v-model="chartCh1Model" :options="channel1Models" filled dense square @input="ch1Changed" label="y1 model" style="width: 120px" />
-        <q-select label-color="red-10" v-model="chartCh1Prop" :options="channel1Props" filled dense square label="property" style="width: 120px" />
+        <q-select label-color="red-6" v-model="chartCh1Model" :options="channel1Models" filled dense square @input="ch1Changed" label="y1 model" style="width: 120px" />
+        <q-select label-color="red-6" v-model="chartCh1Prop" :options="channel1Props" filled dense square label="property" style="width: 120px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="green-10" v-model="chartCh2Model" :options="channel2Models" filled dense square @input="ch2Changed" label="y2 model" style="width: 120px"/>
-        <q-select label-color="green-10" v-model="chartCh2Prop" :options="channel2Props" filled dense square label="property" style="width: 120px"/>
-      </div>
-    </div>
-    <div class="col">
-      <div class="q-gutter-es row gutter">
-        <q-select label-color="indigo-10" v-model="chartCh3Model" :options="channel3Models" filled dense square @input="ch3Changed" label="y3 model" style="width: 120px" />
-        <q-select label-color="indigo-10" v-model="chartCh3Prop" :options="channel3Props" filled dense square label="property" style="width: 120px"/>
+        <q-select label-color="light-green-13" v-model="chartCh2Model" :options="channel2Models" filled dense square @input="ch2Changed" label="y2 model" style="width: 120px"/>
+        <q-select label-color="light-green-13" v-model="chartCh2Prop" :options="channel2Props" filled dense square label="property" style="width: 120px"/>
       </div>
     </div>
   </div>
@@ -37,58 +31,44 @@
   <div v-if="showSummary" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="xMin" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="red-10" v-model="xMax" filled dense square label="maximum" style="width: 120px" />
+        <q-input label-color="white" v-model="xMin" filled dense square label="minimum" style="width: 120px" />
+        <q-input label-color="white" v-model="xMax" filled dense square label="maximum" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="xMean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="red-10" v-model="xSD" filled dense square label="sd" style="width: 120px" />
+        <q-input label-color="white" v-model="xMean" filled dense square label="mean" style="width: 120px" />
+        <q-input label-color="white" v-model="xSD" filled dense square label="sd" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="xPerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="red-10" v-model="xPerBeat" filled dense square label="/beat" style="width: 120px" />
-      </div>
-    </div>
-    <div class="col">
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y1Min" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y1Max" filled dense square label="maximum" style="width: 120px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y1Mean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y1SD" filled dense square label="sd" style="width: 120px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y1PerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y1PerBeat" filled dense square label="/beat" style="width: 120px" />
+        <q-input label-color="white" v-model="xPerMinute" filled dense square label="/min" style="width: 120px" />
+        <q-input label-color="white" v-model="xPerBeat" filled dense square label="/beat" style="width: 120px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y2Min" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y2Max" filled dense square label="maximum" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1Min" filled dense square label="minimum" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1Max" filled dense square label="maximum" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y2Mean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y2SD" filled dense square label="sd" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1Mean" filled dense square label="mean" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1SD" filled dense square label="sd" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y2PerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y2PerBeat" filled dense square label="/beat" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1PerMinute" filled dense square label="/min" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1PerBeat" filled dense square label="/beat" style="width: 120px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y3Min" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y3Max" filled dense square label="maximum" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2Min" filled dense square label="minimum" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2Max" filled dense square label="maximum" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y3Mean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y3SD" filled dense square label="sd" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2Mean" filled dense square label="mean" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2SD" filled dense square label="sd" style="width: 120px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="red-10" v-model="y3PerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="red-10" v-model="y3PerBeat" filled dense square label="/beat" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2PerMinute" filled dense square label="/min" style="width: 120px" />
+        <q-input label-color="light-green-13" v-model="y2PerBeat" filled dense square label="/beat" style="width: 120px" />
       </div>
     </div>
   </div>
@@ -102,7 +82,6 @@
     <q-checkbox v-model="scaling" dense label="multipliers" @input="channelFactoringToggle" />
     <q-input v-if="scaling" v-model.number="chartCh1Factor" type="number" label="y1" filled dense style="width: 100px"/>
     <q-input v-if="scaling" v-model.number="chartCh2Factor" type="number" label="y2" filled dense style="width: 100px"/>
-    <q-input v-if="scaling" v-model.number="chartCh3Factor" type="number" label="y3" filled dense style="width: 100px"/>
      <q-input v-model.number="rtFrame" type="number" label="rt frame sec" filled dense style="width: 100px"/>
   </div>
 
@@ -146,11 +125,6 @@ export default {
       chartCh2Model: 'none',
       chartCh2Prop: '',
       chartCh2Factor: 1,
-      chartCh3Lineseries: null,
-      chartCh3Data: [],
-      chartCh3Model: 'none',
-      chartCh3Prop: '',
-      chartCh3Factor: 1,
       callback: () => {},
       callback_datalogger: this.drawGraph,
       callback_props: this.processProps,
@@ -184,13 +158,7 @@ export default {
       y2Mean: 0,
       y2SD: 0,
       y2PerMinute: 0,
-      y2PerBeat: 0,
-      y3Min: 0,
-      y3Max: 0,
-      y3Mean: 0,
-      y3SD: 0,
-      y3PerMinute: 0,
-      y3PerBeat: 0
+      y2PerBeat: 0
     }
   },
   methods: {
@@ -223,7 +191,6 @@ export default {
       if (!this.scaling) {
         this.chartCh1Factor = 1
         this.chartCh2Factor = 1
-        this.chartCh3Factor = 1
       }
     },
     setDatalogger () {
@@ -239,10 +206,6 @@ export default {
 
       if (this.chartCh2Model !== 'none' & this.chartCh2Model !== '') {
         watchModels.push(this.chartCh2Model)
-      }
-
-      if (this.chartCh3Model !== 'none' & this.chartCh3Model !== '') {
-        watchModels.push(this.chartCh3Model)
       }
 
       if (watchModels.length > 0) {
@@ -282,17 +245,6 @@ export default {
         Object.keys(this.properties[this.chartCh2Model]).forEach(propName => {
           if (typeof this.properties[this.chartCh2Model][propName] === 'number') {
             this.channel2Props.push(propName)
-          }
-        })
-      }
-      this.setDatalogger()
-    },
-    ch3Changed () {
-      this.channel3Props.length = 0
-      if (this.chartCh3Model !== 'none') {
-        Object.keys(this.properties[this.chartCh3Model]).forEach(propName => {
-          if (typeof this.properties[this.chartCh3Model][propName] === 'number') {
-            this.channel3Props.push(propName)
           }
         })
       }
@@ -342,11 +294,9 @@ export default {
     drawGraph () {
       this.chartCh1Lineseries.clear()
       this.chartCh2Lineseries.clear()
-      this.chartCh3Lineseries.clear()
 
       this.chartCh1Data.length = 0
       this.chartCh2Data.length = 0
-      this.chartCh3Data.length = 0
 
       this.datalogger_data.forEach(dataline => {
         let xValue = dataline[this.xAxisModel][this.xAxisProp]
@@ -367,18 +317,10 @@ export default {
             y: dataline[this.chartCh2Model][this.chartCh2Prop] * this.chartCh2Factor
           })
         }
-
-        if (this.chartCh3Model !== 'none') {
-          this.chartCh3Data.push({
-            x: xValue,
-            y: dataline[this.chartCh3Model][this.chartCh3Prop] * this.chartCh3Factor
-          })
-        }
       })
       // console.log(this.chartCh1Data)
       this.chartCh1Lineseries.add(this.chartCh1Data)
       this.chartCh2Lineseries.add(this.chartCh2Data)
-      this.chartCh3Lineseries.add(this.chartCh3Data)
 
       this.analyzeResults()
     },
@@ -386,24 +328,20 @@ export default {
       this.xAxisModels.length = 0
       this.channel1Models.length = 0
       this.channel2Models.length = 0
-      this.channel3Models.length = 0
 
       this.xAxisModels.push('time')
       this.channel1Models.push('none')
       this.channel2Models.push('none')
-      this.channel3Models.push('none')
 
       Object.keys(this.properties).forEach(modelName => {
         this.xAxisModels.push(modelName)
         this.channel1Models.push(modelName)
         this.channel2Models.push(modelName)
-        this.channel3Models.push(modelName)
       })
 
       this.xAxisChanged()
       this.ch1Changed()
       this.ch2Changed()
-      this.ch3Changed()
     },
     getProps () {
       this.$model.getProperties(null)
@@ -411,7 +349,7 @@ export default {
     buildGraph () {
       this.chart = lightningChart().ChartXY({
         container: 'chart',
-        theme: Themes.light,
+        theme: Themes.dark,
         disableAnimations: false,
         responsive: true,
         maintainAspectRatio: false
@@ -423,111 +361,93 @@ export default {
       this.chartXAxis.setTickStrategy(AxisTickStrategies.Numeric)
       this.chartXAxis.setTitleFillStyle(EmptyFill)
       this.chartXAxis.setTickStyle((a) => a.setMajorTickStyle((b) => b.setLabelFont((font) => font.setSize(12))))
-      this.chartXAxis.setTickStyle((a) => a.setMinorTickStyle((b) => (b = undefined)))
+      this.chartXAxis.setTickStyle((a) => a.setMinorTickStyle((b) => b.setLabelFont((font) => font.setSize(10))))
 
       this.chartYAxis = this.chart.getDefaultAxisY()
       this.chartYAxis.setScrollStrategy(AxisScrollStrategies.fitting)
       this.chartYAxis.setTitleFillStyle(EmptyFill)
       this.chartYAxis.setTickStrategy(AxisTickStrategies.Numeric)
       this.chartYAxis.setTickStyle((a) => a.setMajorTickStyle((b) => b.setLabelFont((font) => font.setSize(12))))
-      this.chartYAxis.setTickStyle((a) => a.setMinorTickStyle((b) => (b = undefined)))
+      this.chartYAxis.setTickStyle((a) => a.setMinorTickStyle((b) => b.setLabelFont((font) => font.setSize(10))))
 
       this.chartCh1Lineseries = this.chart.addLineSeries()
       this.chartCh1Lineseries.setStrokeStyle((style) => style.setThickness(2))
-      this.chartCh1Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(128, 0, 0) })))
+      this.chartCh1Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(200, 0, 0) })))
 
       this.chartCh2Lineseries = this.chart.addLineSeries()
       this.chartCh2Lineseries.setStrokeStyle((style) => style.setThickness(2))
-      this.chartCh2Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(0, 128, 0) })))
-
-      this.chartCh3Lineseries = this.chart.addLineSeries()
-      this.chartCh3Lineseries.setStrokeStyle((style) => style.setThickness(2))
-      this.chartCh3Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(0, 0, 128) })))
+      this.chartCh2Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(0, 200, 0) })))
     },
     analyzeResults () {
-      if (this.showSummary) {
-        const xValues = []
-        const y1Values = []
-        const y2Values = []
-        const y3Values = []
-        this.xMin = '-'
-        this.xMax = '-'
-        this.y1Min = '-'
-        this.y1Max = '-'
-        this.y2Min = '-'
-        this.y2Max = '-'
-        this.y3Min = '-'
-        this.y3Max = '-'
-        let noBeats = 0
-        const duration = this.datalogger_data[this.datalogger_data.length - 1].time - this.datalogger_data[0].time
+      const xValues = []
+      const y1Values = []
+      const y2Values = []
+      this.xMin = '-'
+      this.xMax = '-'
+      this.y1Min = '-'
+      this.y1Max = '-'
+      this.y2Min = '-'
+      this.y2Max = '-'
+      let noBeats = 0
+      const duration = this.datalogger_data[this.datalogger_data.length - 1].time - this.datalogger_data[0].time
 
-        this.datalogger_data.forEach(dataline => {
-          if (dataline.ncc_ventricular === 1) {
-            noBeats += 1
-          }
-          let xValue = dataline[this.xAxisModel]
-          if (this.xAxisProp !== 'none') {
-            xValue = dataline[this.xAxisModel][this.xAxisProp]
-          }
-          if (typeof xValue === 'number') {
-            xValues.push(xValue)
-          }
-
-          if (dataline[this.chartCh1Model]) {
-            const y1Value = dataline[this.chartCh1Model][this.chartCh1Prop]
-            if (typeof y1Value === 'number') {
-              y1Values.push(y1Value)
-            }
-          }
-
-          if (dataline[this.chartCh2Model]) {
-            const y2Value = dataline[this.chartCh2Model][this.chartCh2Prop]
-            if (typeof y2Value === 'number') {
-              y2Values.push(y2Value)
-            }
-          }
-
-          if (dataline[this.chartCh3Model]) {
-            const y3Value = dataline[this.chartCh3Model][this.chartCh3Prop]
-            if (typeof y3Value === 'number') {
-              y3Values.push(y3Value)
-            }
-          }
-        })
-        if (xValues.length > 0) {
-          this.xMin = Stat.min(xValues).toFixed(4)
-          this.xMax = Stat.max(xValues).toFixed(4)
-          this.xMean = Stat.mean(xValues).toFixed(4)
-          this.xSD = Stat.standardDeviation(xValues).toFixed(4)
-          this.xPerMinute = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
-          this.xPerBeat = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
+      this.datalogger_data.forEach(dataline => {
+        if (dataline.ncc_ventricular === 1) {
+          noBeats += 1
         }
-        if (y1Values.length > 0) {
-          this.y1Min = Stat.min(y1Values).toFixed(4)
-          this.y1Max = Stat.max(y1Values).toFixed(4)
-          this.y1Mean = Stat.mean(y1Values).toFixed(4)
-          this.y1SD = Stat.standardDeviation(y1Values).toFixed(4)
-          this.y1PerMinute = ((Stat.sum(y1Values) / this.datalogger_data.length) * 60).toFixed(4)
+        let xValue = dataline[this.xAxisModel]
+        if (this.xAxisProp !== 'none') {
+          xValue = dataline[this.xAxisModel][this.xAxisProp]
+        }
+        if (typeof xValue === 'number') {
+          xValues.push(xValue)
+        }
+
+        if (dataline[this.chartCh1Model]) {
+          const y1Value = dataline[this.chartCh1Model][this.chartCh1Prop]
+          if (typeof y1Value === 'number') {
+            y1Values.push(y1Value)
+          }
+        }
+
+        if (dataline[this.chartCh2Model]) {
+          const y2Value = dataline[this.chartCh2Model][this.chartCh2Prop]
+          if (typeof y2Value === 'number') {
+            y2Values.push(y2Value)
+          }
+        }
+      })
+      if (xValues.length > 0) {
+        this.xMin = Stat.min(xValues).toFixed(4)
+        this.xMax = Stat.max(xValues).toFixed(4)
+        this.xMean = Stat.mean(xValues).toFixed(4)
+        this.xSD = Stat.standardDeviation(xValues).toFixed(4)
+        this.xPerMinute = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
+        this.xPerBeat = ((Stat.sum(xValues) / this.datalogger_data.length) * 60).toFixed(4)
+      }
+      if (y1Values.length > 0) {
+        this.y1Min = Stat.min(y1Values).toFixed(4)
+        this.y1Max = Stat.max(y1Values).toFixed(4)
+        this.y1Mean = Stat.mean(y1Values).toFixed(4)
+        this.y1SD = Stat.standardDeviation(y1Values).toFixed(4)
+        this.y1PerMinute = ((Stat.sum(y1Values) / this.datalogger_data.length) * 60).toFixed(4)
+        if (noBeats > 0) {
           this.y1PerBeat = ((Stat.sum(y1Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
+        } else {
+          this.y1PerBeat = '-'
         }
-        if (y2Values.length > 0) {
-          this.y2Min = Stat.min(y2Values).toFixed(4)
-          this.y2Max = Stat.max(y2Values).toFixed(4)
-          this.y2Mean = Stat.mean(y2Values).toFixed(4)
-          this.y2SD = Stat.standardDeviation(y2Values).toFixed(4)
-          this.y2PerMinute = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
-          this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
+      }
+      if (y2Values.length > 0) {
+        this.y2Min = Stat.min(y2Values).toFixed(4)
+        this.y2Max = Stat.max(y2Values).toFixed(4)
+        this.y2Mean = Stat.mean(y2Values).toFixed(4)
+        this.y2SD = Stat.standardDeviation(y2Values).toFixed(4)
+        this.y2PerMinute = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
+        this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * 60).toFixed(4)
+        if (noBeats > 0) {
           this.y2PerBeat = ((Stat.sum(y2Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
-        }
-
-        if (y3Values.length > 0) {
-          this.y3Min = Stat.min(y3Values).toFixed(4)
-          this.y3Max = Stat.max(y3Values).toFixed(4)
-          this.y3Mean = Stat.mean(y3Values).toFixed(4)
-          this.y3SD = Stat.standardDeviation(y3Values).toFixed(4)
-          this.y3PerMinute = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(4)
-          this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * 60).toFixed(4)
-          this.y3PerBeat = ((Stat.sum(y3Values) / this.datalogger_data.length) * duration / noBeats).toFixed(4)
+        } else {
+          this.y2PerBeat = '-'
         }
       }
     },
@@ -541,11 +461,6 @@ export default {
         this.chartCh2Model = 'none'
         this.chartCh2Prop = ''
         this.chartCh2Data = []
-      }
-      if (this.chartCh3Model === model) {
-        this.chartCh3Model = 'none'
-        this.chartCh3Prop = ''
-        this.chartCh3Data = []
       }
       this.setDatalogger()
     },

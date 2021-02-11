@@ -33,7 +33,7 @@ class DiagramValve {
     this.spriteValveOpen.anchor = { x: 0.5, y: 0.5 }
     this.spriteValveOpen.x = 50
     this.spriteValveOpen.y = 50
-    this.spriteValveOpen.tint = '0x000000'
+    this.spriteValveOpen.tint = '0xffffff'
     this.spriteValveOpen.zIndex = 1
     this.spriteValveOpen.scale.set(0.1, 0.15)
     this.pixiApp.stage.addChild(this.spriteValveOpen)
@@ -43,7 +43,7 @@ class DiagramValve {
     this.spriteValveClosed.anchor = { x: 0.5, y: 0.5 }
     this.spriteValveClosed.x = 50
     this.spriteValveClosed.y = 50
-    this.spriteValveClosed.tint = '0x000000'
+    this.spriteValveClosed.tint = '0xffffff'
     this.spriteValveClosed.zIndex = 1
     this.spriteValveClosed.scale.set(0.1, 0.15)
     this.pixiApp.stage.addChild(this.spriteValveClosed)

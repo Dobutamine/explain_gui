@@ -57,7 +57,7 @@ export default {
     this.height = this.$q.screen.height
     this.max_width = this.$q.screen.width
 
-    this.$q.dark.set(false)
+    this.$q.dark.set(true)
   },
   beforeDestroy () {
     // remove the event handler from memory

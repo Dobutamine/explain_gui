@@ -26,7 +26,7 @@
        </div>
     </div>
 
-  <div v-if="isEnabled && addEnabled" class="row q-mt-sm bg-grey-2">
+  <div v-if="isEnabled && addEnabled" class="row q-mt-sm">
       <q-list class="q-ma-es q-pa-sm" highlight separator style="width: 100%">
         <q-scroll-area style="height: 320px">
         <q-item v-for="(field, index) in currentModelsInDiagram" :key='index' dense v-ripple clickable @click="modelChanged(field, index)">
@@ -92,7 +92,7 @@
         </q-card>
       </q-dialog>
 
-     <q-separator class="q-ma-sm"></q-separator>
+     <q-separator></q-separator>
 
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="diagramIOEnabled = !diagramIOEnabled">

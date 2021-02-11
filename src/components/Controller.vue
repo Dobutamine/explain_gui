@@ -29,12 +29,12 @@ export default {
       watchedModelsDiagram: [],
       watchedModelsChart: [],
       caption: 'CALCULATE',
-      color: 'teal-7',
+      color: 'teal-10',
       captionRT: 'REALTIME',
-      colorRT: 'teal-7',
+      colorRT: 'teal-10',
       rtRunning: false,
       captionGOTO: 'FORWARD',
-      colorGOTO: 'teal-7',
+      colorGOTO: 'teal-10',
       gotoTarget: 60
     }
   },
@@ -45,12 +45,12 @@ export default {
           case 'mes':
             if (message.data.data[0] === 'ready') {
               this.caption = 'CALCULATE'
-              this.color = 'teal-7'
+              this.color = 'teal-10'
               this.rtRunning = false
               this.captionRT = 'REALTIME'
-              this.colorRT = 'teal-7'
+              this.colorRT = 'teal-10'
               this.captionGOTO = 'FORWARD'
-              this.colorGOTO = 'teal-7'
+              this.colorGOTO = 'teal-10'
             }
             break
         }
@@ -81,7 +81,7 @@ export default {
         this.rtRunning = false
         this.$model.stopModel()
         this.captionRT = 'REALTIME'
-        this.colorRT = 'teal-7'
+        this.colorRT = 'teal-10'
         this.$root.$emit('rt_off')
       } else {
         this.rtRunning = true
