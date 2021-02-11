@@ -99,7 +99,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       bloodgasEnabled: false,
       hemodynamicEnabled: false,
       respiratoryEnabled: false,

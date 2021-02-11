@@ -6,7 +6,7 @@
      </div>
    </div>
 
-  <div :class="graphClass" id="chart"></div>
+  <div :class="graphClass" :id="id"></div>
   <div v-if="isEnabled" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
@@ -98,6 +98,7 @@ import * as Stat from 'simple-statistics'
 export default {
   data () {
     return {
+      id: 'chart',
       graphClass: 'rectangle',
       box: false,
       isEnabled: true,
@@ -347,8 +348,9 @@ export default {
       this.$model.getProperties(null)
     },
     buildGraph () {
+      console.log(this.id)
       this.chart = lightningChart().ChartXY({
-        container: 'chart',
+        container: this.id,
         theme: Themes.dark,
         disableAnimations: false,
         responsive: true,
@@ -498,6 +500,9 @@ export default {
   },
   destroyed () {
     delete this.modelEventListener
+  },
+  beforeMount () {
+    this.id = 'test' + Math.floor((Math.random() * 1000) + 1)
   },
   mounted () {
     this.buildGraph()

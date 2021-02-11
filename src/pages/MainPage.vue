@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="row justify-center items-start q-ma-es">
-        <div class="col-2 text-center">
+        <div class="col-3 text-center">
           <Controller></Controller>
           <FileReader></FileReader>
           <ModelProps></ModelProps>
@@ -11,10 +11,11 @@
         <div class="col text-center">
            <q-scroll-area v-bind:style="{ height: height + 'px'}">
              <LightningChart></LightningChart>
+             <LightningChart></LightningChart>
              <ModelDiagram></ModelDiagram>
           </q-scroll-area>
         </div>
-        <div class="col-2 text-center">
+        <div class="col-3 text-center">
           <PatientMonitor></PatientMonitor>
           <DiagramBuilder></DiagramBuilder>
         </div>
@@ -32,7 +33,7 @@ import ModelDiagram from 'components/Diagram'
 import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
 import ModelProps from 'components/PropertyEditor'
-import PatientMonitor from 'components/PatientMonitor'
+import PatientMonitor from 'components/Monitoring'
 
 export default {
   name: 'PageIndex',
