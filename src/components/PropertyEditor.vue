@@ -8,7 +8,7 @@
 
     <div v-if="isEnabled && !newComponentMode" class="q-mt-md">
       <div class="row q-mt-sm">
-        <q-select class="col" label-color="red-10" v-model="selectedComponentName" :value="selectedComponentName" :options="modelList" @input="selectNewModelFromOutside" filled dense square label="selected model" style="width: 100%" />
+        <q-select class="col" v-model="selectedComponentName" :value="selectedComponentName" :options="modelList" @input="selectNewModelFromOutside" filled dense square label="selected model" style="width: 100%" />
       </div>
     </div>
 
@@ -28,7 +28,7 @@
         <div v-for="(field, index) in newComponentProps" :key='index'>
           <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
           <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
-          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm" label-color="red-10" :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
+          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm"  :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
         </div>
       </div>
   </div>
@@ -42,9 +42,9 @@
         </q-btn>
   </div>
 
-   <div v-if="isEnabled && !propsFound && !newComponentMode" class="row q-ma-md">
+   <!-- <div v-if="isEnabled && !propsFound && !newComponentMode" class="row q-ma-md">
         <q-btn dense color="teal-10" style="width: 100%" @click="buildNewComponent">build new component</q-btn>
-  </div>
+  </div> -->
 
     <div v-if="isEnabled && propsFound" class="row q-ma-es q-mt-sm">
       <div class="row q-col-gutter-x-md q-ma-sm" >
@@ -70,7 +70,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       newComponentMode: false,
       configureComponentMode: false,
       newComponentSelectedCategory: '',
@@ -90,23 +90,21 @@ export default {
   },
   mounted () {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
-      if (this.isEnabled) {
-        switch (message.data.type) {
-          case 'data':
-            switch (message.data.target) {
-              case 'datalogger_output':
-                this.$model.getProperties(null)
-                break
-              case 'props':
-                this.properties = message.data.data
-                this.createModelList()
-                break
-              case 'model_definition':
-                this.model_definition = message.data.data
-                break
-            }
-            break
-        }
+      switch (message.data.type) {
+        case 'data':
+          switch (message.data.target) {
+            case 'datalogger_output':
+              this.$model.getProperties(null)
+              break
+            case 'props':
+              this.properties = message.data.data
+              this.createModelList()
+              break
+            case 'model_definition':
+              this.model_definition = message.data.data
+              break
+          }
+          break
       }
     })
 

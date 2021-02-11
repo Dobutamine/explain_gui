@@ -32,7 +32,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       modelEventListener: null,
       log: [],
       prevMessage: ''

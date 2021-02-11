@@ -175,9 +175,11 @@ export default {
     },
     hiresToggle () {
       if (this.hires) {
-        this.$model.setDataloggerInterval(0.001)
+        this.$model.setDataloggerInterval(0.005)
+        this.$root.$emit('hires_on')
       } else {
         this.$model.setDataloggerInterval(0.015)
+        this.$root.$emit('hires_off')
       }
     },
     autoScaleToggle () {
@@ -257,7 +259,7 @@ export default {
 
       let samples = parseInt(this.rtFrame / 0.015)
       if (this.hires) {
-        samples = parseInt(this.rtFrame / 0.001)
+        samples = parseInt(this.rtFrame / 0.005)
       }
 
       const overrunCh1 = this.chartCh1Data.length - samples

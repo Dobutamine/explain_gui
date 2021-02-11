@@ -11,11 +11,12 @@
         <div class="col text-center">
            <q-scroll-area v-bind:style="{ height: height + 'px'}">
              <LightningChart></LightningChart>
-             <LightningChart></LightningChart>
+             <VitalTrends></VitalTrends>
              <ModelDiagram></ModelDiagram>
           </q-scroll-area>
         </div>
         <div class="col-3 text-center">
+          <Intellivue></Intellivue>
           <PatientMonitor></PatientMonitor>
           <DiagramBuilder></DiagramBuilder>
         </div>
@@ -34,6 +35,8 @@ import ScriptEditor from 'components/ScriptEditor'
 import DiagramBuilder from 'components/DiagramBuilder'
 import ModelProps from 'components/PropertyEditor'
 import PatientMonitor from 'components/Monitoring'
+import Intellivue from 'components/Intellivue'
+import VitalTrends from 'components/VitalTrends'
 
 export default {
   name: 'PageIndex',
@@ -46,7 +49,9 @@ export default {
     DiagramBuilder,
     ScriptEditor,
     ModelProps,
-    PatientMonitor
+    PatientMonitor,
+    Intellivue,
+    VitalTrends
   },
   data () {
     return {

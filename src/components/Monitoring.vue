@@ -3,7 +3,7 @@
 
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="isEnabled = !isEnabled">
-        patient monitor
+        monitoring
     </div>
     <div v-if="isEnabled" class="row q-mt-es">
       <div class="row">
@@ -99,7 +99,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       bloodgasEnabled: false,
       hemodynamicEnabled: false,
       respiratoryEnabled: false,
