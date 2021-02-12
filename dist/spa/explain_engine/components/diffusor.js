@@ -1,0 +1,1 @@
+class Diffusor{constructor(e){this._model=e,this.flux_o2=0}modelStep(){this.is_enabled&&this.modelCycle()}modelCycle(){}}
