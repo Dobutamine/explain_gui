@@ -123,7 +123,7 @@
 export default {
   data () {
     return {
-      isEnabled: true,
+      isEnabled: false,
       diagramIOEnabled: false,
       showActions: false,
       newStateEnabled: false,
