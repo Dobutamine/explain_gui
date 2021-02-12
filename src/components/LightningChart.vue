@@ -10,20 +10,20 @@
   <div v-if="isEnabled" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="white" v-model="xAxisModel" :options="xAxisModels" filled dense square @input="xAxisChanged" label="x model" style="width: 120px" />
-        <q-select label-color="white" v-model="xAxisProp" :options="xAxisProps" filled dense square label="property" style="width: 120px" />
+        <q-select label-color="white" v-model="xAxisModel" :options="xAxisModels" filled dense square @input="xAxisChanged" label="x model" style="width: 110px" />
+        <q-select label-color="white" v-model="xAxisProp" :options="xAxisProps" filled dense square label="property" style="width: 110px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="red-6" v-model="chartCh1Model" :options="channel1Models" filled dense square @input="ch1Changed" label="y1 model" style="width: 120px" />
-        <q-select label-color="red-6" v-model="chartCh1Prop" :options="channel1Props" filled dense square label="property" style="width: 120px" />
+        <q-select label-color="red-6" v-model="chartCh1Model" :options="channel1Models" filled dense square @input="ch1Changed" label="y1 model" style="width: 110px" />
+        <q-select label-color="red-6" v-model="chartCh1Prop" :options="channel1Props" filled dense square label="property" style="width: 110px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-select label-color="light-green-13" v-model="chartCh2Model" :options="channel2Models" filled dense square @input="ch2Changed" label="y2 model" style="width: 120px"/>
-        <q-select label-color="light-green-13" v-model="chartCh2Prop" :options="channel2Props" filled dense square label="property" style="width: 120px"/>
+        <q-select label-color="light-green-13" v-model="chartCh2Model" :options="channel2Models" filled dense square @input="ch2Changed" label="y2 model" style="width: 110px"/>
+        <q-select label-color="light-green-13" v-model="chartCh2Prop" :options="channel2Props" filled dense square label="property" style="width: 110px"/>
       </div>
     </div>
   </div>
@@ -31,44 +31,44 @@
   <div v-if="showSummary" class="row q-mt-sm">
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-input label-color="white" v-model="xMin" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="white" v-model="xMax" filled dense square label="maximum" style="width: 120px" />
+        <q-input label-color="white" v-model="xMin" filled dense square label="minimum" style="width: 110px" />
+        <q-input label-color="white" v-model="xMax" filled dense square label="maximum" style="width: 110px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="white" v-model="xMean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="white" v-model="xSD" filled dense square label="sd" style="width: 120px" />
+        <q-input label-color="white" v-model="xMean" filled dense square label="mean" style="width: 110px" />
+        <q-input label-color="white" v-model="xSD" filled dense square label="sd" style="width: 110px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="white" v-model="xPerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="white" v-model="xPerBeat" filled dense square label="/beat" style="width: 120px" />
-      </div>
-    </div>
-    <div class="col">
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-6" v-model="y1Min" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="red-6" v-model="y1Max" filled dense square label="maximum" style="width: 120px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-6" v-model="y1Mean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="red-6" v-model="y1SD" filled dense square label="sd" style="width: 120px" />
-      </div>
-      <div class="q-gutter-es row gutter">
-        <q-input label-color="red-6" v-model="y1PerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="red-6" v-model="y1PerBeat" filled dense square label="/beat" style="width: 120px" />
+        <q-input label-color="white" v-model="xPerMinute" filled dense square label="/min" style="width: 110px" />
+        <q-input label-color="white" v-model="xPerBeat" filled dense square label="/beat" style="width: 110px" />
       </div>
     </div>
     <div class="col">
       <div class="q-gutter-es row gutter">
-        <q-input label-color="light-green-13" v-model="y2Min" filled dense square label="minimum" style="width: 120px" />
-        <q-input label-color="light-green-13" v-model="y2Max" filled dense square label="maximum" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1Min" filled dense square label="minimum" style="width: 110px" />
+        <q-input label-color="red-6" v-model="y1Max" filled dense square label="maximum" style="width: 110px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="light-green-13" v-model="y2Mean" filled dense square label="mean" style="width: 120px" />
-        <q-input label-color="light-green-13" v-model="y2SD" filled dense square label="sd" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1Mean" filled dense square label="mean" style="width: 110px" />
+        <q-input label-color="red-6" v-model="y1SD" filled dense square label="sd" style="width: 110px" />
       </div>
       <div class="q-gutter-es row gutter">
-        <q-input label-color="light-green-13" v-model="y2PerMinute" filled dense square label="/min" style="width: 120px" />
-        <q-input label-color="light-green-13" v-model="y2PerBeat" filled dense square label="/beat" style="width: 120px" />
+        <q-input label-color="red-6" v-model="y1PerMinute" filled dense square label="/min" style="width: 110px" />
+        <q-input label-color="red-6" v-model="y1PerBeat" filled dense square label="/beat" style="width: 110px" />
+      </div>
+    </div>
+    <div class="col">
+      <div class="q-gutter-es row gutter">
+        <q-input label-color="light-green-13" v-model="y2Min" filled dense square label="minimum" style="width: 110px" />
+        <q-input label-color="light-green-13" v-model="y2Max" filled dense square label="maximum" style="width: 110px" />
+      </div>
+      <div class="q-gutter-es row gutter">
+        <q-input label-color="light-green-13" v-model="y2Mean" filled dense square label="mean" style="width: 110px" />
+        <q-input label-color="light-green-13" v-model="y2SD" filled dense square label="sd" style="width: 110px" />
+      </div>
+      <div class="q-gutter-es row gutter">
+        <q-input label-color="light-green-13" v-model="y2PerMinute" filled dense square label="/min" style="width: 110px" />
+        <q-input label-color="light-green-13" v-model="y2PerBeat" filled dense square label="/beat" style="width: 110px" />
       </div>
     </div>
   </div>
