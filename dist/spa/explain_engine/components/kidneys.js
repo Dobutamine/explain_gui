@@ -1,0 +1,1 @@
+class Kidneys{constructor(s){this._model=s,this._d_raas=0,this._effect_raas=0,this.diuresis=0}modelStep(){this.is_enabled&&this.modelCycle()}modelCycle(){}}

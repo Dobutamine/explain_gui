@@ -14,19 +14,19 @@
       <div class="row q-mt-es">
         <q-input label="HR" label-color="light-green-13" :value="hr" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="SpO2" label-color="purple-4" :value="sat_pre" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="SpO2" label-color="purple-3" :value="sat_post" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="ABP" label-color="red-5" :value="abp" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="Resp" :value="resp_rate" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="etCO2" label-color="yellow-7" :value="etCO2" dense></q-input>
       </div>
     </div>
@@ -210,7 +210,7 @@ export default {
         if (dataline.time - this.prevTime > 1) {
           this.prevTime = dataline.time
           this.hr = parseInt(dataline.monitor.heart_rate)
-          this.abp = `${parseInt(dataline.monitor.abp_syst)}/${parseInt(dataline.monitor.abp_diast)} (${parseInt(dataline.monitor.abp_mean)})`
+          this.abp = `${parseInt(dataline.monitor.abp_syst)}/${parseInt(dataline.monitor.abp_diast)}`
           this.sat_pre = parseInt(dataline.monitor.saO2_pre)
           this.sat_post = parseInt(dataline.monitor.saO2_post)
           this.resp_rate = parseInt(dataline.monitor.resp_rate)
@@ -303,7 +303,7 @@ export default {
         if (dataline.time - this.prevTime > 1) {
           this.prevTime = dataline.time
           this.hr = parseInt(dataline.monitor.heart_rate)
-          this.abp = `${parseInt(dataline.monitor.abp_syst)}/${parseInt(dataline.monitor.abp_diast)} (${parseInt(dataline.monitor.abp_mean)})`
+          this.abp = `${parseInt(dataline.monitor.abp_syst)}/${parseInt(dataline.monitor.abp_diast)}`
           this.sat_pre = parseInt(dataline.monitor.saO2_pre)
           this.sat_post = parseInt(dataline.monitor.saO2_post)
           this.resp_rate = parseInt(dataline.monitor.resp_rate)
@@ -370,7 +370,8 @@ export default {
         maintainAspectRatio: false
       })
       this.chart.setTitle('')
-      this.chart.setPadding({ top: 0, bottom: 0, left: 15, right: 30 })
+      this.chart.setTitleFillStyle(EmptyFill)
+      this.chart.setPadding({ top: 0, bottom: 0, left: 5, right: 5 })
       this.chartXAxis = this.chart.getDefaultAxisX()
       this.chartXAxis.setScrollStrategy(AxisScrollStrategies.fitting)
       this.chartXAxis.setTickStrategy(AxisTickStrategies.Empty)
@@ -456,15 +457,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 265px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 265px;
   width: 100%;
 }
 .gutter {
