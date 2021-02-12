@@ -24,9 +24,13 @@ class DiagramContainer {
     this.sprite.interactive = true
     this.sprite.buttonMode = true
     this.sprite.on('mousedown', this.onDragStart)
+    this.sprite.on('touchstart', this.onDragStart)
     this.sprite.on('mouseupoutside', this.onDragEnd)
+    this.sprite.on('touchendoutside', this.onDragEnd)
     this.sprite.on('mouseup', this.onDragEnd)
+    this.sprite.on('touchend', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
+    this.sprite.on('touchmove', this.onDragMove)
     this.sprite.zIndex = 0
     this.pixiApp.stage.addChild(this.sprite)
 
