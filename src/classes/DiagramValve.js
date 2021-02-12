@@ -25,7 +25,7 @@ class DiagramValve {
     this.sprite.tint = '0x000000'
     this.sprite.zIndex = 1
     this.pos = 0
-    this.sprite.scale.set(0.2, 0.2)
+    this.sprite.scale.set(0.03, 0.03)
     this.pixiApp.stage.addChild(this.sprite)
 
     // eslint-disable-next-line new-cap
@@ -84,7 +84,7 @@ class DiagramValve {
     this.spriteValveClosed.rotation = angle
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(3, 0x666666, 1)
+    this.graphics.lineStyle(1, 0xaaaaaa, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()
@@ -120,7 +120,7 @@ class DiagramValve {
     // const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(3, 0x666666, 1)
+    this.graphics.lineStyle(1, 0xaaaaaa, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()

@@ -31,9 +31,10 @@ class DiagramContainer {
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
-      fill: 'black',
-      fontSize: 12,
-      fontFamily: 'Tahoma'
+      fill: 'white',
+      fontSize: 9,
+      fontFamily: 'Tahoma',
+      strokeThickness: 0
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }

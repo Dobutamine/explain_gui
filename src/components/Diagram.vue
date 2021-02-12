@@ -41,7 +41,7 @@ export default {
         centerX: 0,
         centerY: 0,
         scaling: 60,
-        aspectRatio: 0.6
+        aspectRatio: 0.7
       },
       activeDiagramComponent: null,
       activeSprite: null,
@@ -110,7 +110,7 @@ export default {
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
     // hide the model diagram at startup
-    this.toggleIsEnabled()
+    // this.toggleIsEnabled()
   },
   destroyed () {
     // remove eventlistener when destroyed
@@ -131,6 +131,7 @@ export default {
     initDiagram () {
       // get the reference to the canvas
       canvas = document.getElementById('stage')
+      PIXI.settings.RESOLUTION = 2
       // define a pixi app with the canvas as view
       this.pixiApp = new PIXI.Application({
         transparent: false,

@@ -10,9 +10,9 @@ class DiagramBloodCompartment {
     this.sprite.modelComponents = modelComponents
     this.sprite.id = id
     this.sprite.label = label
-    this.sprite.volume = 0
+    this.sprite.volume = 0.05
     this.sprite.to2 = 0
-    this.sprite.scalingFactor = 4
+    this.sprite.scalingFactor = 5
     this.sprite.interactionData = null
     this.sprite.dragging = false
     this.sprite.anchor = { x: 0.5, y: 0.5 }
@@ -31,8 +31,9 @@ class DiagramBloodCompartment {
 
     this.sprite.textStyle = new PIXI.TextStyle({
       fill: 'white',
-      fontSize: 12,
-      fontFamily: 'Tahoma'
+      fontSize: 9,
+      fontFamily: 'Tahoma',
+      strokeThickness: 0
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }

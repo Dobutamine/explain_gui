@@ -23,7 +23,7 @@ class DiagramGasExchanger {
     this.sprite.tint = '0xffffff'
     this.sprite.zIndex = 1
     this.pos = 0
-    this.sprite.scale.set(0.2, 0.2)
+    this.sprite.scale.set(0.1, 0.1)
     this.pixiApp.stage.addChild(this.sprite)
   }
 

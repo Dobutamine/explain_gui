@@ -22,7 +22,7 @@
     <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <q-separator></q-separator>
       <div class="row q-mt-sm">
-          <q-select class="col" label-color="red-10" v-model="selectedModel" :options="models" @input="addToList" filled dense square label="select model to add" style="width: 100%" />
+          <q-select class="col" v-model="selectedModel" :options="models" @input="addToList" filled dense square label="select model to add" style="width: 100%" />
        </div>
     </div>
 
@@ -40,7 +40,7 @@
 
  <div v-if="isEnabled && addEnabled" class="q-mt-sm">
       <div class="row q-mt-sm">
-           <q-input class="col" label-color="red-10" :value="selectedCurrentModel" filled dense square label="selected model" style="width: 100%" />
+           <q-input class="col" :value="selectedCurrentModel" filled dense square label="selected model" style="width: 100%" />
       </div>
       <div class="row q-mt-sm">
            <q-toggle class="col q-ml-sm center" color="teal-7" v-model="autoSelectInGraph" size="sm" filled dense square label="show in graph and editor" style="width: 100%" />
@@ -60,8 +60,8 @@
 
   <div v-if="isEnabled && addEnabled" class="q-mt-sm">
         <div class="row q-mt-sm">
-          <q-input class="col" type="number" label-color="red-10" v-model="scaling" @input="updateScale" filled dense square label="scale" style="width: 100%" />
-          <q-input class="col" type="number" label-color="red-10" v-model="speed" @input="updateSpeed" filled dense square label="speed" style="width: 100%" />
+          <q-input class="col" type="number"  v-model="scaling" @input="updateScale" filled dense square label="scale" style="width: 100%" />
+          <q-input class="col" type="number"  v-model="speed" @input="updateSpeed" filled dense square label="speed" style="width: 100%" />
       </div>
 
   </div>
@@ -123,7 +123,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       diagramIOEnabled: false,
       showActions: false,
       newStateEnabled: false,
@@ -135,7 +135,7 @@ export default {
       stateNames: [],
       stateLoaded: false,
       properties: null,
-      scaling: 40,
+      scaling: 10,
       speed: 10,
       selectedModel: '',
       models: [],

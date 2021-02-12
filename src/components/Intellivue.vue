@@ -453,6 +453,8 @@ export default {
 
     this.$root.$on('hires_on', () => { this.hires = true })
     this.$root.$on('hires_off', () => { this.hires = false })
+
+    this.toggleIsEnabled()
   }
 }
 </script>
