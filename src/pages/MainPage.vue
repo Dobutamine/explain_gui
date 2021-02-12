@@ -2,11 +2,13 @@
   <q-page padding>
     <div class="row justify-center items-start q-ma-es">
         <div class="col-3 text-center">
-          <Controller></Controller>
-          <FileReader></FileReader>
-          <ModelProps></ModelProps>
-          <ScriptEditor></ScriptEditor>
-          <ModelLog></ModelLog>
+          <q-scroll-area :style="{height: height + 'px'}">
+            <Controller></Controller>
+            <FileReader></FileReader>
+            <ModelProps></ModelProps>
+            <ScriptEditor></ScriptEditor>
+            <ModelLog></ModelLog>
+          </q-scroll-area>
         </div>
         <div class="col text-center">
            <q-scroll-area v-bind:style="{ height: height + 'px'}">
@@ -16,9 +18,11 @@
           </q-scroll-area>
         </div>
         <div class="col-3 text-center">
-          <DiagramBuilder></DiagramBuilder>
-          <PatientMonitor></PatientMonitor>
-          <Intellivue></Intellivue>
+          <q-scroll-area :style="{height: height + 'px'}">
+            <DiagramBuilder></DiagramBuilder>
+            <PatientMonitor></PatientMonitor>
+            <Intellivue></Intellivue>
+          </q-scroll-area>
         </div>
     </div>
   </q-page>

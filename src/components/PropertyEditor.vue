@@ -24,12 +24,13 @@
   </div>
 
   <div v-if="isEnabled && configureComponentMode && !propsFound" class="row q-ma-es q-mt-sm">
+
       <div  class="row q-col-gutter-x-md q-ma-sm" >
-        <div v-for="(field, index) in newComponentProps" :key='index'>
-          <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
-          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
-          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm"  :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
-        </div>
+          <div v-for="(field, index) in newComponentProps" :key='index'>
+            <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+            <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
+            <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm"  :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
+          </div>
       </div>
   </div>
 
@@ -45,16 +46,14 @@
    <!-- <div v-if="isEnabled && !propsFound && !newComponentMode" class="row q-ma-md">
         <q-btn dense color="teal-10" style="width: 100%" @click="buildNewComponent">build new component</q-btn>
   </div> -->
-
     <div v-if="isEnabled && propsFound" class="row q-ma-es q-mt-sm">
-      <div class="row q-col-gutter-x-md q-ma-sm" >
-        <div v-for="(field, index) in selectedComponentPropertyList" :key='index'>
-          <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
-          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
-          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm" label-color="red-10" :label="field.name" left-label v-model="field.value" @input="changeProperties($event, field.name)"/>
+        <div class="row q-col-gutter-x-md q-ma-sm" >
+          <div v-for="(field, index) in selectedComponentPropertyList" :key='index'>
+            <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+            <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+            <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm" label-color="red-10" :label="field.name" left-label v-model="field.value" @input="changeProperties($event, field.name)"/>
+          </div>
         </div>
-      </div>
-
     </div>
 
     <div v-if="isEnabled && propsFound" class="row q-ma-md q-mt-sm">
