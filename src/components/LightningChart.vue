@@ -167,10 +167,8 @@ export default {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
         this.graphClass = 'rectangle'
-        this.showSummary = true
       } else {
         this.graphClass = 'rectangleHide'
-        this.showSummary = false
       }
     },
     hiresToggle () {
@@ -554,12 +552,12 @@ export default {
 <style>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 250px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 250px;
   width: 100%;
 }
 .gutter {

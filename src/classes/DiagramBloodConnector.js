@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import explain from '../assets/container.png'
+import explain from '../assets/blood.png'
 
 class DiagramBloodConnector {
   constructor (id, label, dbcFrom, dbcTo, connectors, pixiApp) {
@@ -23,7 +23,7 @@ class DiagramBloodConnector {
     this.sprite.tint = '0x000000'
     this.sprite.zIndex = 1
     this.pos = 0
-    this.sprite.scale.set(0.03, 0.03)
+    this.sprite.scale.set(0.04, 0.04)
     this.pixiApp.stage.addChild(this.sprite)
   }
 
@@ -55,10 +55,15 @@ class DiagramBloodConnector {
     const t = remapT / 1
     this.sprite.x = (1 - t) * x1 + t * x2
     this.sprite.y = (1 - t) * y1 + t * y2
+    const angle = Math.atan2((y1 - y2), x1 - x2) - 0.785 * 2
+    this.sprite.rotation = angle
 
-    if (remapT > 1) { this.position = 0 }
-    if (remapT < 0) { this.position = 1 }
-
+    if (remapT > 1) {
+      this.position = 0
+    }
+    if (remapT < 0) {
+      this.position = 1
+    }
     this.pixiApp.stage.addChild(this.graphics)
   }
 
@@ -92,15 +97,19 @@ class DiagramBloodConnector {
     if (remapT < 0) { this.position = 1 }
 
     let flow = 0
+    let angle = 0
     if (rtData) {
       this.connectors.forEach(connector => {
         flow += rtData[0][connector].real_flow * this.speed
       })
     }
     this.sprite.tint = tint1
+    angle = Math.atan2((y1 - y2), x1 - x2) - 0.785 * 2
     if (flow < 0) {
       this.sprite.tint = tint2
+      angle = Math.atan2((y2 - y1), x2 - x1) - 0.785 * 2
     }
+    this.sprite.rotation = angle
     this.position += flow / this.connectors.length
     this.pixiApp.stage.addChild(this.graphics)
     // this.pixiApp.stage.addChild(this.sprite)

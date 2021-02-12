@@ -16,9 +16,9 @@
           </q-scroll-area>
         </div>
         <div class="col-3 text-center">
-          <Intellivue></Intellivue>
-          <PatientMonitor></PatientMonitor>
           <DiagramBuilder></DiagramBuilder>
+          <PatientMonitor></PatientMonitor>
+          <Intellivue></Intellivue>
         </div>
     </div>
   </q-page>

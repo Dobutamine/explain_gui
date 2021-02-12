@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import explain from '../assets/container.png'
+import explain from '../assets/blood.png'
 import valveOpen from '../assets/valveOpen.png'
 import valveClosed from '../assets/valveClosed.png'
 
@@ -25,7 +25,7 @@ class DiagramValve {
     this.sprite.tint = '0x000000'
     this.sprite.zIndex = 1
     this.pos = 0
-    this.sprite.scale.set(0.03, 0.03)
+    this.sprite.scale.set(0.04, 0.04)
     this.pixiApp.stage.addChild(this.sprite)
 
     // eslint-disable-next-line new-cap
@@ -35,7 +35,7 @@ class DiagramValve {
     this.spriteValveOpen.y = 50
     this.spriteValveOpen.tint = '0xffffff'
     this.spriteValveOpen.zIndex = 1
-    this.spriteValveOpen.scale.set(0.1, 0.15)
+    this.spriteValveOpen.scale.set(0.05, 0.10)
     this.pixiApp.stage.addChild(this.spriteValveOpen)
 
     // eslint-disable-next-line new-cap
@@ -45,7 +45,7 @@ class DiagramValve {
     this.spriteValveClosed.y = 50
     this.spriteValveClosed.tint = '0xffffff'
     this.spriteValveClosed.zIndex = 1
-    this.spriteValveClosed.scale.set(0.1, 0.15)
+    this.spriteValveClosed.scale.set(0.05, 0.10)
     this.pixiApp.stage.addChild(this.spriteValveClosed)
   }
 
@@ -93,6 +93,8 @@ class DiagramValve {
     const t = remapT / 1
     this.sprite.x = (1 - t) * x1 + t * x2
     this.sprite.y = (1 - t) * y1 + t * y2
+    const angleSprite = Math.atan2((y1 - y2), x1 - x2) - 0.785 * 2
+    this.sprite.rotation = angleSprite
 
     if (remapT > 1) { this.position = 0 }
     if (remapT < 0) { this.position = 1 }
@@ -143,6 +145,7 @@ class DiagramValve {
     if (remapT < 0) { this.position = 1 }
 
     let flow = 0
+    let angleSprite = Math.atan2((y2 - y1), x2 - x1) - 0.785 * 2
     if (rtData) {
       this.connectors.forEach(connector => {
         flow += rtData[0][connector].real_flow * this.speed
@@ -154,11 +157,13 @@ class DiagramValve {
       this.spriteValveOpen.visible = false
       this.spriteValveClosed.rotation = angle
       this.sprite.tint = tint2
+      angleSprite = Math.atan2((y1 - y2), x1 - x2) - 0.785 * 2
     } else {
       this.spriteValveClosed.visible = false
       this.spriteValveOpen.visible = true
       this.spriteValveOpen.rotation = angle
     }
+    this.sprite.rotation = angleSprite
     this.position += flow / this.connectors.length
     this.pixiApp.stage.addChild(this.graphics)
     // this.pixiApp.stage.addChild(this.sprite)

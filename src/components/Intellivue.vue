@@ -6,8 +6,8 @@
      </div>
    </div>
 
-  <div class="row q-mt-sm">
-    <div class="col q-mb-md">
+  <div class="row q-mt-es">
+    <div class="col q-mt-es q-mb-md">
       <div :class="graphClass" :id="id"></div>
     </div>
     <div v-if="isEnabled" class="col-2 q-mt-lg">

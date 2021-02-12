@@ -319,7 +319,6 @@ export default {
 
 <style>
 #stage {
-  border-radius: 10px;
   width: 100%;
 }
 </style>

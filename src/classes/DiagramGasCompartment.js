@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import explain from '../assets/container.png'
+import explain from '../assets/gas_container.png'
 
 class DiagramGasCompartment {
   constructor (id, label, modelComponents, pixiApp) {
