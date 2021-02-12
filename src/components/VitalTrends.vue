@@ -6,24 +6,24 @@
      </div>
    </div>
 
-  <div class="row q-mt-sm">
-    <div class="col q-mb-md">
+  <div class="row q-mt-es">
+    <div class="col q-mb-es">
       <div :class="graphClass" :id="id"></div>
     </div>
     <div v-if="isEnabled" class="col-2 q-mt-lg">
       <div class="row q-mt-es">
         <q-input label="HR" label-color="light-green-13" :value="hr" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="SpO2" label-color="purple-4" :value="sat_pre" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="SpO2" label-color="purple-3" :value="sat_post" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="ABP" label-color="red-5" :value="abp" dense></q-input>
       </div>
-      <div class="row q-mt-sm">
+      <div class="row q-mt-es">
         <q-input label="Resp" :value="resp_rate" dense></q-input>
       </div>
     </div>
@@ -347,7 +347,7 @@ export default {
         maintainAspectRatio: false
       })
       this.chart.setTitle('')
-      this.chart.setPadding({ top: 0, bottom: 0, left: 15, right: 30 })
+      this.chart.setPadding({ top: 0, bottom: 0, left: 15, right: 5 })
       this.chartXAxis = this.chart.getDefaultAxisX()
       this.chartXAxis.setScrollStrategy(AxisScrollStrategies.fitting)
       this.chartXAxis.setTickStrategy(AxisTickStrategies.Numeric)
@@ -433,15 +433,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 250px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 250px;
   width: 100%;
 }
 .gutter {

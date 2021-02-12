@@ -12,22 +12,22 @@
     </div>
     <div v-if="isEnabled" class="col-2 q-mt-lg">
       <div class="row q-mt-es">
-        <q-input label="HR" label-color="light-green-13" :value="hr" dense></q-input>
+        <q-input label="HR" label-color="light-green-13" :value="hr" dense style="font-size: 12px"></q-input>
       </div>
       <div class="row q-mt-es">
-        <q-input label="SpO2" label-color="purple-4" :value="sat_pre" dense></q-input>
+        <q-input label="SpO2" label-color="purple-4" :value="sat_pre" dense style="font-size: 12px"></q-input>
       </div>
       <div class="row q-mt-es">
-        <q-input label="SpO2" label-color="purple-3" :value="sat_post" dense></q-input>
+        <q-input label="SpO2" label-color="purple-3" :value="sat_post" dense style="font-size: 12px"></q-input>
       </div>
       <div class="row q-mt-es">
-        <q-input label="ABP" label-color="red-5" :value="abp" dense></q-input>
+        <q-input label="ABP" label-color="red-5" :value="abp" dense style="font-size: 12px"></q-input>
       </div>
       <div class="row q-mt-es">
-        <q-input label="Resp" :value="resp_rate" dense></q-input>
+        <q-input label="Resp" :value="resp_rate" dense style="font-size: 12px"></q-input>
       </div>
       <div class="row q-mt-es">
-        <q-input label="etCO2" label-color="yellow-7" :value="etCO2" dense></q-input>
+        <q-input label="etCO2" label-color="yellow-7" :value="etCO2" dense style="font-size: 12px"></q-input>
       </div>
     </div>
 
