@@ -2,7 +2,7 @@
 <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
   <div class="row q-mt-es">
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        model i/o
+        model snapshot
     </div>
   </div>
 
@@ -25,9 +25,9 @@
     </q-file>
   </div>
 
-  <q-separator></q-separator>
+  <!-- <q-separator></q-separator> -->
 
-  <div class="row q-mt-es">
+  <!-- <div class="row q-mt-es">
     <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleSnapshotEnabled">
       snapshots
     </div>
@@ -49,7 +49,7 @@
     >
       <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
     </q-file>
-  </div>
+  </div> -->
 
 </q-card>
 </template>
