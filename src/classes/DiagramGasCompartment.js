@@ -18,7 +18,7 @@ class DiagramGasCompartment {
     this.sprite.anchor = { x: 0.5, y: 0.5 }
     this.sprite.x = 50
     this.sprite.y = 50
-    this.sprite.scale.set(0.5, 0.5)
+    this.sprite.scale.set(0.05, 0.05)
     this.sprite.tint = '0xffffff'
     this.sprite.interactive = true
     this.sprite.buttonMode = true
