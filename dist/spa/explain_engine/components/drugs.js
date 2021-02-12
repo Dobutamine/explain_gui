@@ -1,1 +1,0 @@
-class Drugs{constructor(e){this._model=e}modelStep(){this.is_enabled&&this.modelCycle()}modelCycle(){}}
