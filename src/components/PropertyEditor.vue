@@ -50,8 +50,8 @@
       <div class="row q-col-gutter-x-md q-ma-sm" >
         <div v-for="(field, index) in selectedComponentPropertyList" :key='index'>
           <q-input v-if="field.type === 'string'" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
-          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)" ></q-input>
-          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm" label-color="red-10" :label="field.name" @input="changeProperties($event, field.name)" left-label v-model="field.value"/>
+          <q-input v-if="field.type === 'number'" type="number" class="text-caption" :label="field.name" v-model="field.value" @input="changeProperties($event, field.name)"></q-input>
+          <q-toggle v-if="field.type === 'boolean'" class="text-caption q-pt-lg" color="teal-10" size="sm" label-color="red-10" :label="field.name" left-label v-model="field.value" @input="changeProperties($event, field.name)"/>
         </div>
       </div>
 
@@ -60,6 +60,9 @@
     <div v-if="isEnabled && propsFound" class="row q-ma-md q-mt-sm">
         <q-btn class="col q-mr-sm" dense color="negative" @click="returnToStart">
           <q-icon name="cancel" class="text-white" style="font-size: 1rem;" />
+        </q-btn>
+         <q-btn class="col q-mr-sm" dense color="teal-7" @click="submitChange">
+          <q-icon name="done" class="text-white" style="font-size: 1rem;" />
         </q-btn>
   </div>
 
@@ -121,6 +124,21 @@ export default {
         this.$model.getProperties(null)
       }
     },
+    submitChange () {
+      this.selectedComponentPropertyList.forEach(prop => {
+        if (prop.changed) {
+          this.$model.setPropertyDirect(this.selectedComponentName, prop.name, prop.value)
+        }
+      })
+      this.$model.getProperties(null)
+    },
+    changeProperties (event, name) {
+      this.selectedComponentPropertyList.forEach(prop => {
+        if (prop.name === name) {
+          prop.changed = true
+        }
+      })
+    },
     returnToStart () {
       this.propsFound = false
       this.newComponentMode = false
@@ -138,63 +156,63 @@ export default {
         case 'blood_compartment':
           Object.keys(this.model_definition.blood_compartment_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property] }
+              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property], changed: false }
             )
           })
           break
         case 'blood_connector':
           Object.keys(this.model_definition.blood_connector_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.blood_connector_definitions[0][property], type: typeof this.model_definition.blood_connector_definitions[0][property] }
+              { name: property, value: this.model_definition.blood_connector_definitions[0][property], type: typeof this.model_definition.blood_connector_definitions[0][property], changed: false }
             )
           })
           break
         case 'valve':
           Object.keys(this.model_definition.valve_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.valve_definitions[0][property], type: typeof this.model_definition.valve_definitions[0][property] }
+              { name: property, value: this.model_definition.valve_definitions[0][property], type: typeof this.model_definition.valve_definitions[0][property], changed: false }
             )
           })
           break
         case 'pump':
           Object.keys(this.model_definition.blood_compartment_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property] }
+              { name: property, value: this.model_definition.blood_compartment_definitions[0][property], type: typeof this.model_definition.blood_compartment_definitions[0][property], changed: false }
             )
           })
           break
         case 'gas_compartment':
           Object.keys(this.model_definition.gas_compartment_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.gas_compartment_definitions[0][property], type: typeof this.model_definition.gas_compartment_definitions[0][property] }
+              { name: property, value: this.model_definition.gas_compartment_definitions[0][property], type: typeof this.model_definition.gas_compartment_definitions[0][property], changed: false }
             )
           })
           break
         case 'gas_connector':
           Object.keys(this.model_definition.gas_connector_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.gas_connector_definitions[0][property], type: typeof this.model_definition.gas_connector_definitions[0][property] }
+              { name: property, value: this.model_definition.gas_connector_definitions[0][property], type: typeof this.model_definition.gas_connector_definitions[0][property], changed: false }
             )
           })
           break
         case 'container':
           Object.keys(this.model_definition.container_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.container_definitions[0][property], type: typeof this.model_definition.container_definitions[0][property] }
+              { name: property, value: this.model_definition.container_definitions[0][property], type: typeof this.model_definition.container_definitions[0][property], changed: false }
             )
           })
           break
         case 'diffusor':
           Object.keys(this.model_definition.diffusor_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.diffusor_definitions[0][property], type: typeof this.model_definition.diffusor_definitions[0][property] }
+              { name: property, value: this.model_definition.diffusor_definitions[0][property], type: typeof this.model_definition.diffusor_definitions[0][property], changed: false }
             )
           })
           break
         case 'exchanger':
           Object.keys(this.model_definition.exchanger_definitions[0]).forEach(property => {
             this.newComponentProps.push(
-              { name: property, value: this.model_definition.exchanger_definitions[0][property], type: typeof this.model_definition.exchanger_definitions[0][property] }
+              { name: property, value: this.model_definition.exchanger_definitions[0][property], type: typeof this.model_definition.exchanger_definitions[0][property], changed: false }
             )
           })
           break
@@ -393,9 +411,6 @@ export default {
       }
 
       this.propsFound = true
-    },
-    changeProperties (event, name) {
-      this.$model.setPropertyDirect(this.selectedComponentName, name, event)
     },
     testMe () {
       this.$model.setPropertyDirect('LV_AA', 'is_enabled', false)

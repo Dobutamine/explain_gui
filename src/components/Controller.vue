@@ -42,13 +42,20 @@ export default {
     this.modelEventListener = this.$model.engine.addEventListener('message', (message) => {
       if (this.isEnabled) {
         switch (message.data.type) {
+          case 'data':
+            switch (message.data.target) {
+              case 'datalogger_output':
+                this.caption = 'CALCULATE'
+                this.color = 'teal-10'
+                this.rtRunning = false
+                this.captionRT = 'REALTIME'
+                this.colorRT = 'teal-10'
+                this.captionGOTO = 'FORWARD'
+                this.colorGOTO = 'teal-10'
+            }
+            break
           case 'mes':
             if (message.data.data[0] === 'ready') {
-              this.caption = 'CALCULATE'
-              this.color = 'teal-10'
-              this.rtRunning = false
-              this.captionRT = 'REALTIME'
-              this.colorRT = 'teal-10'
               this.captionGOTO = 'FORWARD'
               this.colorGOTO = 'teal-10'
             }

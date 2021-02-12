@@ -2,7 +2,7 @@
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
     <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-      animated model diagram
+        model diagram
       </div>
     </div>
 
@@ -147,6 +147,7 @@ export default {
       this.pixiApp.stage.interactive = true
       this.pixiApp.stage.sortableChildren = true
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
+      this.pixiApp.stage.on('touchmove', this.redrawConnector)
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
@@ -317,7 +318,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #stage {
   width: 100%;
 }
