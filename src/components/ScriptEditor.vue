@@ -112,7 +112,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       addEnabled: false,
       newScriptEnabled: false,
       scriptIOEnabled: false,

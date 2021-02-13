@@ -109,8 +109,6 @@ export default {
     this.$root.$on('update_speed', (e) => this.updateSpeed(e))
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
-    // hide the model diagram at startup
-    this.toggleIsEnabled()
   },
   destroyed () {
     // remove eventlistener when destroyed

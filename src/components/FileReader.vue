@@ -64,7 +64,7 @@ export default {
       json_requested: false,
       snapshot_file: null,
       snapshot_file_name: 'snapshot',
-      isEnabled: false,
+      isEnabled: true,
       snapshotEnabled: false,
       snapshot: null
     }

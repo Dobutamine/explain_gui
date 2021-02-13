@@ -164,7 +164,7 @@ export default {
           break
         case 'rt':
           this.rt_data = message.data.data
-          if (this.isEnabled | this.bloodgasEnabled | this.hemodynamicEnabled) {
+          if (this.isEnabled | this.bloodgasEnabled | this.hemodynamicEnabled | this.respiratoryEnabled) {
             this.updateMonitorRealtime(message.data.data[0])
           }
           break

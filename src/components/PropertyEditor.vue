@@ -72,7 +72,7 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       newComponentMode: false,
       configureComponentMode: false,
       newComponentSelectedCategory: '',

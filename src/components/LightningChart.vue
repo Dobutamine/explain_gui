@@ -543,8 +543,6 @@ export default {
     this.$root.$on('add_to_graph1', (e) => { this.selectNewGraphFromOutside(e, 1) })
     this.$root.$on('add_to_graph2', (e) => { this.selectNewGraphFromOutside(e, 2) })
     this.$root.$on('remove_from_diagram', (e) => { this.removeGraphFromOutside(e) })
-
-    // this.toggleIsEnabled()
   }
 }
 </script>
