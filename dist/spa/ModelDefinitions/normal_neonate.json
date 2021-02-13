@@ -303,7 +303,10 @@
     "vent_tidal_volume_source": ["ventilator", "exhaled_tidal_volume"],
     "vent_insp_flow_source": ["ventilator", "insp_flow"],
     "vent_exp_flow_source": ["ventilator", "exp_flow"],
-    "vent_insp_time_source": ["ventilator", "t_in"]
+    "vent_insp_time_source": ["ventilator", "t_in"],
+    "vent_flow_signal_source": ["ventilator", "flow"],
+    "vent_pressure_signal_source": ["ventilator", "pressure"],
+    "vent_volume_signal_source": ["ventilator", "volume"]
   },
   "blood_compartment_definitions": [
     {
@@ -1523,7 +1526,7 @@
       "type": "component",
       "subtype": "gas_connector",
       "is_enabled": false,
-      "no_flow": true,
+      "no_flow": false,
       "no_backflow": false,
       "comp_from": "TUBINGIN",
       "comp_to": "TUBINGOUT",
@@ -1552,7 +1555,7 @@
       "description": "ventilator y-piece to non-collapsible airways",
       "type": "component",
       "subtype": "gas_connector",
-      "is_enabled": true,
+      "is_enabled": false,
       "no_flow": true,
       "no_backflow": false,
       "comp_from": "YPIECE",
