@@ -112,6 +112,7 @@ export default {
 
     this.$root.$on('add_to_graph1', (e) => { this.selectNewModelFromOutside(e) })
     this.getModelDefinition()
+    this.$model.getProperties(null)
   },
   beforeDestroy () {
     delete this.modelEventListener
