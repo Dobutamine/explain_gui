@@ -41,7 +41,7 @@ export default {
       chart1Ch1Data: [],
       chart1Ch1Model: 'monitor',
       chart1Ch1Prop: 'vent_pressure_signal',
-      chart1Ch1Factor: 1,
+      chart1Ch1Factor: 1.35951,
       chart1Ch1Offset: 0,
       chart1AutoScale: true,
       chart1MinY: 0,

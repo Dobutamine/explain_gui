@@ -224,7 +224,7 @@ export default {
 
         if (this.respiratoryEnabled) {
           this.vent_peak_presssure = ((data.monitor.vent_peak_presssure) * 1.35951).toFixed(1)
-          this.vent_plateau_pressure = ((data.monitor.vent_peak_presssure) * 1.35951).toFixed(1)
+          this.vent_plateau_pressure = ((data.monitor.vent_plateau_pressure) * 1.35951).toFixed(1)
           this.vent_compliance = (data.monitor.vent_compliance).toFixed(3)
           this.vent_resistance = (data.monitor.vent_resistance).toFixed(3)
           this.vent_peep = ((data.monitor.vent_peep) * 1.35951).toFixed(0)
