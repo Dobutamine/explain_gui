@@ -65,32 +65,6 @@
         </div>
       </div>
     </div>
-    <q-separator></q-separator>
-    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
-          ventilator monitor
-    </div>
-    <div v-if="respiratoryEnabled" class="row q-mt-es q-mb-md">
-        <div class="row">
-            <q-input class="col" v-model="vent_peak_presssure" filled dense square label="peak pressure" />
-            <q-input class="col" v-model="vent_plateau_pressure" filled dense square label="plateau pressure" />
-            <q-input class="col" v-model="vent_peep" filled dense square label="peep" />
-        </div>
-        <div class="row">
-            <q-input class="col" v-model="vent_freq" filled dense square label="frequence" />
-            <q-input class="col" v-model="vent_tidal_volume" filled dense square label="tidal volume" />
-            <q-input class="col" v-model="vent_minute_volume" filled dense square label="minute volume" />
-        </div>
-        <div class="row">
-            <q-input class="col" v-model="vent_insp_time" filled dense square label="insp time" />
-            <q-input class="col" v-model="vent_compliance" filled dense square label="compliance" />
-            <q-input class="col" v-model="vent_resistance" filled dense square label="resistance" />
-        </div>
-        <div class="row">
-            <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow" />
-            <q-input class="col" v-model="vent_exp_flow" filled dense square label="exp flow" />
-            <q-input class="col" v-model="etco2" filled dense square label="etco2" />
-        </div>
-      </div>
 
   </q-card>
 </template>
@@ -220,20 +194,6 @@ export default {
           this.lv_stroke = (data.monitor.lv_stroke).toFixed(4)
           this.rvo = (data.monitor.rvo).toFixed(4)
           this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
-        }
-
-        if (this.respiratoryEnabled) {
-          this.vent_peak_presssure = ((data.monitor.vent_peak_presssure) * 1.35951).toFixed(1)
-          this.vent_plateau_pressure = ((data.monitor.vent_plateau_pressure) * 1.35951).toFixed(1)
-          this.vent_compliance = (data.monitor.vent_compliance).toFixed(3)
-          this.vent_resistance = (data.monitor.vent_resistance).toFixed(3)
-          this.vent_peep = ((data.monitor.vent_peep) * 1.35951).toFixed(0)
-          this.vent_freq = (data.monitor.vent_freq).toFixed(0)
-          this.vent_minute_volume = (data.monitor.vent_minute_volume).toFixed(1)
-          this.vent_tidal_volume = ((data.monitor.vent_tidal_volume) * 1000).toFixed(1)
-          this.vent_insp_flow = (data.monitor.vent_insp_flow).toFixed(1)
-          this.vent_exp_flow = (data.monitor.vent_exp_flow).toFixed(1)
-          this.vent_insp_time = (data.monitor.vent_insp_time).toFixed(1)
         }
       }
     }

@@ -135,7 +135,7 @@ import ModelProps from 'components/PropertyEditor'
 import PatientMonitor from 'components/Monitoring'
 import Intellivue from 'components/Intellivue'
 import VitalTrends from 'components/VitalTrends'
-import Ventilator from 'components/ventilator'
+import Ventilator from 'components/VentilatorController'
 
 export default {
   name: 'PageIndex',
@@ -156,7 +156,7 @@ export default {
   data () {
     return {
       height: '2024px',
-      slide: 'modelchart',
+      slide: 'ventilator',
       slide_left: 'control',
       slide_right: 'editor'
     }
