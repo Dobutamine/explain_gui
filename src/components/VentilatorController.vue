@@ -51,7 +51,7 @@
         <div class="q-mt-sm" style="font-size: 10px">I-flow</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="md" :thickness="0.22" disable color="teal-10" track-color="grey-5"/>
+        <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
         <div class="q-mt-sm" style="font-size: 10px">FiO2</div>
       </q-card>
     </div>
@@ -215,6 +215,9 @@ export default {
           break
       }
     },
+    changeFiO2 () {
+      this.$model.setPropertyByFunction('ventilator', 'setFiO2', this.vent_set_fio2 / 100)
+    },
     changeVentilatorMode () {
       if (this.ventModeSelector === 'hfov') {
         this.hfov = true
@@ -325,6 +328,7 @@ export default {
         this.vent_mean = (((this.vent_insp_time * this.vent_freq) / 60) * ((data.monitor.vent_peak_presssure * 1.35951) - (data.monitor.vent_peep * 1.35951)) + (data.monitor.vent_peep * 1.35951)).toFixed(1)
         this.vent_leak = ((1 - data.monitor.vent_tidal_volume / data.monitor.vent_tidal_volume_insp) * 100).toFixed(1)
         this.vent_ie_ratio = `1: ${(data.monitor.vent_exp_time / data.monitor.vent_insp_time).toFixed(1)}`
+        this.vent_fio2 = Math.ceil(data.monitor.vent_fio2 * 100)
       }
     },
     buildGraph () {

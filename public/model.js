@@ -111,6 +111,15 @@ export class Model {
     })
   }
 
+  setPropertyByFunction = (model, func, new_value) => {
+    this.engine.postMessage({
+      type: "set",
+      target: model,
+      action: func,
+      data: new_value
+    })
+  }
+
   setProperty = (model, property, new_value, in_time = 0, at_time = 0, mode = "abs") => {
     this.engine.postMessage({
       type: "set",
