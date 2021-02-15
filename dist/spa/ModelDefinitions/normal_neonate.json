@@ -307,7 +307,8 @@
     "vent_exp_time_source": ["ventilator", "t_ex"],
     "vent_flow_signal_source": ["ventilator", "flow"],
     "vent_pressure_signal_source": ["ventilator", "pressure"],
-    "vent_volume_signal_source": ["ventilator", "volume"]
+    "vent_volume_signal_source": ["ventilator", "volume"],
+    "vent_fio2_source": ["VENTIN", "fo2"]
   },
   "blood_compartment_definitions": [
     {
