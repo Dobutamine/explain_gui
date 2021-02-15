@@ -28,31 +28,31 @@
    <div class="row q-mb-sm justify-center">
       <q-card v-if="!hfov" class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="0" :max="40" v-model="vent_set_max_pip" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changePIP"/>
-        <q-item-label class="q-mt-sm text-overline">P insp</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">Pinsp</div>
       </q-card>
       <q-card v-if="!hfov" class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="0" :max="20" v-model="vent_set_peep" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changePEEP"/>
-        <q-item-label class="q-mt-sm text-overline">PEEP</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">PEEP</div>
       </q-card>
       <q-card v-if="!hfov" class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="0" :max="50" :disable="!volumeGaranteed" v-model="vent_set_target_tv" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5"/>
-        <q-item-label class="q-mt-sm text-overline">TV</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">TV</div>
       </q-card>
       <q-card class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
-        <q-item-label class="q-mt-sm text-overline">FREQ</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">Freq</div>
       </q-card>
       <q-card v-if="!hfov" class="col q-pa-sm q-ma-sm" bordered >
         <q-knob :min="0.1" :max="1" v-model="vent_set_tin" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" :step="0.05" @input="changeFrequency"/>
-        <q-item-label class="q-mt-sm text-overline">I-TIME</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">I-time</div>
       </q-card>
       <q-card v-if="!hfov" class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="0" :max="20" v-model="vent_set_insp_flow" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeInspFlow"/>
-        <q-item-label class="q-mt-sm text-overline">I-FLOW</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">I-flow</div>
       </q-card>
       <q-card class="col q-pa-sm q-ma-sm" bordered>
         <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="md" :thickness="0.22" disable color="teal-10" track-color="grey-5"/>
-        <q-item-label class="q-mt-sm text-overline">FiO2</q-item-label>
+        <div class="q-mt-sm" style="font-size: 10px">FiO2</div>
       </q-card>
     </div>
 
