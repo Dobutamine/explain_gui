@@ -27,36 +27,49 @@
 
    <div class="q-gutter-xs row q-mb-sm justify-center">
       <q-card v-if="!hfov && !volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Pinsp</div>
         <q-knob :min="0" :max="40" v-model="vent_set_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changePIP"/>
-        <div class="q-mt-sm" style="font-size: 12px">Pinsp</div>
+        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
       </q-card>
       <q-card v-if="!hfov && volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Pmax</div>
         <q-knob :min="0" :max="40" v-model="vent_set_max_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changeMaxPIP"/>
-        <div class="q-mt-sm" style="font-size: 12px">Pmax</div>
+        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">PEEP</div>
         <q-knob :min="0" :max="20" v-model="vent_set_peep" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changePEEP"/>
-        <div class="q-mt-sm" style="font-size: 12px">PEEP</div>
+        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
       </q-card>
       <q-card v-if="!hfov && volumeGaranteed " class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">TV</div>
         <q-knob :min="0" :max="50" v-model="vent_set_target_tv" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeTV"/>
-        <div class="q-mt-sm" style="font-size: 12px">TV</div>
+        <div class="q-mt-sm" style="font-size: 8px">ml</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Freq</div>
         <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 12px">Freq</div>
+        <div class="q-mt-sm" style="font-size: 8px">/min</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered >
+        <div class="q-mb-sm" style="font-size: 12px">I-time</div>
         <q-knob :min="0.1" :max="1" v-model="vent_set_tin" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" :step="0.05" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 12px">I-time</div>
+        <div class="q-mt-sm" style="font-size: 8px">sec</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">I-flow</div>
         <q-knob :min="0" :max="20" v-model="vent_set_insp_flow" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeInspFlow"/>
-        <div class="q-mt-sm" style="font-size: 12px">I-flow</div>
+        <div class="q-mt-sm" style="font-size: 8px">l/min</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">FiO2</div>
         <q-knob :min="21" :max="120" v-model="vent_set_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
-        <div class="q-mt-sm" style="font-size: 12px">FiO2</div>
+        <div class="q-mt-sm" style="font-size: 8px">%</div>
+      </q-card>
+      <q-card class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Trigger</div>
+        <q-knob :min="0.5" :max="10" v-model="vent_set_trigger_volume" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changerTrigger"/>
+        <div class="q-mt-sm" style="font-size: 8px">ml</div>
       </q-card>
     </div>
 
@@ -144,6 +157,7 @@ export default {
       vent_set_target_tv: 15,
       vent_set_insp_flow: 8,
       vent_set_fio2: 21,
+      vent_set_trigger_volume: 1.2,
 
       vent_fio2: 21,
       vent_ie_ratio: '1:3',
@@ -237,6 +251,9 @@ export default {
           this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
         }
       }
+    },
+    changerTrigger () {
+      this.$model.setPropertyDirect('ventilator', 'trigger_volume', this.vent_set_trigger_volume / 1000)
     },
     changeFiO2 () {
       this.$model.setPropertyByFunction('ventilator', 'setFiO2', this.vent_set_fio2 / 100)

@@ -102,7 +102,7 @@
     "ventilator_mode": "pressure",
     "volume_garanteed": false,
     "synchronized": false,
-    "trigger_volume": 0.0020
+    "trigger_volume": 0.0012
   },
   "ans": {
     "name": "ans",
