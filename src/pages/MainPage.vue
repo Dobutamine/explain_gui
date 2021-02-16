@@ -164,7 +164,6 @@ export default {
   mounted () {
     // attach an event handler to the model instance
     this.height = (this.$q.screen.height - 100) + 'px'
-    console.log(this.height)
     this.max_width = this.$q.screen.width
     this.$q.dark.set(true)
   },

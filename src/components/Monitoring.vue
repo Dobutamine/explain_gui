@@ -75,7 +75,7 @@ export default {
     return {
       isEnabled: true,
       bloodgasEnabled: true,
-      hemodynamicEnabled: true,
+      hemodynamicEnabled: false,
       respiratoryEnabled: false,
       modelEventListener: null,
       heartrate: '-',

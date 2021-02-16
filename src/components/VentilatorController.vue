@@ -26,33 +26,37 @@
   </div>
 
    <div class="q-gutter-xs row q-mb-sm justify-center">
-      <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="0" :max="40" v-model="vent_set_max_pip" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changePIP"/>
-        <div class="q-mt-sm" style="font-size: 10px">Pinsp</div>
+      <q-card v-if="!hfov && !volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
+        <q-knob :min="0" :max="40" v-model="vent_set_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changePIP"/>
+        <div class="q-mt-sm" style="font-size: 12px">Pinsp</div>
+      </q-card>
+      <q-card v-if="!hfov && volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
+        <q-knob :min="0" :max="40" v-model="vent_set_max_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changeMaxPIP"/>
+        <div class="q-mt-sm" style="font-size: 12px">Pmax</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="0" :max="20" v-model="vent_set_peep" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changePEEP"/>
-        <div class="q-mt-sm" style="font-size: 10px">PEEP</div>
+        <q-knob :min="0" :max="20" v-model="vent_set_peep" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changePEEP"/>
+        <div class="q-mt-sm" style="font-size: 12px">PEEP</div>
       </q-card>
-      <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="0" :max="50" :disable="!volumeGaranteed" v-model="vent_set_target_tv" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5"/>
-        <div class="q-mt-sm" style="font-size: 10px">TV</div>
+      <q-card v-if="!hfov && volumeGaranteed " class="q-pa-sm q-ma-sm" bordered>
+        <q-knob :min="0" :max="50" v-model="vent_set_target_tv" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeTV"/>
+        <div class="q-mt-sm" style="font-size: 12px">TV</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 10px">Freq</div>
+        <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
+        <div class="q-mt-sm" style="font-size: 12px">Freq</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered >
-        <q-knob :min="0.1" :max="1" v-model="vent_set_tin" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" :step="0.05" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 10px">I-time</div>
+        <q-knob :min="0.1" :max="1" v-model="vent_set_tin" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" :step="0.05" @input="changeFrequency"/>
+        <div class="q-mt-sm" style="font-size: 12px">I-time</div>
       </q-card>
       <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="0" :max="20" v-model="vent_set_insp_flow" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeInspFlow"/>
-        <div class="q-mt-sm" style="font-size: 10px">I-flow</div>
+        <q-knob :min="0" :max="20" v-model="vent_set_insp_flow" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeInspFlow"/>
+        <div class="q-mt-sm" style="font-size: 12px">I-flow</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="md" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
-        <div class="q-mt-sm" style="font-size: 10px">FiO2</div>
+        <q-knob :min="21" :max="120" v-model="vent_set_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
+        <div class="q-mt-sm" style="font-size: 12px">FiO2</div>
       </q-card>
     </div>
 
@@ -66,24 +70,24 @@
       @input="changeVentilatorMode"
       :options="fabianOptions"
       />
-      <q-toggle class="q-mt-es text-overline" v-model="volumeGaranteed" disable size="sm" color="red-10">volume garanteed</q-toggle>
+      <q-toggle class="q-mt-es text-overline" v-model="volumeGaranteed" size="sm" color="red-10" @input="changeVolumeGaranteed">volume garanteed</q-toggle>
     </div>
 
         <div class="row q-mt-lg">
-            <q-input class="col" v-model="vent_plateau_pressure" filled dense square label="peak pressure (cmH2O)" style="font-size: 18px"  />
-            <q-input class="col" v-model="vent_mean" filled dense square label="mean pressure (cmH2O)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_peep" filled dense square label="peep (cmH2O)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_minute_volume" filled dense square label="minute volume (l/min)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_tidal_volume" filled dense square label="tidal volume (l)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_freq" filled dense square label="frequency (/min)" style="font-size: 18px" />
+            <q-input class="col" v-model="vent_plateau_pressure" filled dense square label="peak pressure (cmH2O)" style="font-size: 14px"  />
+            <q-input class="col" v-model="vent_mean" filled dense square label="mean pressure (cmH2O)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_peep" filled dense square label="peep (cmH2O)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_minute_volume" filled dense square label="minute volume (l/min)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_tidal_volume" filled dense square label="tidal volume (l)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_freq" filled dense square label="frequency (/min)" style="font-size: 14px" />
         </div>
         <div class="row">
-          <q-input class="col" v-model="vent_fio2" filled dense square label="fio2 (%)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_leak" filled dense square label="leak (%)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_ie_ratio" filled dense square label="I:E" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_exp_time" filled dense square label="exp time (s)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow (l/min)" style="font-size: 18px" />
-            <q-input class="col" v-model="vent_exp_flow" filled dense square label="exp flow (l/min)" style="font-size: 18px" />
+          <q-input class="col" v-model="vent_fio2" filled dense square label="fio2 (%)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_leak" filled dense square label="leak (%)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_ie_ratio" filled dense square label="I:E" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_exp_time" filled dense square label="exp time (s)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow (l/min)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_exp_flow" filled dense square label="exp flow (l/min)" style="font-size: 14px" />
         </div>
 
 </q-card>
@@ -133,6 +137,7 @@ export default {
       chart1MaxY: 100,
 
       vent_set_max_pip: 20,
+      vent_set_pip: 20,
       vent_set_peep: 5,
       vent_set_tin: 0.4,
       vent_set_freq: 50,
@@ -215,6 +220,24 @@ export default {
           break
       }
     },
+    changeTV () {
+      if (this.ventModeSelector !== 'hfov') {
+        this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
+        this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
+      }
+    },
+    changeVolumeGaranteed () {
+      if (this.ventModeSelector !== 'hfov') {
+        if (this.volumeGaranteed) {
+          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
+          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'volume_garanteed', this.volumeGaranteed)
+        } else {
+          this.$model.setPropertyDirect('ventilator', 'volume_garanteed', this.volumeGaranteed)
+          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
+        }
+      }
+    },
     changeFiO2 () {
       this.$model.setPropertyByFunction('ventilator', 'setFiO2', this.vent_set_fio2 / 100)
     },
@@ -234,10 +257,17 @@ export default {
         this.$model.setPropertyDirect('ventilator', 't_ex', newTex)
       }
     },
-    changePIP () {
+    changeMaxPIP () {
       if (this.ventModeSelector !== 'hfov') {
         if (this.vent_set_max_pip > this.vent_set_peep + 2) {
-          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_max_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_pip / 1.35951)
+        }
+      }
+    },
+    changePIP () {
+      if (this.ventModeSelector !== 'hfov') {
+        if (this.vent_set_pip > this.vent_set_peep + 2) {
+          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
         }
       }
     },
