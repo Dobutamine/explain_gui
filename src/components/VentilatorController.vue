@@ -68,7 +68,7 @@
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
         <div class="q-mb-sm" style="font-size: 12px">Trigger</div>
-        <q-knob :min="0.5" :max="10" v-model="vent_set_trigger_volume" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changerTrigger"/>
+        <q-knob :min="0.1" :max="10" v-model="vent_set_trigger_volume" :step="0.05" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changerTrigger"/>
         <div class="q-mt-sm" style="font-size: 8px">ml</div>
       </q-card>
     </div>
@@ -100,7 +100,7 @@
             <q-input class="col" v-model="vent_ie_ratio" filled dense square label="I:E" style="font-size: 14px" />
             <q-input class="col" v-model="vent_exp_time" filled dense square label="exp time (s)" style="font-size: 14px" />
             <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow (l/min)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_exp_flow" filled dense square label="exp flow (l/min)" style="font-size: 14px" />
+            <q-input class="col" v-model="vent_tin" filled dense square label="i-time" style="font-size: 14px" />
         </div>
 
 </q-card>
@@ -376,6 +376,7 @@ export default {
         this.vent_leak = ((1 - data.monitor.vent_tidal_volume / data.monitor.vent_tidal_volume_insp) * 100).toFixed(1)
         this.vent_ie_ratio = `1: ${(data.monitor.vent_exp_time / data.monitor.vent_insp_time).toFixed(1)}`
         this.vent_fio2 = Math.ceil(data.monitor.vent_fio2 * 100)
+        this.vent_tin = (data.monitor.vent_insp_time).toFixed(1)
       }
     },
     buildGraph () {

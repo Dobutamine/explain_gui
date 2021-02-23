@@ -158,7 +158,7 @@ export default {
       height: '2024px',
       slide: 'ventilator',
       slide_left: 'control',
-      slide_right: 'editor'
+      slide_right: 'monitor'
     }
   },
   mounted () {

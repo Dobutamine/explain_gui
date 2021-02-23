@@ -97,11 +97,12 @@
     "exp_flow": 2.0,
     "t_in": 0.4,
     "t_ex": 1.0,
-    "t_ex_backup": 2.6,
+    "t_ex_backup": 5.0,
     "cycling_mode": "time",
     "ventilator_mode": "pressure",
     "volume_garanteed": false,
-    "synchronized": false,
+    "synchronized": true,
+    "mandatory_mode": false,
     "trigger_volume": 0.0012
   },
   "ans": {
