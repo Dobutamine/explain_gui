@@ -47,7 +47,7 @@
         <div class="q-mt-sm" style="font-size: 8px">ml</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">Freq</div>
+        <div class="q-mb-sm" style="font-size: 12px">{{labelFreq}}</div>
         <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
         <div class="q-mt-sm" style="font-size: 8px">/min</div>
       </q-card>
@@ -76,7 +76,6 @@
     <div class="row justify-center q-ma-sm">
       <q-btn-toggle
       color="grey-10"
-      disable
       toggle-color="red-10"
       size="sm"
       v-model="ventModeSelector"
@@ -130,6 +129,7 @@ export default {
       xAxisProp: 'none',
       xAxisModels: [],
       xAxisProps: [],
+      labelFreq: 'Fbackup',
       fabianOptions: [
         { label: 'SIPPV', value: 'sippv' },
         { label: 'SIMV', value: 'simv' },
@@ -259,10 +259,45 @@ export default {
       this.$model.setPropertyByFunction('ventilator', 'setFiO2', this.vent_set_fio2 / 100)
     },
     changeVentilatorMode () {
-      if (this.ventModeSelector === 'hfov') {
-        this.hfov = true
-      } else {
-        this.hfov = false
+      switch (this.ventModeSelector) {
+        case 'sippv':
+          this.hfov = false
+          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 't_in', this.vent_set_tin)
+          this.$model.setPropertyDirect('ventilator', 't_ex', (60 / this.vent_set_freq) - this.vent_set_tin)
+          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
+          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'time')
+          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
+          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', false)
+          this.labelFreq = 'Fbackup'
+
+          break
+        case 'simv':
+          this.hfov = false
+          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 't_in', this.vent_set_tin)
+          this.$model.setPropertyDirect('ventilator', 't_ex', (60 / this.vent_set_freq) - this.vent_set_tin)
+          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
+          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'time')
+          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
+          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', true)
+          this.labelFreq = 'Freq'
+          break
+        case 'psv':
+          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
+          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'flow')
+          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
+          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
+          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', false)
+          this.hfov = false
+          break
+        case 'hfov':
+          this.hfov = true
       }
     },
     changeFrequency () {

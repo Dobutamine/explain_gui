@@ -99,7 +99,7 @@
     "t_ex": 1.0,
     "t_ex_backup": 5.0,
     "cycling_mode": "time",
-    "ventilator_mode": "pressure",
+    "ventilator_mode": "hfov",
     "volume_garanteed": false,
     "synchronized": true,
     "mandatory_mode": false,
