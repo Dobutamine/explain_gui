@@ -41,7 +41,7 @@ export default {
         centerX: 0,
         centerY: 0,
         scaling: 60,
-        aspectRatio: 0.9
+        aspectRatio: 0.85
       },
       activeDiagramComponent: null,
       activeSprite: null,
@@ -144,6 +144,7 @@ export default {
       this.pixiApp.renderer.autoResize = true
       this.pixiApp.stage.interactive = true
       this.pixiApp.stage.sortableChildren = true
+      this.pixiApp.stage.on('mousedown', (e) => this.itemSelected(e.target))
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
       this.pixiApp.stage.on('touchmove', this.redrawConnector)
       // attach an event handler to handle resize of the window
@@ -152,6 +153,9 @@ export default {
       this.handleResize()
       this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
+    },
+    itemSelected (item) {
+      this.$root.$emit('add_to_graph1', item.label)
     },
     clearDiagram () {
       Object.keys(this.diagramComponents).forEach(id => {

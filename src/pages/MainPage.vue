@@ -10,7 +10,6 @@
                 size="sm"
                 v-model="slide_left"
                 :options="[
-                  { label: 'control', value: 'control' },
                   { label: 'files', value: 'files' },
                   { label: 'props', value: 'props' },
                   { label: 'scripts', value: 'scripts' },
@@ -26,9 +25,6 @@
             keep-alive
             :height="height"
           >
-          <q-carousel-slide name="control">
-                <Controller></Controller>
-            </q-carousel-slide>
             <q-carousel-slide name="files">
                 <FileReader></FileReader>
             </q-carousel-slide>
@@ -71,15 +67,19 @@
           >
              <q-carousel-slide name="ventilator">
               <Ventilator></Ventilator>
+                <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="modelchart">
               <LightningChart></LightningChart>
+                <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="vitaltrends">
               <VitalTrends></VitalTrends>
+                <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="diagram">
               <ModelDiagram></ModelDiagram>
+                <Controller></Controller>
              </q-carousel-slide>
           </q-carousel>
           <!-- </q-scroll-area> -->
@@ -157,7 +157,7 @@ export default {
     return {
       height: '2024px',
       slide: 'ventilator',
-      slide_left: 'control',
+      slide_left: 'props',
       slide_right: 'monitor'
     }
   },

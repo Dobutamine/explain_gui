@@ -348,7 +348,6 @@ export default {
       this.$model.getProperties(null)
     },
     buildGraph () {
-      console.log(this.id)
       this.chart = lightningChart().ChartXY({
         container: this.id,
         theme: Themes.dark,

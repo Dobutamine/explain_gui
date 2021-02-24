@@ -121,7 +121,7 @@ export default {
       hires: false,
       autoScale: false,
       graphSelector: 'pressure',
-      ventModeSelector: 'sippv',
+      ventModeSelector: 'simv',
       hfov: false,
       volumeGaranteed: false,
       timeCyclingSelector: 'time',

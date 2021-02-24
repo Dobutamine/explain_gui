@@ -63,6 +63,11 @@ export default {
         }
       }
     })
+
+    this.$root.$on('ff_on', () => this.ffOn())
+    this.$root.$on('calc_on', () => this.calcOn())
+    this.$root.$on('rt_on', () => this.changeStateRTOn())
+    this.$root.$on('rt_off', () => this.changeStateRTOff())
     this.$root.$on('rt_watch_diagram', (e) => { this.updateWatchedModelsDiagram(e) })
     this.$root.$on('rt_watch_chart', (e) => { this.updateWatchedModelsChart(e) })
   },
@@ -83,30 +88,40 @@ export default {
       this.$model.setDataloggerWatchedModelsRT(rtModels)
       this.$model.setDataloggerWatchedModels(rtModels)
     },
+    changeStateRTOn () {
+      this.rtRunning = true
+      this.$model.startModel()
+      this.captionRT = 'REALTIME'
+      this.colorRT = 'negative'
+    },
+    changeStateRTOff () {
+      this.rtRunning = false
+      this.$model.stopModel()
+      this.captionRT = 'REALTIME'
+      this.colorRT = 'teal-10'
+    },
     startModel () {
       if (this.rtRunning) {
-        this.rtRunning = false
-        this.$model.stopModel()
-        this.captionRT = 'REALTIME'
-        this.colorRT = 'teal-10'
         this.$root.$emit('rt_off')
       } else {
-        this.rtRunning = true
-        this.$model.startModel()
-        this.captionRT = 'REALTIME'
-        this.colorRT = 'negative'
         this.$root.$emit('rt_on')
       }
     },
-    calculateModel () {
-      this.$model.calculateModel(this.timeToCalculate)
+    calcOn () {
+      this.$root.$emit('calc_on')
       this.caption = 'CALCULATING'
       this.color = 'negative'
     },
-    fastForwardModel () {
-      this.$model.fastForwardModel(this.timeToCalculate)
+    calculateModel () {
+      this.$model.calculateModel(this.timeToCalculate)
+    },
+    ffOn () {
       this.captionGOTO = 'WAIT'
       this.colorGOTO = 'negative'
+    },
+    fastForwardModel () {
+      this.$root.$emit('ff_on')
+      this.$model.fastForwardModel(this.timeToCalculate)
     }
   }
 
