@@ -356,7 +356,6 @@ export default {
           y: dataline[this.chart1Ch1Model][this.chart1Ch1Prop] * this.chart1Ch1Factor + this.chart1Ch1Offset
         })
       })
-      // console.log(this.chartCh1Data)
       this.chart1Ch1Lineseries.add(this.chart1Ch1Data)
     },
     drawGraph () {
@@ -383,7 +382,6 @@ export default {
           y: dataline[this.chart1Ch1Model][this.chart1Ch1Prop] * this.chart1Ch1Factor + this.chart1Ch1Offset
         })
       })
-      // console.log(this.chartCh1Data)
       this.chart1Ch1Lineseries.add(this.chart1Ch1Data)
     },
     updateMonitorRealtime (data) {
@@ -432,7 +430,6 @@ export default {
       this.chart1XAxis.setTickStyle((a) => a.setMinorTickStyle((b) => b.setLabelFont((font) => font.setSize(10))))
 
       this.chart1YAxis = this.chart1.getDefaultAxisY()
-      // this.chart1YAxis.setScrollStrategy(AxisScrollStrategies.fitting)
       this.chart1YAxis.setScrollStrategy(AxisScrollStrategies.Numeric)
       this.chart1YAxis.setInterval(this.chart1MinY, this.chart1MaxY)
       this.chart1YAxis.setTitleFillStyle(EmptyFill)
@@ -459,7 +456,6 @@ export default {
       switch (message.data.type) {
         case 'mes':
           if (message.data.data[0] === 'ready') {
-            // this.callback()
           }
           break
         case 'data':
@@ -487,6 +483,8 @@ export default {
 
     this.$root.$on('hires_on', () => { this.hires = true })
     this.$root.$on('hires_off', () => { this.hires = false })
+
+    this.changeVentilatorMode()
   }
 }
 </script>

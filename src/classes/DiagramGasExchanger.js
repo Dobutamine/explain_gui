@@ -20,6 +20,9 @@ class DiagramGasExchanger {
     this.sprite.anchor = { x: 0.5, y: 0.5 }
     this.sprite.x = 50
     this.sprite.y = 50
+    this.sprite.label = label
+    this.sprite.interactive = true
+    this.sprite.buttonMode = true
     this.sprite.tint = '0xffffff'
     this.sprite.zIndex = 1
     this.pos = 0

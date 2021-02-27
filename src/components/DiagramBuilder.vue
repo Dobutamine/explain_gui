@@ -281,8 +281,8 @@ export default {
 
       reader.onload = (e) => {
         this.diagramList = JSON.parse(e.target.result)
-        this.updateLocalStorageDiagramList()
-        this.loadDiagramsFromLocalStorage()
+        this.selectedState = this.diagramList[0].name
+        this.selectState()
       }
       reader.readAsText(this.fileToBeImported)
     },
