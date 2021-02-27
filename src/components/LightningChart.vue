@@ -83,6 +83,15 @@
     <q-input v-if="scaling" v-model.number="chartCh1Factor" type="number" label="y1" filled dense style="width: 75px; font-size: 10px"/>
     <q-input v-if="scaling" v-model.number="chartCh2Factor" type="number" label="y2" filled dense style="width: 75px; font-size: 10px"/>
      <q-input v-model.number="rtFrame" type="number" label="frame(s)" filled dense style="width: 75px; font-size: 10px"/>
+     <q-btn outline size="sm" color="grey-4" >DOWNLOAD DATA
+       <q-popup-edit v-model="exportFileName" content-class="bg-dark text-white" @save="exportData">
+          <q-input dark color="white" v-model="exportFileName" dense autofocus counter @change="exportData">
+            <template v-slot:append>
+              <q-icon name="save" />
+            </template>
+          </q-input>
+        </q-popup-edit>
+     </q-btn>
   </div>
 
 </q-card>
@@ -100,6 +109,7 @@ export default {
     return {
       id: 'chart',
       graphClass: 'rectangle',
+      label: 'filename',
       box: false,
       isEnabled: true,
       showSummary: false,
@@ -107,6 +117,7 @@ export default {
       autoScale: true,
       minY: 0,
       maxY: 100,
+      exportFileName: 'chart_data',
       xAxisModel: 'time',
       xAxisProp: 'none',
       xAxisModels: [],
@@ -163,6 +174,22 @@ export default {
     }
   },
   methods: {
+    exportData () {
+      // download to local disk
+      const data = JSON.stringify(this.chartCh1Data)
+      const blob = new Blob([data], { type: 'text/json' })
+      const e = document.createEvent('MouseEvents')
+      const a = document.createElement('a')
+      if (this.exportFileName.includes('.json')) {
+        a.download = this.exportFileName
+      } else {
+        a.download = this.exportFileName + '.json'
+      }
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
