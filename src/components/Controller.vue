@@ -103,11 +103,12 @@ export default {
       }
     },
     calcOn () {
-      this.$root.$emit('calc_on')
+      console.log('yep')
       this.caption = 'CALCULATING'
       this.color = 'negative'
     },
     calculateModel () {
+      this.$root.$emit('calc_on')
       this.$model.calculateModel(this.timeToCalculate)
     },
     ffOn () {
