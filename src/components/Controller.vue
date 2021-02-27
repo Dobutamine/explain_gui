@@ -1,10 +1,5 @@
 <template>
-  <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-   <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        controller
-      </div>
-   </div>
+  <q-card class="q-pb-sm q-pt-sm q-ma-sm" bordered>
     <div v-if="isEnabled" class="row q-ml-md q-mr-md q-mb-md q-mt-es">
         <q-btn v-on:click="startModel" dense :color="colorRT" class="q-mt-sm q-mr-sm col" style="width: 40px">
            <q-icon name="play_arrow" class="text-white" style="font-size: 1rem;" />
