@@ -65,6 +65,18 @@
         </div>
       </div>
     </div>
+    <q-separator></q-separator>
+    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="respiratoryEnabled = !respiratoryEnabled">
+          respiratory monitor
+    </div>
+    <div v-if="respiratoryEnabled" class="row q-mt-es q-mb-md">
+        <div class="row">
+            <q-input class="col" v-model="resp_rate" filled dense square label="resp reate" />
+            <q-input class="col" v-model="tidal_volume" filled dense square label="tidal vol" />
+            <q-input class="col" v-model="minute_volume" filled dense square label="minute vol" />
+        </div>
+
+    </div>
 
   </q-card>
 </template>
@@ -104,6 +116,8 @@ export default {
       ph: 0,
       po2: 0,
       pco2: 0,
+      tidal_volume: 0,
+      minute_volume: 0,
       vent_peak_presssure: 0,
       vent_plateau_pressure: 0,
       vent_compliance: 0,
@@ -194,6 +208,11 @@ export default {
           this.lv_stroke = (data.monitor.lv_stroke).toFixed(4)
           this.rvo = (data.monitor.rvo).toFixed(4)
           this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
+        }
+
+        if (this.respiratoryEnabled) {
+          this.tidal_volume = (data.monitor.tidal_volume).toFixed(4)
+          this.minute_volume = (data.monitor.minute_volume).toFixed(4)
         }
       }
     }

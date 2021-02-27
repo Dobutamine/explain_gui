@@ -294,6 +294,8 @@
     "svc_flow_source": ["SVC_RA", "real_flow"],
     "lvo_source": ["LV_AA", "real_flow"],
     "rvo_source": ["RV_PA", "real_flow"],
+    "tidal_volume_source": ["breathing", "tidal_volume"],
+    "minute_volume_source": ["breathing", "minute_volume"],
     "vent_peak_pressure_source": ["ventilator", "peak_pressure"],
     "vent_plateau_pressure_source": ["ventilator", "plateau_pressure"],
     "vent_compliance_source": ["ventilator", "compliance_static"],

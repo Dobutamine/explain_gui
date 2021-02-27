@@ -156,7 +156,7 @@ export default {
   data () {
     return {
       height: '2024px',
-      slide: 'ventilator',
+      slide: 'modelchart',
       slide_left: 'props',
       slide_right: 'monitor'
     }
