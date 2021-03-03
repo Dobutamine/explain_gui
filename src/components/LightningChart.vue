@@ -105,6 +105,12 @@ import {
 import * as Stat from 'simple-statistics'
 
 export default {
+  props: {
+    chartNo: {
+      required: true,
+      type: String
+    }
+  },
   data () {
     return {
       id: 'chart',
@@ -239,7 +245,11 @@ export default {
       if (watchModels.length > 0) {
         // this.$model.setDataloggerWatchedModels(watchModels)
         // emit message to the controller
-        this.$root.$emit('rt_watch_chart', watchModels)
+        if (this.chartNo === '1') {
+          this.$root.$emit('rt_watch_chart', watchModels)
+        } else {
+          this.$root.$emit('rt_watch_chart2', watchModels)
+        }
       }
     },
     xAxisChanged () {
@@ -397,6 +407,14 @@ export default {
       this.chartYAxis.setTickStrategy(AxisTickStrategies.Numeric)
       this.chartYAxis.setTickStyle((a) => a.setMajorTickStyle((b) => b.setLabelFont((font) => font.setSize(12))))
       this.chartYAxis.setTickStyle((a) => a.setMinorTickStyle((b) => b.setLabelFont((font) => font.setSize(10))))
+
+      // const fillStyle = new SolidFill().setColor(ColorRGBA(200, 0, 0, 60))
+      // const strokeStyle = new SolidLine().setFillStyle(fillStyle.setA(255)).setThickness(2)
+
+      // this.chartCh1Lineseries = this.chart.addAreaSeries({ yAxis: this.chartYAxis })
+      //   .setName('')
+      //   .setFillStyle(fillStyle)
+      //   .setStrokeStyle(strokeStyle)
 
       this.chartCh1Lineseries = this.chart.addLineSeries()
       this.chartCh1Lineseries.setStrokeStyle((style) => style.setThickness(2))
@@ -576,12 +594,12 @@ export default {
 <style>
 .rectangle {
   display: flex;
-  height: 250px;
+  height: 300px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 250px;
+  height: 300px;
   width: 100%;
 }
 .gutter {

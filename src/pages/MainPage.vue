@@ -49,7 +49,8 @@
                 size="sm"
                 v-model="slide"
                 :options="[
-                  { label: 'chart', value: 'modelchart' },
+                  { label: 'chart1', value: 'modelchart' },
+                  { label: 'chart2', value: 'modelchart2' },
                   { label: 'trends', value: 'vitaltrends' },
                   { label: 'diagram', value: 'diagram' },
                   { label: 'ventilator', value: 'ventilator' }]"
@@ -70,7 +71,11 @@
                 <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="modelchart">
-              <LightningChart></LightningChart>
+              <LightningChart chartNo="1" ></LightningChart>
+                <Controller></Controller>
+             </q-carousel-slide>
+             <q-carousel-slide name="modelchart2">
+              <LightningChart chartNo="2" ></LightningChart>
                 <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="vitaltrends">

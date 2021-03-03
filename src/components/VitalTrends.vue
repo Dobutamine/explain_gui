@@ -436,12 +436,12 @@ export default {
 <style scoped>
 .rectangle {
   display: flex;
-  height: 250px;
+  height: 300px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 250px;
+  height: 300px;
   width: 100%;
 }
 .gutter {

@@ -23,6 +23,7 @@ export default {
       timeToCalculate: 10,
       watchedModelsDiagram: [],
       watchedModelsChart: [],
+      watchedModelsChart2: [],
       caption: 'CALCULATE',
       color: 'teal-10',
       captionRT: 'REALTIME',
@@ -65,6 +66,7 @@ export default {
     this.$root.$on('rt_off', () => this.changeStateRTOff())
     this.$root.$on('rt_watch_diagram', (e) => { this.updateWatchedModelsDiagram(e) })
     this.$root.$on('rt_watch_chart', (e) => { this.updateWatchedModelsChart(e) })
+    this.$root.$on('rt_watch_chart2', (e) => { this.updateWatchedModelsChart2(e) })
   },
   methods: {
     toggleIsEnabled () {
@@ -78,8 +80,13 @@ export default {
       this.watchedModelsChart = modelsToWatch
       this.updateModelsToWatchRT()
     },
+    updateWatchedModelsChart2 (modelsToWatch) {
+      this.watchedModelsChart2 = modelsToWatch
+      this.updateModelsToWatchRT()
+    },
     updateModelsToWatchRT () {
-      const rtModels = this.watchedModelsChart.concat(this.watchedModelsDiagram)
+      const tempRTModels = this.watchedModelsChart.concat(this.watchedModelsDiagram)
+      const rtModels = this.watchedModelsChart2.concat(tempRTModels)
       this.$model.setDataloggerWatchedModelsRT(rtModels)
       this.$model.setDataloggerWatchedModels(rtModels)
     },
