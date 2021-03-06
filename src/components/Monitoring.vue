@@ -85,9 +85,9 @@
 export default {
   data () {
     return {
-      isEnabled: false,
+      isEnabled: true,
       bloodgasEnabled: false,
-      hemodynamicEnabled: false,
+      hemodynamicEnabled: true,
       respiratoryEnabled: false,
       modelEventListener: null,
       heartrate: '-',

@@ -52,7 +52,8 @@
                   { label: 'chart2', value: 'modelchart2' },
                   { label: 'trends', value: 'vitaltrends' },
                   { label: 'diagram', value: 'diagram' },
-                  { label: 'ventilator', value: 'ventilator' }]"
+                  { label: 'ventilator', value: 'ventilator' },
+                  { label: 'json editor', value: 'json' }]"
                 />
             </div>
           <!-- <q-scroll-area v-bind:style="{ height: height + 'px'}"> -->
@@ -84,6 +85,9 @@
              <q-carousel-slide name="diagram">
               <ModelDiagram></ModelDiagram>
                 <Controller></Controller>
+             </q-carousel-slide>
+             <q-carousel-slide name="json">
+              <JSONEditor></JSONEditor>
              </q-carousel-slide>
           </q-carousel>
           <!-- </q-scroll-area> -->
@@ -139,6 +143,7 @@ import PatientMonitor from 'components/Monitoring'
 import Intellivue from 'components/Intellivue'
 import VitalTrends from 'components/VitalTrends'
 import Ventilator from 'components/VentilatorController'
+import JSONEditor from 'components/JSONEditor'
 
 export default {
   name: 'PageIndex',
@@ -153,7 +158,8 @@ export default {
     PatientMonitor,
     Intellivue,
     VitalTrends,
-    Ventilator
+    Ventilator,
+    JSONEditor
   },
   data () {
     return {

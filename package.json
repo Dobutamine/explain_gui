@@ -13,9 +13,11 @@
     "@arction/lcjs": "^2.1.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "jsoneditor": "^9.2.0",
     "pixi.js": "^5.3.6",
     "quasar": "^1.0.0",
-    "simple-statistics": "^7.4.0"
+    "simple-statistics": "^7.4.0",
+    "v-jsoneditor": "^1.4.2"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
