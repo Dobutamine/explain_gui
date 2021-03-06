@@ -53,7 +53,7 @@
                   { label: 'trends', value: 'vitaltrends' },
                   { label: 'diagram', value: 'diagram' },
                   { label: 'ventilator', value: 'ventilator' },
-                  { label: 'json editor', value: 'json' }]"
+                  { label: 'config', value: 'json' }]"
                 />
             </div>
           <!-- <q-scroll-area v-bind:style="{ height: height + 'px'}"> -->
@@ -101,8 +101,8 @@
                 size="sm"
                 v-model="slide_right"
                 :options="[
-                  { label: 'editor', value: 'editor' },
-                  { label: 'monitor', value: 'monitor' },
+                  { label: 'monitoring', value: 'monitor' },
+                  { label: 'diagram editor', value: 'editor' },
                   { label: 'intellivue', value: 'intellivue' }]"
                 />
             </div>

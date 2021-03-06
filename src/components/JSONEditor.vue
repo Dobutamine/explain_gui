@@ -3,21 +3,22 @@
 
     <div class="q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="isEnabled = !isEnabled">
-        JSON Editor
+        configuration file editor
       </div>
     </div>
 
     <div v-if="isEnabled" class="q-mt-es">
       <div class="q-ma-sm row">
         <!-- <q-input class="q-ma-sm col" type="text" stack-label label="current json file on display" v-model='currentDisplayedJsonName' dense color="teal-7" ></q-input> -->
-        <q-file class="q-ma-sm col" v-model="file" dense stack-label label="load file from disk" filled @input="loadTextFromFile">
+        <q-file class="q-ma-xs col text-caption" v-model="file" dense stack-label label="load file from disk" filled @input="loadTextFromFile">
           <q-icon name="upload" class="text-grey" style="font-size: 1rem;" />
         </q-file>
-        <q-btn class="q-ma-sm q-pa-xs col" size="sm" dense color="teal-7" @click="gettingTheJSON">GET CURRENT JSON</q-btn>
-         <q-input class="col q-mr-sm" type="text" stack-label label="save file to disk" v-model='json_filename' dense color="teal-7" @input="savingTheJSON" >
+        <q-btn class="q-ma-xs q-pa-xs col" size="sm" dense color="teal-7" @click="gettingTheJSON">GET CURRENT CONFIG</q-btn>
+         <q-input class="col q-ma-xs text-caption" type="text" stack-label label="save file to disk" v-model='currentDisplayedJsonName' dense color="teal-7">
           <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
         </q-input>
-        <q-btn class="q-ma-sm q-pa-xs col" size="sm" dense color="teal-7" @click="useCurrentJSON">RUN JSON</q-btn>
+        <q-btn class="q-ma-xs q-pa-xs col" size="sm" dense color="red-10" @click="savingTheJSON">SAVE CONFIG</q-btn>
+        <q-btn class="q-ma-xs q-pa-xs col" size="sm" dense color="red-10" @click="useCurrentJSON">RUN CONFIG</q-btn>
       </div>
     </div>
 
@@ -57,6 +58,7 @@ export default {
         case 'data':
           switch (message.data.target) {
             case 'json':
+              this.file = ''
               this.currentDisplayedJsonName = message.data.data.name
               this.currentRunningJsonName = message.data.data.name
               this.jsonText = message.data.data
@@ -73,6 +75,7 @@ export default {
           break
       }
     })
+    this.$model.getModelJSON()
   },
   methods: {
     gettingTheJSON () {
@@ -96,15 +99,16 @@ export default {
       this.$model.getProperties(null)
     },
     downloadJSON () {
-      this.jsonText.name = this.json_filename
+      this.file = ''
+      this.jsonText.name = this.currentDisplayedJsonName
       const data = JSON.stringify(this.jsonText)
       const blob = new Blob([data], { type: 'text/json' })
       const e = document.createEvent('MouseEvents')
       const a = document.createElement('a')
-      if (this.json_filename.includes('.json')) {
-        a.download = this.json_filename
+      if (this.currentDisplayedJsonName.includes('.json')) {
+        a.download = this.currentDisplayedJsonName
       } else {
-        a.download = this.json_filename + '.json'
+        a.download = this.currentDisplayedJsonName + '.json'
       }
       a.href = window.URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')

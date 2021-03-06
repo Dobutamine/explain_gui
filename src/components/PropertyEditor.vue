@@ -146,6 +146,7 @@ export default {
       this.configureComponentMode = false
       this.selectedComponentName = ''
       this.$model.getProperties(null)
+      this.getModelDefinition()
     },
     buildNewComponent () {
       this.newComponentMode = true
