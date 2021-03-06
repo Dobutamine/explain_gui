@@ -110,7 +110,6 @@ export default {
       }
     },
     calcOn () {
-      console.log('yep')
       this.caption = 'CALCULATING'
       this.color = 'negative'
     },

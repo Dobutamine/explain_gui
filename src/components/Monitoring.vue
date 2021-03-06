@@ -85,8 +85,8 @@
 export default {
   data () {
     return {
-      isEnabled: true,
-      bloodgasEnabled: true,
+      isEnabled: false,
+      bloodgasEnabled: false,
       hemodynamicEnabled: false,
       respiratoryEnabled: false,
       modelEventListener: null,
@@ -169,50 +169,69 @@ export default {
     updateMonitorDatalogger () {
 
     },
+    checkIsNaN (numberToCheck, rounding) {
+      if (typeof numberToCheck !== 'undefined') {
+        if (Number.isNaN(numberToCheck)) {
+          return '-'
+        } else {
+          return numberToCheck.toFixed(rounding)
+        }
+      } else {
+        return '-'
+      }
+    },
     updateMonitorRealtime (data) {
       if (data.time - this.prevTime > 1) {
         this.prevTime = data.time
         if (this.isEnabled) {
           this.heartrate = parseInt(data.monitor.heart_rate)
-          this.abp = `${parseInt(data.monitor.abp_syst)}/${parseInt(data.monitor.abp_diast)} (${parseInt(data.monitor.abp_mean)})`
-          this.pap = `${parseInt(data.monitor.pap_syst)}/${parseInt(data.monitor.pap_diast)} (${parseInt(data.monitor.pap_mean)})`
-          this.sao2_pre = parseInt(data.monitor.saO2_pre)
-          this.sao2_post = parseInt(data.monitor.saO2_post)
-          this.resp_rate = parseInt(data.monitor.resp_rate)
-          this.etco2 = parseInt(data.monitor.etco2)
-          this.temp = (data.monitor.temperature).toFixed(1)
-          this.cvp = (data.monitor.cvp).toFixed(1)
+          if (parseInt(data.monitor.abp_syst) !== -1000) {
+            this.abp = `${this.checkIsNaN(parseInt(data.monitor.abp_syst), 0)}/${this.checkIsNaN(parseInt(data.monitor.abp_diast), 0)} (${parseInt(data.monitor.abp_mean)})`
+          } else {
+            this.abp = '-'
+          }
+          if (parseInt(data.monitor.pap_syst) !== -1000) {
+            this.pap = `${this.checkIsNaN(parseInt(data.monitor.pap_syst), 0)}/${this.checkIsNaN(parseInt(data.monitor.pap_diast), 0)} (${parseInt(data.monitor.pap_mean)})`
+          } else {
+            this.pap = '-'
+          }
+          this.sao2_pre = this.checkIsNaN(parseInt(data.monitor.saO2_pre), 0)
+          this.sao2_post = this.checkIsNaN(parseInt(data.monitor.saO2_post), 0)
+          this.resp_rate = this.checkIsNaN(parseInt(data.monitor.resp_rate), 0)
+          this.etco2 = this.checkIsNaN(parseInt(data.monitor.etco2), 0)
+          this.temp = this.checkIsNaN((data.monitor.temperature), 1)
+          this.cvp = this.checkIsNaN((data.monitor.cvp), 1)
         }
 
         if (this.bloodgasEnabled) {
-          this.ph = (data.monitor.ph).toFixed(2)
-          this.po2 = (data.monitor.pao2).toFixed(0)
-          this.pco2 = (data.monitor.paco2).toFixed(0)
+          this.ph = this.checkIsNaN((data.monitor.ph), 2)
+          this.po2 = this.checkIsNaN((data.monitor.pao2), 0)
+          this.pco2 = this.checkIsNaN((data.monitor.paco2), 0)
         }
 
         if (this.hemodynamicEnabled) {
-          this.ivc_flow = (data.monitor.ivc_flow).toFixed(4)
-          this.svc_flow = (data.monitor.svc_flow).toFixed(4)
-          this.myo_flow = (data.monitor.myo_flow).toFixed(4)
+          this.ivc_flow = this.checkIsNaN((data.monitor.ivc_flow), 4)
+          this.svc_flow = this.checkIsNaN((data.monitor.svc_flow), 4)
+          this.myo_flow = this.checkIsNaN((data.monitor.myo_flow), 4)
 
-          this.pda_flow = (data.monitor.pda_flow).toFixed(4)
-          this.ofo_flow = (data.monitor.ofo_flow).toFixed(4)
-          this.vsd_flow = (data.monitor.vsd_flow).toFixed(4)
-          this.lungshunt_flow = (data.monitor.lungshunt_flow).toFixed(4)
+          this.pda_flow = this.checkIsNaN((data.monitor.pda_flow), 4)
+          this.ofo_flow = this.checkIsNaN((data.monitor.ofo_flow), 4)
+          this.vsd_flow = this.checkIsNaN((data.monitor.vsd_flow), 4)
+          this.lungshunt_flow = this.checkIsNaN((data.monitor.lungshunt_flow), 4)
 
-          this.kidney_flow = (data.monitor.kidney_flow).toFixed(4)
-          this.liver_flow = (data.monitor.liver_flow).toFixed(4)
-          this.brain_flow = (data.monitor.brain_flow).toFixed(4)
+          this.kidney_flow = this.checkIsNaN((data.monitor.kidney_flow), 4)
+          this.liver_flow = this.checkIsNaN((data.monitor.liver_flow), 4)
+          this.brain_flow = this.checkIsNaN((data.monitor.brain_flow), 4)
 
-          this.lvo = (data.monitor.lvo).toFixed(4)
-          this.lv_stroke = (data.monitor.lv_stroke).toFixed(4)
-          this.rvo = (data.monitor.rvo).toFixed(4)
-          this.rv_stroke = (data.monitor.rv_stroke).toFixed(4)
+          this.lvo = this.checkIsNaN((data.monitor.lvo), 4)
+          this.lv_stroke = this.checkIsNaN((data.monitor.lv_stroke), 4)
+          this.rvo = this.checkIsNaN((data.monitor.rvo), 4)
+          this.rv_stroke = this.checkIsNaN((data.monitor.rv_stroke), 4)
         }
 
         if (this.respiratoryEnabled) {
-          this.tidal_volume = (data.monitor.tidal_volume).toFixed(4)
-          this.minute_volume = (data.monitor.minute_volume).toFixed(4)
+          this.tidal_volume = this.checkIsNaN((data.monitor.tidal_volume), 4)
+          this.minute_volume = this.checkIsNaN((data.monitor.minute_volume), 4)
         }
       }
     }

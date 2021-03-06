@@ -12,8 +12,7 @@
                 :options="[
                   { label: 'files', value: 'files' },
                   { label: 'props', value: 'props' },
-                  { label: 'scripts', value: 'scripts' },
-                  { label: 'log', value: 'log' }]"
+                  { label: 'scripts', value: 'scripts' }]"
                 />
             </div>
             <q-carousel
@@ -131,7 +130,6 @@
 
 import LightningChart from 'components/LightningChart'
 import Controller from 'components/Controller'
-import ModelLog from 'components/Log'
 import FileReader from 'components/FileReader'
 import ModelDiagram from 'components/Diagram'
 import ScriptEditor from 'components/ScriptEditor'
@@ -147,7 +145,6 @@ export default {
   components: {
     LightningChart,
     Controller,
-    ModelLog,
     FileReader,
     ModelDiagram,
     DiagramBuilder,

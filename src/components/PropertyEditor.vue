@@ -111,6 +111,7 @@ export default {
     })
 
     this.$root.$on('add_to_graph1', (e) => { this.selectNewModelFromOutside(e) })
+    this.$root.$on('show_selected_comp', (e) => { this.selectNewModelFromOutside(e) })
     this.getModelDefinition()
     this.$model.getProperties(null)
   },
