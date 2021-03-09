@@ -14,7 +14,7 @@ export class Model {
 
   dataMode = mode.REFRESH
 
-  constructor(default_model_definition, name) {
+  constructor(default_model_definition) {
 
     // if no model definition is provided then we load the de fault normal neonate
     if (!default_model_definition) {
