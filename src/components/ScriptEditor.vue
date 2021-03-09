@@ -287,14 +287,11 @@ export default {
     updateLocalStorageScriptList () {
       localStorage.explain_scripts = JSON.stringify(this.scriptList)
       this.updateScriptListNames()
-      console.log('local storage script list updated')
-      console.log(localStorage.explain_scripts)
     },
     clearScriptList () {
       this.scriptList = []
       this.scriptNames = []
       this.updateLocalStorageScriptList()
-      console.log('current script list cleared')
     },
     selectScript () {
       // find selected script in scriptlist
