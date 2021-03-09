@@ -43,7 +43,6 @@ export default {
       switch (message.data.type) {
         case 'mes':
           if (message.data.data[0] !== 'ready') {
-            console.log('log updated')
             this.updateLog({ message: message.data.data[0] })
           }
           break

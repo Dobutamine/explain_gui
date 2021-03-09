@@ -287,13 +287,11 @@ export default {
     updateLocalStorageScriptList () {
       localStorage.explain_scripts = JSON.stringify(this.scriptList)
       this.updateScriptListNames()
-      console.log('local storage script list updated')
     },
     clearScriptList () {
       this.scriptList = []
       this.scriptNames = []
       this.updateLocalStorageScriptList()
-      console.log('current script list cleared')
     },
     selectScript () {
       // find selected script in scriptlist
@@ -346,6 +344,9 @@ export default {
       this.scriptNames = []
       this.selectedScript = ''
       this.scriptList.forEach(script => {
+        if (script.name === '') {
+          script.name = 'no name'
+        }
         this.scriptNames.push(script.name)
       })
     },
