@@ -85,7 +85,6 @@ export default {
               case 'json':
                 if (this.json_requested) {
                   this.json = message.data.data
-                  console.log(this.json)
                   this.downloadJSON()
                   this.json_requested = false
                 }
