@@ -1,10 +1,10 @@
-import { Model } from 'app/public/model'
+import { ModelInterface } from 'app/public/modelInterface'
 
 // eslint-disable-next-line prefer-const
-let model = new Model()
+let modelInterface = new ModelInterface()
 
 export default ({ Vue }) => {
-  Vue.prototype.$model = model
+  Vue.prototype.$model = modelInterface
 }
 
-export { model }
+export { modelInterface as model }

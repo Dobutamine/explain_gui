@@ -165,7 +165,7 @@ export default {
     return {
       height: '2024px',
       slide: 'modelchart',
-      slide_left: 'props',
+      slide_left: 'files',
       slide_right: 'monitor'
     }
   },

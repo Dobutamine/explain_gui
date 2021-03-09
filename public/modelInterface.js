@@ -4,13 +4,15 @@ const mode = {
   APPEND: 'append',
   REFRESH: 'refresh'
 }
-export class Model {
+export class ModelInterface {
 
   // declare a model engine object containing the new model
   definition = {}
   engine = {}
   data = []
   properties = {}
+
+  loadedModelName = ''
 
   dataMode = mode.REFRESH
 
@@ -20,6 +22,8 @@ export class Model {
     if (!default_model_definition) {
       default_model_definition = 'normal_neonate'
     }
+
+    this.loadedModelName = default_model_definition
 
     // initialize the model engine
     this.engine = new Worker("./explain_engine/engine.js");
@@ -60,6 +64,10 @@ export class Model {
 
   }
 
+  getCurrentLoadedModelName = () => {
+    return this.loadedModelName
+  }
+  
   setDataloggerInterval = (update_interval) => {    
     this.engine.postMessage({
       type: "set",
