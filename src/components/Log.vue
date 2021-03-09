@@ -1,10 +1,10 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-    <!-- <div class="row q-mt-es">
+    <div class="row q-mt-es">
       <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
         model log
       </div>
-   </div> -->
+   </div>
   <div v-if="isEnabled" class="row q-mt-es">
       <q-virtual-scroll
       clas="col"
@@ -16,8 +16,8 @@
         :key="index"
         dense
       >
-        <q-item-section>
-          <q-item-label class="text-body2" style="width: 100%" >
+        <q-item-section class="q-ma-es bg-grey-9">
+          <q-item-label class="text-overline bg-grey-9" style="width: 100%" >
             {{ item.message }}
           </q-item-label>
         </q-item-section>

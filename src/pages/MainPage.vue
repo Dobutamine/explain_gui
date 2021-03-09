@@ -120,6 +120,7 @@
             </q-carousel-slide>
             <q-carousel-slide name="monitor">
             <PatientMonitor></PatientMonitor>
+            <Log></Log>
             </q-carousel-slide>
             <q-carousel-slide name="intellivue">
             <Intellivue></Intellivue>
@@ -144,6 +145,7 @@ import Intellivue from 'components/Intellivue'
 import VitalTrends from 'components/VitalTrends'
 import Ventilator from 'components/VentilatorController'
 import JSONEditor from 'components/JSONEditor'
+import Log from 'components/Log'
 
 export default {
   name: 'PageIndex',
@@ -159,7 +161,8 @@ export default {
     Intellivue,
     VitalTrends,
     Ventilator,
-    JSONEditor
+    JSONEditor,
+    Log
   },
   data () {
     return {
