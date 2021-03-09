@@ -32,8 +32,6 @@ export class Model {
       this._receiveMessageFromModel(message.data)
     });
 
-    // console.log(`%cMODEL: created model instance`, "color:red;")
-
   }
 
   loadModelDefinition = (filename) => {
