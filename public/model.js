@@ -37,7 +37,7 @@ export class Model {
   }
 
   loadModelDefinition = (filename) => {
-    filename = './ModelDefinitions/' + filename + '.json'
+    filename = './explain_engine/definitions/' + filename + '.json'
     // now load the model definition file from the server
     let xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
