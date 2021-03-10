@@ -10,7 +10,7 @@
         <q-input type="text" label="new model name" v-model='json_filename' class="col q-mr-sm" dense color="teal-7" ></q-input>
   </div>
   <div v-if="isEnabled" class="row q-ma-md">
-      <q-btn dense color="teal-7" style="width: 100%" @click="setJSON">save model</q-btn>
+      <q-btn dense color="teal-7" style="width: 100%" @click="setJSON">save model to disk</q-btn>
   </div>
 
   <div v-if="isEnabled" class="row q-ma-md">
@@ -60,7 +60,7 @@ export default {
     return {
       file: null,
       json: null,
-      json_filename: 'test',
+      json_filename: '',
       json_requested: false,
       snapshot_file: null,
       snapshot_file_name: 'snapshot',
