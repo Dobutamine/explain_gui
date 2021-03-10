@@ -240,9 +240,9 @@ export default {
       reader.onload = (e) => {
         const loadedScript = JSON.parse(e.target.result)
         console.log(loadedScript)
-        const foundIndex = this.scriptList.find(element => element.name === loadedScript.name)
+        const foundIndex = this.scriptList.findIndex(element => element.name === loadedScript.name)
         console.log(foundIndex)
-        if (foundIndex === undefined) {
+        if (foundIndex === -1) {
           // it's a new script
           this.scriptList.push(loadedScript)
           this.scriptNames.push(loadedScript.name)
