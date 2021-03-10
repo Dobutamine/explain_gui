@@ -94,22 +94,14 @@
 
      <q-separator></q-separator>
 
-    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="diagramIOEnabled = !diagramIOEnabled">
-        diagrams i/o
-      </div>
-    </div>
-    <div v-if="diagramIOEnabled" class="row q-ml-md q-mr-md">
-          <q-input type="text" label="new diagram list name" v-model='exportFileName' class="col q-mr-sm" dense color="teal-7" ></q-input>
-    </div>
-    <div v-if="diagramIOEnabled" class="row q-ma-md">
-        <q-btn dense color="teal-7" style="width: 100%" @click="exportDiagramList">export diagrams</q-btn>
+    <div v-if="isEnabled && addEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="prepareToDownload">SAVE DIAGRAM TO DISK</q-btn>
     </div>
     <div v-if="diagramIOEnabled" class="row q-ma-md">
     <q-file
       v-model="fileToBeImported"
       dense
-      label="load diagram list from disk"
+      label="load diagram from disk"
       filled
       @input="importDiagramList"
     >
@@ -124,7 +116,7 @@ export default {
   data () {
     return {
       isEnabled: true,
-      diagramIOEnabled: false,
+      diagramIOEnabled: true,
       showActions: false,
       newStateEnabled: false,
       addEnabled: false,
@@ -145,7 +137,6 @@ export default {
       layout: [],
       showPopUp: false,
       popUpMessage: '',
-      exportFileName: '',
       fileToBeImported: null
     }
   },
@@ -180,6 +171,7 @@ export default {
     this.$model.getProperties(null)
 
     this.$root.$on('diagram_layout', (e) => { this.receivedLayout(e) })
+    this.$root.$on('diagram_layout_for_download', (e) => { this.receivedLayoutForDownload(e) })
   },
   beforeDestroy () {
     delete this.modelEventListener
@@ -242,10 +234,41 @@ export default {
       this.showActions = false
       this.layout = []
       this.$root.$emit('clear_diagram')
+      this.fileToBeImported = null
     },
     receivedLayout (layout) {
       this.layout = layout
       this.storeState()
+    },
+    prepareToDownload () {
+      this.$root.$emit('get_layout_for_download')
+    },
+    receivedLayoutForDownload (layout) {
+      this.layout = layout
+      const currentDiagramState = {
+        name: this.stateName,
+        scaling: this.scaling,
+        speed: this.speed,
+        currentModelsInDiagram: this.currentModelsInDiagram,
+        layout: this.layout
+      }
+      this.downloadState(currentDiagramState)
+    },
+    downloadState (state) {
+      // download to local disk
+      const data = JSON.stringify(state)
+      const blob = new Blob([data], { type: 'text/json' })
+      const e = document.createEvent('MouseEvents')
+      const a = document.createElement('a')
+      if (this.stateName.includes('.json')) {
+        a.download = this.stateName
+      } else {
+        a.download = this.stateName + '.json'
+      }
+      a.href = window.URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
+      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      a.dispatchEvent(e)
     },
     storeDiagram () {
       this.getLayoutFromDiagram()
@@ -280,27 +303,26 @@ export default {
       const reader = new FileReader()
 
       reader.onload = (e) => {
-        this.diagramList = JSON.parse(e.target.result)
-        this.selectedState = this.diagramList[0].name
+        const loadedState = JSON.parse(e.target.result)
+
+        // check if this state is already inn the diagramList
+        const foundIndex = this.diagramList.findIndex(element => element.name === loadedState.name)
+
+        // if not then it's a new one
+        if (foundIndex === -1) {
+          this.diagramList.push(loadedState)
+          this.stateNames.push(loadedState.name)
+          this.selectedState = this.diagramList[this.diagramList.length - 1].name
+        } else {
+          // replace the current one
+          this.diagramList.splice(foundIndex, 1, loadedState)
+          this.selectedState = this.diagramList[foundIndex].name
+        }
+        // select the current lopaded state
         this.selectState()
       }
+
       reader.readAsText(this.fileToBeImported)
-    },
-    exportDiagramList () {
-      // download to local disk
-      const data = JSON.stringify(this.diagramList)
-      const blob = new Blob([data], { type: 'text/json' })
-      const e = document.createEvent('MouseEvents')
-      const a = document.createElement('a')
-      if (this.exportFileName.includes('.json')) {
-        a.download = this.exportFileName
-      } else {
-        a.download = this.exportFileName + '.json'
-      }
-      a.href = window.URL.createObjectURL(blob)
-      a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
-      e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-      a.dispatchEvent(e)
     },
     updateLocalStorageDiagramList () {
       this.popUpMessage = 'diagramlist updated'

@@ -4,7 +4,7 @@ const mode = {
   APPEND: 'append',
   REFRESH: 'refresh'
 }
-export class Model {
+export class ModelInterface {
 
   // declare a model engine object containing the new model
   definition = {}
@@ -12,14 +12,18 @@ export class Model {
   data = []
   properties = {}
 
+  loadedModelName = ''
+
   dataMode = mode.REFRESH
 
-  constructor(default_model_definition, name) {
+  constructor(default_model_definition) {
 
     // if no model definition is provided then we load the de fault normal neonate
     if (!default_model_definition) {
       default_model_definition = 'normal_neonate'
     }
+
+    this.loadedModelName = default_model_definition
 
     // initialize the model engine
     this.engine = new Worker("./explain_engine/engine.js");
@@ -32,12 +36,10 @@ export class Model {
       this._receiveMessageFromModel(message.data)
     });
 
-    // console.log(`%cMODEL: created model instance`, "color:red;")
-
   }
 
   loadModelDefinition = (filename) => {
-    filename = './ModelDefinitions/' + filename + '.json'
+    filename = './explain_engine/definitions/' + filename + '.json'
     // now load the model definition file from the server
     let xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
@@ -62,6 +64,10 @@ export class Model {
 
   }
 
+  getCurrentLoadedModelName = () => {
+    return this.loadedModelName
+  }
+  
   setDataloggerInterval = (update_interval) => {    
     this.engine.postMessage({
       type: "set",
