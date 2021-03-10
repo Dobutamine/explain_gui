@@ -101,7 +101,7 @@
     <q-file
       v-model="fileToBeImported"
       dense
-      label="load diagram list from disk"
+      label="load diagram from disk"
       filled
       @input="importDiagramList"
     >

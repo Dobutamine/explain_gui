@@ -25,32 +25,6 @@
     </q-file>
   </div>
 
-  <!-- <q-separator></q-separator> -->
-
-  <!-- <div class="row q-mt-es">
-    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleSnapshotEnabled">
-      snapshots
-    </div>
-  </div>
-   <div v-if="snapshotEnabled" class="row q-ml-md q-mr-md">
-        <q-input type="text" label="new snapshot name" v-model='snapshot_file_name' class="col q-mr-sm" dense color="teal-7" ></q-input>
-  </div>
-  <div v-if="snapshotEnabled" class="row q-ma-md">
-      <q-btn dense color="teal-7" style="width: 100%" @click="setSnapshot">take snapshot</q-btn>
-  </div>
-
-  <div v-if="snapshotEnabled" class="row q-ma-md">
-    <q-file
-        v-model="snapshot_file"
-        dense
-        label="load snapshot from disk"
-        filled
-        @input="getSnapshot"
-    >
-      <q-icon name="save" class="text-grey" style="font-size: 1rem;" />
-    </q-file>
-  </div> -->
-
 </q-card>
 </template>
 
