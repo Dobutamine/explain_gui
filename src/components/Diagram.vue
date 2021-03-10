@@ -109,6 +109,7 @@ export default {
     this.$root.$on('update_speed', (e) => this.updateSpeed(e))
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
+    this.$root.$on('get_layout_for_download', this.getCoordinatesForDownload)
   },
   destroyed () {
     // remove eventlistener when destroyed
@@ -167,6 +168,19 @@ export default {
         delete this.diagramConnectors[id]
       })
       this.watchedmodels = []
+    },
+    getCoordinatesForDownload () {
+      // getting relative coords
+      const layouts = []
+      Object.keys(this.diagramComponents).forEach(id => {
+        const coordinateObject = {
+          name: id,
+          xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
+        }
+        layouts.push(coordinateObject)
+      })
+      this.$root.$emit('diagram_layout_for_download', layouts)
     },
     getCoordinates () {
       // getting relative coords
