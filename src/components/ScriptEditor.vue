@@ -39,9 +39,9 @@
           <q-input class="col" type="number"  v-model="propValue1" filled dense square label="current value" />
           <q-input class="col" type="number"  v-model="propValue1New" filled dense square label="new value" />
       </div>
-      <div v-if="!isNumber" class="bg-grey-2 row">
-          <q-toggle class="col text-caption" style="width: 100%"  left-label v-model="propValue1"  label="current state"/>
-          <q-toggle class="col text-caption" style="width: 100%"  left-label v-model="propValue1New" label="new state" />
+      <div v-if="!isNumber" class="row">
+          <q-toggle class="col text-caption" dark style="width: 100%" filled left-label v-model="propValue1"  label="current state"/>
+          <q-toggle class="col text-caption" dark style="width: 100%" filled left-label v-model="propValue1New" label="new state" />
       </div>
 
       <div class="row">
