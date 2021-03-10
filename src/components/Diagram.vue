@@ -110,6 +110,7 @@ export default {
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
     this.$root.$on('get_layout_for_download', this.getCoordinatesForDownload)
+    this.$root.$on('change_gridsize', (e) => this.changeGridSize(e))
   },
   destroyed () {
     // remove eventlistener when destroyed
@@ -148,15 +149,61 @@ export default {
       this.pixiApp.stage.on('mousedown', (e) => this.itemSelected(e.target))
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
       this.pixiApp.stage.on('touchmove', this.redrawConnector)
+      this.pixiApp.gridSize = 10
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
       this.handleResize()
       this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
+
+      // skeleton graphics
+      this.skeletonGraphics = new PIXI.Graphics()
+      this.pixiApp.stage.addChild(this.skeletonGraphics)
+      this.drawCircle()
+
+      this.drawGrid()
+
+      this.diagramComponents = {}
+      this.diagramConnectors = {}
+      this.watchedmodels = []
+      this.$root.$emit('diagram_reset')
+    },
+    drawCircle () {
+      this.skeletonGraphics.clear()
+
+      // get center stage
+      const xCenter = this.pixiApp.renderer.width / 4
+      const yCenter = this.pixiApp.renderer.height / 4
+      this.skeletonGraphics.beginFill(0x444444)
+      this.skeletonGraphics.lineStyle(1, 0x444444, 1)
+      this.skeletonGraphics.drawCircle(xCenter, yCenter, xCenter * 0.6)
+      this.skeletonGraphics.endFill()
+      this.pixiApp.stage.addChild(this.skeletonGraphics)
+    },
+    drawGrid () {
+      // build the grid
+      for (let x = 0; x < this.pixiApp.renderer.width; x = x + this.pixiApp.gridSize) {
+        const vertical = new PIXI.Graphics()
+        vertical.lineStyle(1, 0x888888, 0.1)
+        vertical.moveTo(x, 0)
+        vertical.lineTo(x, this.pixiApp.renderer.height)
+        this.pixiApp.stage.addChild(vertical)
+      }
+
+      for (let y = 0; y < this.pixiApp.renderer.height; y = y + this.pixiApp.gridSize) {
+        const horizontal = new PIXI.Graphics()
+        horizontal.lineStyle(1, 0x888888, 0.1)
+        horizontal.moveTo(0, y)
+        horizontal.lineTo(this.pixiApp.renderer.width, y)
+        this.pixiApp.stage.addChild(horizontal)
+      }
     },
     itemSelected (item) {
       this.$root.$emit('add_to_graph1', item.label)
+    },
+    changeGridSize (newGridSize) {
+      this.pixiApp.gridSize = newGridSize
     },
     clearDiagram () {
       Object.keys(this.diagramComponents).forEach(id => {
