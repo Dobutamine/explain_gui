@@ -25,6 +25,20 @@ class DiagramDiffusor {
     this.pos = 0
     this.sprite.scale.set(0.1, 0.1)
     this.pixiApp.stage.addChild(this.sprite)
+
+    this.setUpGrid(this.pixiApp.gridSize)
+  }
+
+  setUpGrid (newSize) {
+    this.sprite.x_grid = []
+    for (let i = 0; i < this.pixiApp.renderer.width; i = i + newSize) {
+      this.sprite.x_grid.push(i)
+    }
+
+    this.sprite.y_grid = []
+    for (let i = 0; i < this.pixiApp.renderer.height; i = i + newSize) {
+      this.sprite.y_grid.push(i)
+    }
   }
 
   remove () {

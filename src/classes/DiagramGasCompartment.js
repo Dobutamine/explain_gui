@@ -45,6 +45,20 @@ class DiagramGasCompartment {
     this.sprite.text.y = 50
     this.sprite.text.zIndex = 3
     this.pixiApp.stage.addChild(this.sprite.text)
+
+    this.setUpGrid(this.pixiApp.gridSize)
+  }
+
+  setUpGrid (newSize) {
+    this.sprite.x_grid = []
+    for (let i = 0; i < this.pixiApp.renderer.width; i = i + newSize) {
+      this.sprite.x_grid.push(i)
+    }
+
+    this.sprite.y_grid = []
+    for (let i = 0; i < this.pixiApp.renderer.height; i = i + newSize) {
+      this.sprite.y_grid.push(i)
+    }
   }
 
   updateScale (newScale) {
@@ -79,6 +93,19 @@ class DiagramGasCompartment {
   }
 
   onDragEnd () {
+    // sprite is here the owner, as this function is called by the sprite class
+    const closestX = this.x_grid.reduce((a, b) => {
+      return Math.abs(b - this.interactionData.global.x) < Math.abs(a - this.interactionData.global.x) ? b : a
+    })
+    const closestY = this.y_grid.reduce((a, b) => {
+      return Math.abs(b - this.interactionData.global.y) < Math.abs(a - this.interactionData.global.y) ? b : a
+    })
+
+    this.x = closestX
+    this.y = closestY
+    this.text.x = closestX
+    this.text.y = closestY
+
     // sprite is here the owner, as this function is called by the sprite class
     this.interactionData = null
     this.alpha = 1
