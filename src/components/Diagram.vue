@@ -9,6 +9,7 @@
     <div class="stage" :style="{display: display}">
       <canvas id="stage" ></canvas>
     </div>
+    <q-btn @click="changeSpriteMode">ROTATE</q-btn>
   </q-card>
 </template>
 
@@ -128,6 +129,11 @@ export default {
         this.pixiApp.renderer.view.style.display = this.display
       }
     },
+    changeSpriteMode () {
+      this.pixiApp.spriteMode.text = 'sizing'
+      this.pixiApp.spriteMode.mode = 4
+      console.log(this.pixiApp.spriteMode.text)
+    },
     initDiagram () {
       // get the reference to the canvas
       canvas = document.getElementById('stage')
@@ -150,6 +156,7 @@ export default {
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
       this.pixiApp.stage.on('touchmove', this.redrawConnector)
       this.pixiApp.gridSize = 10
+      this.pixiApp.spriteMode = { text: 'moving', mode: 1 }
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
