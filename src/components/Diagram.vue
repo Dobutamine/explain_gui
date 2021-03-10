@@ -163,11 +163,6 @@ export default {
       this.drawCircle()
 
       this.drawGrid()
-
-      this.diagramComponents = {}
-      this.diagramConnectors = {}
-      this.watchedmodels = []
-      this.$root.$emit('diagram_reset')
     },
     drawCircle () {
       this.skeletonGraphics.clear()
