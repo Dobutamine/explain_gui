@@ -260,7 +260,7 @@ export default {
       const blob = new Blob([data], { type: 'text/json' })
       const e = document.createEvent('MouseEvents')
       const a = document.createElement('a')
-      if (this.exportFileName.includes('.json')) {
+      if (this.stateName.includes('.json')) {
         a.download = this.stateName
       } else {
         a.download = this.stateName + '.json'
