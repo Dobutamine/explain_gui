@@ -81,16 +81,8 @@
 
   <q-separator ></q-separator>
 
-    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="scriptIOEnabled = !scriptIOEnabled">
-        script i/o
-      </div>
-    </div>
-    <div v-if="scriptIOEnabled" class="row q-ml-md q-mr-md">
-          <q-input type="text" label="new script list name" v-model='exportFileName' class="col q-mr-sm" dense color="teal-7" ></q-input>
-    </div>
-    <div v-if="scriptIOEnabled" class="row q-ma-md">
-        <q-btn dense color="teal-7" style="width: 100%" @click="exportScriptList">export scripts</q-btn>
+    <div v-if="isEnabled && addEnabled" class="row q-ma-md">
+        <q-btn dense color="teal-7" style="width: 100%" @click="exportScriptList">SAVE SCRIPT TO DISK</q-btn>
     </div>
     <div v-if="scriptIOEnabled" class="row q-ma-md">
     <q-file
@@ -115,7 +107,7 @@ export default {
       isEnabled: true,
       addEnabled: false,
       newScriptEnabled: false,
-      scriptIOEnabled: false,
+      scriptIOEnabled: true,
       scriptLoaded: false,
       scriptReadyForExecution: false,
       isNumber: true,
@@ -246,22 +238,38 @@ export default {
       const reader = new FileReader()
 
       reader.onload = (e) => {
-        this.scriptList = JSON.parse(e.target.result)
-        this.updateLocalStorageScriptList()
-        this.loadScriptsFromLocalStorage()
+        const loadedScript = JSON.parse(e.target.result)
+        console.log(loadedScript)
+        const foundIndex = this.scriptList.find(element => element.name === loadedScript.name)
+        console.log(foundIndex)
+        if (foundIndex === undefined) {
+          // it's a new script
+          this.scriptList.push(loadedScript)
+          this.scriptNames.push(loadedScript.name)
+          this.selectedScript = this.scriptList[this.scriptList.length - 1].name
+        } else {
+          // replace the current script in the script list
+          this.scriptList.splice(foundIndex, 1, loadedScript)
+          this.selectedScript = this.scriptList[foundIndex].name
+        }
+        this.selectScript()
       }
       reader.readAsText(this.fileToBeImported)
     },
     exportScriptList () {
+      const script = {
+        name: this.scriptName,
+        interventions: this.interventionsList
+      }
       // download to local disk
-      const data = JSON.stringify(this.scriptList)
+      const data = JSON.stringify(script)
       const blob = new Blob([data], { type: 'text/json' })
       const e = document.createEvent('MouseEvents')
       const a = document.createElement('a')
       if (this.exportFileName.includes('.json')) {
-        a.download = this.exportFileName
+        a.download = this.scriptName
       } else {
-        a.download = this.exportFileName + '.json'
+        a.download = this.scriptName + '.json'
       }
       a.href = window.URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text/json', a.download, a.href].join(':')
