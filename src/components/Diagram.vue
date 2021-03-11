@@ -1,15 +1,24 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        model diagram
-      </div>
-    </div>
 
     <div class="stage" :style="{display: display}">
       <canvas id="stage" ></canvas>
     </div>
-    <q-btn @click="changeSpriteMode">ROTATE</q-btn>
+    <div class="row justify-center">
+              <q-btn-toggle
+                color="grey-10"
+                class="q-ma-sm"
+                toggle-color="red-10"
+                size="sm"
+                v-model="editingSelection"
+                @click="changeEditingMode"
+                :options="[
+                  { label: 'moving', value: 1 },
+                  { label: 'rotating', value: 2 },
+                  { label: 'morphing', value: 3 },
+                  { label: 'sizing', value: 4 }]"
+                />
+            </div>
   </q-card>
 </template>
 
@@ -36,6 +45,7 @@ export default {
       watchedmodels: [],
       display: 'block',
       pixiApp: null,
+      editingSelection: 1,
       stage: {
         width: 0,
         hieght: 0,
@@ -129,10 +139,9 @@ export default {
         this.pixiApp.renderer.view.style.display = this.display
       }
     },
-    changeSpriteMode () {
-      this.pixiApp.spriteMode.text = 'rotating'
-      this.pixiApp.spriteMode.mode = 2
-      console.log(this.pixiApp.spriteMode.text)
+    changeEditingMode () {
+      this.pixiApp.spriteMode.mode = this.editingSelection
+      console.log(this.pixiApp.spriteMode.mode)
     },
     initDiagram () {
       // get the reference to the canvas
