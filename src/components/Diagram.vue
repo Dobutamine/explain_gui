@@ -381,14 +381,16 @@ export default {
     },
     handleResize () {
       // get stage sizes
-      this.stage.width = canvas.getBoundingClientRect().width
-      this.stage.height = canvas.getBoundingClientRect().width * this.stage.aspectRatio
-      // get the center of the stage
-      this.stage.centerX = this.stage.width * 0.5
-      this.stage.centerY = this.stage.height * 0.5
-      // resize the pixi app
-      if (this.pixiApp) {
-        this.pixiApp.renderer.resize(this.stage.width, this.stage.height)
+      if (canvas) {
+        this.stage.width = canvas.getBoundingClientRect().width
+        this.stage.height = canvas.getBoundingClientRect().width * this.stage.aspectRatio
+        // get the center of the stage
+        this.stage.centerX = this.stage.width * 0.5
+        this.stage.centerY = this.stage.height * 0.5
+        // resize the pixi app
+        if (this.pixiApp) {
+          this.pixiApp.renderer.resize(this.stage.width, this.stage.height)
+        }
       }
     },
     processProperties () {
