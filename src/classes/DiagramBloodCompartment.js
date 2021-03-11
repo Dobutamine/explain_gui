@@ -39,6 +39,7 @@ class DiagramBloodCompartment {
     this.sprite.on('touchmove', this.onDragMove)
     this.sprite.zIndex = 3
     this.sprite.editMode = this.pixiApp.spriteMode
+    this.sprite.firstRun = true
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
@@ -80,6 +81,10 @@ class DiagramBloodCompartment {
 
   draw (stage, rtData) {
     let volume = 0
+    if (this.sprite.firstRun) {
+      this.sprite.firstRun = false
+      volume = 0.05
+    }
     let to2 = 0
     if (rtData) {
       this.sprite.modelComponents.forEach(modelComponent => {
