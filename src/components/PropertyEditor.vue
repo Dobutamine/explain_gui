@@ -131,7 +131,6 @@ export default {
           this.$model.setPropertyDirect(this.selectedComponentName, prop.name, prop.value)
         }
       })
-      this.$model.getProperties(null)
     },
     changeProperties (event, name) {
       this.selectedComponentPropertyList.forEach(prop => {
