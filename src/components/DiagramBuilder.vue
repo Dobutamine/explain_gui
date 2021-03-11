@@ -174,6 +174,8 @@ export default {
     this.$root.$on('diagram_layout_for_download', (e) => { this.receivedLayoutForDownload(e) })
   },
   beforeDestroy () {
+    this.$root.$off('diagram_layout')
+    this.$root.$off('diagram_layout_for_download')
     delete this.modelEventListener
   },
   methods: {

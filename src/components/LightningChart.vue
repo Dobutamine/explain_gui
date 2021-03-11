@@ -563,7 +563,10 @@ export default {
       this.setDatalogger()
     }
   },
-  destroyed () {
+  beforeDestroy () {
+    this.$root.$off('add_to_graph1')
+    this.$root.$off('add_to_graph2')
+    this.$root.$off('remove_from_diagram')
     delete this.modelEventListener
   },
   beforeMount () {

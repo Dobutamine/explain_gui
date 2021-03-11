@@ -419,8 +419,10 @@ export default {
     }
 
   },
-  destroyed () {
+  beforeDestroy () {
     delete this.modelEventListener
+    this.$root.$off('hires_on')
+    this.$root.$off('hires_off')
   },
   beforeMount () {
     this.id = 'test' + Math.floor((Math.random() * 1000) + 1)

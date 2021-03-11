@@ -116,6 +116,8 @@ export default {
     this.$model.getProperties(null)
   },
   beforeDestroy () {
+    this.$root.$off('add_to_graph1')
+    this.$root.$off('show_selected_comp')
     delete this.modelEventListener
   },
   methods: {
