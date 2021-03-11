@@ -93,7 +93,7 @@
         </q-popup-edit>
      </q-btn>
   </div>
-
+<q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -180,6 +180,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart) {
+        this.chart.engine.renderFrame(size.width, 350)
+      }
+    },
     exportData () {
       // download to local disk
       const data = JSON.stringify(this.chartCh1Data)
