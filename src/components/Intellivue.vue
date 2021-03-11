@@ -32,6 +32,7 @@
     </div>
 
   </div>
+  <q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -172,6 +173,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart) {
+        this.chart.engine.renderFrame(size.width, 350)
+      }
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {

@@ -88,8 +88,13 @@ class DiagramGasCompartment {
     let co2 = 0
     if (rtData) {
       this.sprite.modelComponents.forEach(modelComponent => {
-        volume += rtData[0][modelComponent].vol
-        co2 += rtData[0][modelComponent].co2
+        if (!rtData[0][modelComponent].fixed_composition) {
+          volume += rtData[0][modelComponent].vol
+          // co2 += rtData[0][modelComponent].co2
+        } else {
+          volume = 0.05
+          co2 += rtData[0][modelComponent].co2
+        }
       })
     }
     this.sprite.volume = this.calculateRadius(volume)

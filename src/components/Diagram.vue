@@ -20,6 +20,7 @@
                   { label: 'sizing', value: 4 }]"
                 />
             </div>
+  <q-resize-observer @resize="onResize" />
   </q-card>
 </template>
 
@@ -129,6 +130,9 @@ export default {
     delete this.modelEventListener
   },
   methods: {
+    onResize (size) {
+      this.handleResize()
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
@@ -185,7 +189,7 @@ export default {
 
       // get center stage
       const xCenter = this.pixiApp.renderer.width / 4
-      const yCenter = this.pixiApp.renderer.height / 4
+      const yCenter = (this.pixiApp.renderer.height / 4) * 1.15
       this.skeletonGraphics.beginFill(0x444444)
       this.skeletonGraphics.lineStyle(1, 0x444444, 1)
       this.skeletonGraphics.drawCircle(xCenter, yCenter, xCenter * 0.6)
