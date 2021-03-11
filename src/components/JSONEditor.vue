@@ -58,7 +58,7 @@ export default {
         case 'data':
           switch (message.data.target) {
             case 'json':
-              this.file = ''
+              this.file = null
               this.currentDisplayedJsonName = message.data.data.name
               this.currentRunningJsonName = message.data.data.name
               this.jsonText = message.data.data
@@ -99,7 +99,7 @@ export default {
       this.$model.getProperties(null)
     },
     downloadJSON () {
-      this.file = ''
+      this.file = null
       this.jsonText.name = this.currentDisplayedJsonName
       const data = JSON.stringify(this.jsonText)
       const blob = new Blob([data], { type: 'text/json' })

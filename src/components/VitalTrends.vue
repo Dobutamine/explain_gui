@@ -29,6 +29,7 @@
     </div>
 
   </div>
+<q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -169,6 +170,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart) {
+        this.chart.engine.renderFrame(size.width, 350)
+      }
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
@@ -436,12 +442,12 @@ export default {
 <style scoped>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .gutter {
