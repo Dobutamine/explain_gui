@@ -130,8 +130,8 @@ export default {
       }
     },
     changeSpriteMode () {
-      this.pixiApp.spriteMode.text = 'sizing'
-      this.pixiApp.spriteMode.mode = 4
+      this.pixiApp.spriteMode.text = 'rotating'
+      this.pixiApp.spriteMode.mode = 2
       console.log(this.pixiApp.spriteMode.text)
     },
     initDiagram () {
@@ -161,7 +161,6 @@ export default {
       window.addEventListener('resize', this.handleResize)
       // size the canvas
       this.handleResize()
-      this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
 
       // skeleton graphics
@@ -225,7 +224,10 @@ export default {
         const coordinateObject = {
           name: id,
           xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
-          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height,
+          xScale: this.diagramComponents[id].sprite.scalingFactorX,
+          yScale: this.diagramComponents[id].sprite.scalingFactorY,
+          rotation: this.diagramComponents[id].sprite.rotation
         }
         layouts.push(coordinateObject)
       })
@@ -238,7 +240,10 @@ export default {
         const coordinateObject = {
           name: id,
           xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
-          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height,
+          xScale: this.diagramComponents[id].sprite.scalingFactorX,
+          yScale: this.diagramComponents[id].sprite.scalingFactorY,
+          rotation: this.diagramComponents[id].sprite.rotation
         }
         layouts.push(coordinateObject)
       })
@@ -282,12 +287,15 @@ export default {
       // remove from watched list
     },
     addToDiagram (e) {
-      if (!this.watchedmodels.includes(e.modelComponents[0])) {
+      if (!this.watchedmodels.includes(e.id)) {
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -295,6 +303,9 @@ export default {
             this.diagramComponents[e.id] = new DiagramGasCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -302,6 +313,9 @@ export default {
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -320,33 +334,20 @@ export default {
           case 'diffusor':
             this.diagramConnectors[e.id] = new DiagramDiffusor(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
+          case 'container':
+            this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
+            break
         }
-        e.modelComponents.forEach(component => {
-          this.watchedmodels.push(component)
-        })
-      }
-
-      if (e.type === 'container') {
-        if (!this.watchedmodels.includes(e.id)) {
-          this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
-          this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
-          this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
-          this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
-          this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
-          this.watchedmodels.push(e.id)
-        }
+        this.watchedmodels.push(e.id)
       }
       this.$root.$emit('rt_watch_diagram', this.watchedmodels)
-    },
-    buildDiagram () {
-      // this.watchedmodels = ['LA', 'LV', 'RA', 'RV', 'LA_LV', 'RA_RV']
-      // this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
-      // this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
-      // this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
-      // this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
-
-      // this.diagramConnectors.LA_LV = new DiagramBloodConnector('LA_LV', 'LA_LV', 'LA', 'LV', ['LA_LV'], this.pixiApp)
-      // this.diagramConnectors.RA_RV = new DiagramBloodConnector('RA_RV', 'RA_RV', 'RA', 'RV', ['RA_RV'], this.pixiApp)
     },
     redrawConnector () {
       if (!this.isRunning) {

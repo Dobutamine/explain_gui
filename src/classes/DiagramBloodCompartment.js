@@ -12,8 +12,9 @@ class DiagramBloodCompartment {
     this.sprite.label = label
     this.sprite.volume = 0.05
     this.sprite.to2 = 0
-    this.sprite.scalingFactorX = 5
-    this.sprite.scalingFactorY = 5
+    this.sprite.scalingFactorX = 1
+    this.sprite.scalingFactorY = 1
+    this.sprite.globalScale = 5
     this.sprite.interactionData = null
     this.sprite.dragging = false
     this.sprite.rotating = false
@@ -24,7 +25,6 @@ class DiagramBloodCompartment {
     this.sprite.y = 50
     this.sprite.prevX = 0
     this.sprite.prevY = 0
-    this.sprite.rotation = 0
     this.sprite.scale.set(0.05, 0.05)
     this.sprite.tint = '0xffffff'
     this.sprite.interactive = true
@@ -70,8 +70,7 @@ class DiagramBloodCompartment {
   }
 
   updateScale (newScale) {
-    this.sprite.scalingFactorX = newScale
-    this.sprite.scalingFactorY = newScale
+    this.sprite.globalScale = newScale
   }
 
   remove () {
@@ -90,8 +89,9 @@ class DiagramBloodCompartment {
     }
     this.sprite.volume = this.calculateRadius(volume)
     this.sprite.to2 = to2
+    this.sprite.text.rotation = this.sprite.rotation
     this.sprite.tint = this.CalculateColor(this.sprite.to2 / this.sprite.modelComponents.length)
-    this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactorX, this.sprite.volume * this.sprite.scalingFactorY)
+    this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactorX * this.sprite.globalScale, this.sprite.volume * this.sprite.scalingFactorY * this.sprite.globalScale)
   }
 
   onDragStart (e) {
@@ -189,7 +189,7 @@ class DiagramBloodCompartment {
             this.scalingFactorX -= 0.01
             this.scalingFactorY += 0.01
           }
-          this.scale.set(this.volume * this.scalingFactorX, this.volume * this.scalingFactorY)
+          this.scale.set(this.volume * this.scalingFactorX * this.globalScale, this.volume * this.scalingFactorY * this.globalScale)
           this.prevX = this.interactionData.global.x
         }
         break
@@ -202,7 +202,7 @@ class DiagramBloodCompartment {
             this.scalingFactorX -= 0.01
             this.scalingFactorY -= 0.01
           }
-          this.scale.set(this.volume * this.scalingFactorX, this.volume * this.scalingFactorY)
+          this.scale.set(this.volume * this.scalingFactorX * this.globalScale, this.volume * this.scalingFactorY * this.globalScale)
           this.prevX = this.interactionData.global.x
         }
         break

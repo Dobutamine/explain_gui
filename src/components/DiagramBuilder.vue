@@ -290,6 +290,7 @@ export default {
           this.diagramList.push(newState)
           this.stateNames.push(newState.name)
         } else {
+          // update the old one
           this.diagramList.splice(foundIndex, 1, newState)
         }
         this.showPopUp = true
@@ -396,6 +397,24 @@ export default {
           if (!this.currentModelsInDiagram.includes(compBlood)) { this.currentModelsInDiagram.push(compBlood) }
           if (!this.currentModelsInDiagram.includes(compGas)) { this.currentModelsInDiagram.push(compGas) }
         }
+        if (this.properties[this.selectedModel].subtype === 'container') {
+          // convert the list of compartments to an array
+          const listOfComps = this.properties[this.selectedModel].comps.split(',')
+          listOfComps.forEach(comp => {
+            if (!this.currentModelsInDiagram.includes(comp)) {
+              if (this.properties[comp].subtype === 'container') {
+                const listOfComps1 = this.properties[comp].comps.split(',')
+                listOfComps1.forEach(comp1 => {
+                  if (!this.currentModelsInDiagram.includes(comp1)) {
+                    this.currentModelsInDiagram.push(comp1)
+                  }
+                })
+              }
+              // push the comp
+              this.currentModelsInDiagram.push(comp)
+            }
+          })
+        }
       } else {
         this.showPopUp = true
         this.popUpMessage = 'no model selected'
@@ -407,7 +426,10 @@ export default {
         let currentLayout = {
           name: model,
           xSprite: 0.5,
-          ySprite: 0.5
+          ySprite: 0.5,
+          xScale: 1,
+          yScale: 1,
+          rotation: 0
         }
         if (layoutIndex > -1) {
           currentLayout = this.layout[layoutIndex]
