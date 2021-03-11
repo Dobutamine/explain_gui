@@ -13,6 +13,7 @@
                 v-model="editingSelection"
                 @click="changeEditingMode"
                 :options="[
+                  { label: 'selecting', value: 0 },
                   { label: 'moving', value: 1 },
                   { label: 'rotating', value: 2 },
                   { label: 'morphing', value: 3 },
