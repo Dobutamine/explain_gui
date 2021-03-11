@@ -37,7 +37,7 @@ class DiagramBloodCompartment {
     this.sprite.on('touchend', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
     this.sprite.on('touchmove', this.onDragMove)
-    this.sprite.zIndex = 2
+    this.sprite.zIndex = 3
     this.sprite.editMode = this.pixiApp.spriteMode
     this.pixiApp.stage.addChild(this.sprite)
 

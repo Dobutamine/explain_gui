@@ -51,7 +51,7 @@ class DiagramGasCompartment {
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }
     this.sprite.text.x = 50
     this.sprite.text.y = 50
-    this.sprite.text.zIndex = 3
+    this.sprite.text.zIndex = 2
     this.pixiApp.stage.addChild(this.sprite.text)
 
     this.setUpGrid(this.pixiApp.gridSize)

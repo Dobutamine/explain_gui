@@ -36,7 +36,7 @@ class DiagramContainer {
     this.sprite.on('touchend', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
     this.sprite.on('touchmove', this.onDragMove)
-    this.sprite.zIndex = 2
+    this.sprite.zIndex = 1
     this.sprite.editMode = this.pixiApp.spriteMode
     this.pixiApp.stage.addChild(this.sprite)
 
@@ -50,7 +50,7 @@ class DiagramContainer {
     this.sprite.text.anchor = { x: 0.5, y: 0.5 }
     this.sprite.text.x = 50
     this.sprite.text.y = 50
-    this.sprite.text.zIndex = 3
+    this.sprite.text.zIndex = 1
     this.pixiApp.stage.addChild(this.sprite.text)
 
     this.setUpGrid(this.pixiApp.gridSize)
