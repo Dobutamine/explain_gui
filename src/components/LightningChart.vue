@@ -615,12 +615,12 @@ export default {
 <style>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .gutter {

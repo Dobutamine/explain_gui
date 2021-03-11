@@ -193,7 +193,7 @@ export default {
   methods: {
     onResize (size) {
       if (this.chart1) {
-        this.chart1.engine.renderFrame(size.width, 250)
+        this.chart1.engine.renderFrame(size.width, 350)
       }
     },
     toggleIsEnabled () {
@@ -501,12 +501,12 @@ export default {
 <style scoped>
 .rectangle {
   display: flex;
-  height: 250px;
+  height: 350px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 250px;
+  height: 350px;
   width: 100%;
 }
 .gutter {

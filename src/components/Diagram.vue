@@ -20,6 +20,7 @@
                   { label: 'sizing', value: 4 }]"
                 />
             </div>
+  <q-resize-observer @resize="onResize" />
   </q-card>
 </template>
 
@@ -129,6 +130,9 @@ export default {
     delete this.modelEventListener
   },
   methods: {
+    onResize (size) {
+      this.handleResize()
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
