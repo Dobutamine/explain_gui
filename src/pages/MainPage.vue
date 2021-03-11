@@ -43,6 +43,7 @@
           <div class="row justify-center">
               <q-btn-toggle
                 color="grey-10"
+                @input="windowChanged"
                 class="q-mb-sm"
                 toggle-color="teal-10"
                 size="sm"
@@ -112,7 +113,6 @@
             transition-next="slide-left"
             animated
             dark
-            keep-alive
             :height="height"
             >
             <q-carousel-slide name="editor">
@@ -183,6 +183,11 @@ export default {
     delete this.modelEventListener
   },
   methods: {
+    windowChanged () {
+      if (this.slide === 'ventilator') {
+        this.$root.$emit('show_ventilator')
+      }
+    }
 
   }
 }

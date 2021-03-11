@@ -12,12 +12,19 @@ class DiagramBloodCompartment {
     this.sprite.label = label
     this.sprite.volume = 0.05
     this.sprite.to2 = 0
-    this.sprite.scalingFactor = 5
+    this.sprite.scalingFactorX = 1
+    this.sprite.scalingFactorY = 1
+    this.sprite.globalScale = 5
     this.sprite.interactionData = null
     this.sprite.dragging = false
+    this.sprite.rotating = false
+    this.sprite.morphing = false
+    this.sprite.sizing = false
     this.sprite.anchor = { x: 0.5, y: 0.5 }
     this.sprite.x = 50
     this.sprite.y = 50
+    this.sprite.prevX = 0
+    this.sprite.prevY = 0
     this.sprite.scale.set(0.05, 0.05)
     this.sprite.tint = '0xffffff'
     this.sprite.interactive = true
@@ -30,7 +37,9 @@ class DiagramBloodCompartment {
     this.sprite.on('touchend', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
     this.sprite.on('touchmove', this.onDragMove)
-    this.sprite.zIndex = 2
+    this.sprite.zIndex = 3
+    this.sprite.editMode = this.pixiApp.spriteMode
+    this.sprite.firstRun = true
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
@@ -62,7 +71,7 @@ class DiagramBloodCompartment {
   }
 
   updateScale (newScale) {
-    this.sprite.scalingFactor = newScale
+    this.sprite.globalScale = newScale
   }
 
   remove () {
@@ -72,6 +81,10 @@ class DiagramBloodCompartment {
 
   draw (stage, rtData) {
     let volume = 0
+    if (this.sprite.firstRun) {
+      this.sprite.firstRun = false
+      volume = 0.05
+    }
     let to2 = 0
     if (rtData) {
       this.sprite.modelComponents.forEach(modelComponent => {
@@ -81,14 +94,41 @@ class DiagramBloodCompartment {
     }
     this.sprite.volume = this.calculateRadius(volume)
     this.sprite.to2 = to2
+    this.sprite.text.rotation = this.sprite.rotation
     this.sprite.tint = this.CalculateColor(this.sprite.to2 / this.sprite.modelComponents.length)
-    this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactor, this.sprite.volume * this.sprite.scalingFactor)
+    this.sprite.scale.set(this.sprite.volume * this.sprite.scalingFactorX * this.sprite.globalScale, this.sprite.volume * this.sprite.scalingFactorY * this.sprite.globalScale)
   }
 
   onDragStart (e) {
     // sprite is here the owner, as this function is called by the sprite class
+    switch (this.editMode.mode) {
+      case 1: // moving
+        this.dragging = true
+        this.rotating = false
+        this.morphing = false
+        this.sizing = false
+        break
+      case 2: // rotating
+        this.dragging = false
+        this.rotating = true
+        this.morphing = false
+        this.sizing = false
+        break
+      case 3: // morphing
+        this.dragging = false
+        this.rotating = false
+        this.morphing = true
+        this.sizing = false
+        break
+      case 4: // sizing
+        this.dragging = false
+        this.rotating = false
+        this.morphing = false
+        this.sizing = true
+        break
+    }
+
     this.interactionData = e.data
-    this.dragging = true
     this.alpha = 0.5
   }
 
@@ -100,24 +140,77 @@ class DiagramBloodCompartment {
     const closestY = this.y_grid.reduce((a, b) => {
       return Math.abs(b - this.interactionData.global.y) < Math.abs(a - this.interactionData.global.y) ? b : a
     })
-
-    this.x = closestX
-    this.y = closestY
-    this.text.x = closestX
-    this.text.y = closestY
-
+    switch (this.editMode.mode) {
+      case 1: // moving
+        this.x = closestX
+        this.y = closestY
+        this.text.x = closestX
+        this.text.y = closestY
+        this.dragging = false
+        break
+      case 2: // rotating
+        this.rotating = false
+        break
+      case 3: // morphing
+        this.morphing = false
+        break
+      case 4: // sizing
+        this.sizing = false
+        break
+    }
     this.interactionData = null
     this.alpha = 1
-    this.dragging = false
   }
 
   onDragMove (e) {
     // sprite is here the owner (this = sprite), as this function is called by the sprite class
-    if (this.dragging) {
-      this.x = this.interactionData.global.x
-      this.y = this.interactionData.global.y
-      this.text.x = this.interactionData.global.x
-      this.text.y = this.interactionData.global.y
+    switch (this.editMode.mode) {
+      case 1: // moving
+        if (this.dragging) {
+          this.x = this.interactionData.global.x
+          this.y = this.interactionData.global.y
+          this.text.x = this.interactionData.global.x
+          this.text.y = this.interactionData.global.y
+        }
+        break
+      case 2: // rotating
+        if (this.rotating) {
+          if (this.interactionData.global.x > this.prevX) {
+            this.rotation += 0.05
+            this.text.rotation += 0.05
+          } else {
+            this.rotation -= 0.05
+            this.text.rotation -= 0.05
+          }
+          this.prevX = this.interactionData.global.x
+        }
+        break
+      case 3: // morphing
+        if (this.morphing) {
+          if (this.interactionData.global.x > this.prevX) {
+            this.scalingFactorX += 0.01
+            this.scalingFactorY -= 0.01
+          } else {
+            this.scalingFactorX -= 0.01
+            this.scalingFactorY += 0.01
+          }
+          this.scale.set(this.volume * this.scalingFactorX * this.globalScale, this.volume * this.scalingFactorY * this.globalScale)
+          this.prevX = this.interactionData.global.x
+        }
+        break
+      case 4: // sizing
+        if (this.sizing) {
+          if (this.interactionData.global.x > this.prevX) {
+            this.scalingFactorX += 0.01
+            this.scalingFactorY += 0.01
+          } else {
+            this.scalingFactorX -= 0.01
+            this.scalingFactorY -= 0.01
+          }
+          this.scale.set(this.volume * this.scalingFactorX * this.globalScale, this.volume * this.scalingFactorY * this.globalScale)
+          this.prevX = this.interactionData.global.x
+        }
+        break
     }
   }
 
