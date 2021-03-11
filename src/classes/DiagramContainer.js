@@ -37,6 +37,7 @@ class DiagramContainer {
     this.sprite.on('mousemove', this.onDragMove)
     this.sprite.on('touchmove', this.onDragMove)
     this.sprite.zIndex = 1
+    this.sprite.firstRun = true
     this.sprite.editMode = this.pixiApp.spriteMode
     this.pixiApp.stage.addChild(this.sprite)
 
@@ -79,6 +80,10 @@ class DiagramContainer {
 
   draw (stage, rtData) {
     let volume = 0
+    if (this.sprite.firstRun) {
+      this.sprite.firstRun = false
+      volume = 0.05
+    }
     if (rtData) {
       this.sprite.modelComponents.forEach(modelComponent => {
         if (rtData[0][modelComponent] === undefined) {
