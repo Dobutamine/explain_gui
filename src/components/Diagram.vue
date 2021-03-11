@@ -125,8 +125,17 @@ export default {
     this.$root.$on('get_layout_for_download', this.getCoordinatesForDownload)
     this.$root.$on('change_gridsize', (e) => this.changeGridSize(e))
   },
-  destroyed () {
-    // remove eventlistener when destroyed
+  beforeDestroy () {
+    this.$root.$off('rt_on')
+    this.$root.$off('rt_off')
+    this.$root.$off('add_to_diagram')
+    this.$root.$off('remove_from_diagram')
+    this.$root.$off('update_scale')
+    this.$root.$off('update_speed')
+    this.$root.$off('clear_diagram')
+    this.$root.$off('get_layout')
+    this.$root.$off('get_layout_for_download')
+    this.$root.$off('change_gridsize')
     delete this.modelEventListener
   },
   methods: {

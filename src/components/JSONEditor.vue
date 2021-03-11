@@ -77,6 +77,9 @@ export default {
     })
     this.$model.getModelJSON()
   },
+  beforeDestroy () {
+    delete this.modelEventListener
+  },
   methods: {
     gettingTheJSON () {
       this.$model.getModelJSON()

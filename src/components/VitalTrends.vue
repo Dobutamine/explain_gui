@@ -395,7 +395,9 @@ export default {
     }
 
   },
-  destroyed () {
+  beforeDestroy () {
+    this.$root.$off('hires_on')
+    this.$root.$off('hires_off')
     delete this.modelEventListener
   },
   beforeMount () {
