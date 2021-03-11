@@ -449,7 +449,10 @@ export default {
       this.chart1Ch1Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(200, 0, 0) })))
     }
   },
-  destroyed () {
+  beforeDestroy () {
+    this.$root.$off('hires_on')
+    this.$root.$off('hires_off')
+
     delete this.modelEventListener
   },
   beforeMount () {
@@ -489,8 +492,6 @@ export default {
 
     this.$root.$on('hires_on', () => { this.hires = true })
     this.$root.$on('hires_off', () => { this.hires = false })
-
-    window.addEventListener('onload', console.log('loading'))
 
     this.changeVentilatorMode()
   }

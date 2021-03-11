@@ -68,6 +68,15 @@ export default {
     this.$root.$on('rt_watch_chart', (e) => { this.updateWatchedModelsChart(e) })
     this.$root.$on('rt_watch_chart2', (e) => { this.updateWatchedModelsChart2(e) })
   },
+  beforeDestroy () {
+    this.$root.$off('ff_on')
+    this.$root.$off('calc_on')
+    this.$root.$off('rt_on')
+    this.$root.$off('rt_off')
+    this.$root.$off('rt_watch_diagram')
+    this.$root.$off('rt_watch_chart')
+    this.$root.$off('rt_watch_chart2')
+  },
   methods: {
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
