@@ -427,7 +427,6 @@ export default {
         responsive: true,
         maintainAspectRatio: false
       })
-      console.log(this.chart1.engine.scale)
       this.chart1.setTitle('').setTitleFont(f => f.setSize(10))
       this.chart1.setPadding({ top: 0, bottom: 0, left: 15, right: 30 })
       this.chart1XAxis = this.chart1.getDefaultAxisX()
