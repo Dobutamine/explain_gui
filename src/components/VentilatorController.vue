@@ -101,7 +101,7 @@
             <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow (l/min)" style="font-size: 14px" />
             <q-input class="col" v-model="vent_tin" filled dense square label="i-time" style="font-size: 14px" />
         </div>
-
+<q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -114,7 +114,9 @@ export default {
   data () {
     return {
       id1: 'chart',
+      style: { width: '200px', height: '200px' },
       graphClass: 'rectangle',
+      componentKey: 0,
       box: false,
       isEnabled: true,
       rtFrame: 3,
@@ -189,6 +191,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart1) {
+        this.chart1.engine.renderFrame(size.width, 350)
+      }
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
@@ -420,6 +427,7 @@ export default {
         responsive: true,
         maintainAspectRatio: false
       })
+      console.log(this.chart1.engine.scale)
       this.chart1.setTitle('').setTitleFont(f => f.setSize(10))
       this.chart1.setPadding({ top: 0, bottom: 0, left: 15, right: 30 })
       this.chart1XAxis = this.chart1.getDefaultAxisX()
@@ -441,7 +449,6 @@ export default {
       this.chart1Ch1Lineseries.setStrokeStyle((style) => style.setThickness(2))
       this.chart1Ch1Lineseries.setStrokeStyle((style) => style.setFillStyle(new SolidFill({ color: ColorRGBA(200, 0, 0) })))
     }
-
   },
   destroyed () {
     delete this.modelEventListener
@@ -484,6 +491,8 @@ export default {
     this.$root.$on('hires_on', () => { this.hires = true })
     this.$root.$on('hires_off', () => { this.hires = false })
 
+    window.addEventListener('onload', console.log('loading'))
+
     this.changeVentilatorMode()
   }
 }
@@ -492,12 +501,12 @@ export default {
 <style scoped>
 .rectangle {
   display: flex;
-  height: 250px;
+  height: 350px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 250px;
+  height: 350px;
   width: 100%;
 }
 .gutter {
