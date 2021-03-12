@@ -1,14 +1,26 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        model diagram
-      </div>
-    </div>
 
     <div class="stage" :style="{display: display}">
       <canvas id="stage" ></canvas>
     </div>
+    <div class="row justify-center">
+              <q-btn-toggle
+                color="grey-10"
+                class="q-ma-sm"
+                toggle-color="red-10"
+                size="sm"
+                v-model="editingSelection"
+                @click="changeEditingMode"
+                :options="[
+                  { label: 'selecting', value: 0 },
+                  { label: 'moving', value: 1 },
+                  { label: 'rotating', value: 2 },
+                  { label: 'morphing', value: 3 },
+                  { label: 'sizing', value: 4 }]"
+                />
+            </div>
+  <q-resize-observer @resize="onResize" />
   </q-card>
 </template>
 
@@ -35,6 +47,7 @@ export default {
       watchedmodels: [],
       display: 'block',
       pixiApp: null,
+      editingSelection: 1,
       stage: {
         width: 0,
         hieght: 0,
@@ -110,12 +123,25 @@ export default {
     this.$root.$on('clear_diagram', this.clearDiagram)
     this.$root.$on('get_layout', this.getCoordinates)
     this.$root.$on('get_layout_for_download', this.getCoordinatesForDownload)
+    this.$root.$on('change_gridsize', (e) => this.changeGridSize(e))
   },
-  destroyed () {
-    // remove eventlistener when destroyed
+  beforeDestroy () {
+    this.$root.$off('rt_on')
+    this.$root.$off('rt_off')
+    this.$root.$off('add_to_diagram')
+    this.$root.$off('remove_from_diagram')
+    this.$root.$off('update_scale')
+    this.$root.$off('update_speed')
+    this.$root.$off('clear_diagram')
+    this.$root.$off('get_layout')
+    this.$root.$off('get_layout_for_download')
+    this.$root.$off('change_gridsize')
     delete this.modelEventListener
   },
   methods: {
+    onResize (size) {
+      this.handleResize()
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
@@ -126,6 +152,10 @@ export default {
         this.display = 'none'
         this.pixiApp.renderer.view.style.display = this.display
       }
+    },
+    changeEditingMode () {
+      this.pixiApp.spriteMode.mode = this.editingSelection
+      console.log(this.pixiApp.spriteMode.mode)
     },
     initDiagram () {
       // get the reference to the canvas
@@ -148,15 +178,56 @@ export default {
       this.pixiApp.stage.on('mousedown', (e) => this.itemSelected(e.target))
       this.pixiApp.stage.on('mousemove', this.redrawConnector)
       this.pixiApp.stage.on('touchmove', this.redrawConnector)
+      this.pixiApp.gridSize = 10
+      this.pixiApp.spriteMode = { text: 'moving', mode: 1 }
       // attach an event handler to handle resize of the window
       window.addEventListener('resize', this.handleResize)
       // size the canvas
       this.handleResize()
-      this.buildDiagram()
       this.callback_rt = this.updateDiagramComponents
+
+      // skeleton graphics
+      this.skeletonGraphics = new PIXI.Graphics()
+      this.pixiApp.stage.addChild(this.skeletonGraphics)
+      this.drawCircle()
+
+      this.drawGrid()
+    },
+    drawCircle () {
+      this.skeletonGraphics.clear()
+
+      // get center stage
+      const xCenter = this.pixiApp.renderer.width / 4
+      const yCenter = (this.pixiApp.renderer.height / 4) * 1.15
+      this.skeletonGraphics.beginFill(0x444444)
+      this.skeletonGraphics.lineStyle(1, 0x444444, 1)
+      this.skeletonGraphics.drawCircle(xCenter, yCenter, xCenter * 0.6)
+      this.skeletonGraphics.endFill()
+      this.pixiApp.stage.addChild(this.skeletonGraphics)
+    },
+    drawGrid () {
+      // build the grid
+      for (let x = 0; x < this.pixiApp.renderer.width; x = x + this.pixiApp.gridSize) {
+        const vertical = new PIXI.Graphics()
+        vertical.lineStyle(1, 0x888888, 0.1)
+        vertical.moveTo(x, 0)
+        vertical.lineTo(x, this.pixiApp.renderer.height)
+        this.pixiApp.stage.addChild(vertical)
+      }
+
+      for (let y = 0; y < this.pixiApp.renderer.height; y = y + this.pixiApp.gridSize) {
+        const horizontal = new PIXI.Graphics()
+        horizontal.lineStyle(1, 0x888888, 0.1)
+        horizontal.moveTo(0, y)
+        horizontal.lineTo(this.pixiApp.renderer.width, y)
+        this.pixiApp.stage.addChild(horizontal)
+      }
     },
     itemSelected (item) {
       this.$root.$emit('add_to_graph1', item.label)
+    },
+    changeGridSize (newGridSize) {
+      this.pixiApp.gridSize = newGridSize
     },
     clearDiagram () {
       Object.keys(this.diagramComponents).forEach(id => {
@@ -176,7 +247,10 @@ export default {
         const coordinateObject = {
           name: id,
           xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
-          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height,
+          xScale: this.diagramComponents[id].sprite.scalingFactorX,
+          yScale: this.diagramComponents[id].sprite.scalingFactorY,
+          rotation: this.diagramComponents[id].sprite.rotation
         }
         layouts.push(coordinateObject)
       })
@@ -189,7 +263,10 @@ export default {
         const coordinateObject = {
           name: id,
           xSprite: this.diagramComponents[id].sprite.x / this.stage.width,
-          ySprite: this.diagramComponents[id].sprite.y / this.stage.height
+          ySprite: this.diagramComponents[id].sprite.y / this.stage.height,
+          xScale: this.diagramComponents[id].sprite.scalingFactorX,
+          yScale: this.diagramComponents[id].sprite.scalingFactorY,
+          rotation: this.diagramComponents[id].sprite.rotation
         }
         layouts.push(coordinateObject)
       })
@@ -233,12 +310,15 @@ export default {
       // remove from watched list
     },
     addToDiagram (e) {
-      if (!this.watchedmodels.includes(e.modelComponents[0])) {
+      if (!this.watchedmodels.includes(e.id)) {
         switch (e.type) {
           case 'blood_compartment':
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -246,6 +326,9 @@ export default {
             this.diagramComponents[e.id] = new DiagramGasCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -253,6 +336,9 @@ export default {
             this.diagramComponents[e.id] = new DiagramBloodCompartment(e.id, e.label, e.modelComponents, this.pixiApp)
             this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
             this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
             this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
             break
@@ -271,33 +357,20 @@ export default {
           case 'diffusor':
             this.diagramConnectors[e.id] = new DiagramDiffusor(e.id, e.label, e.dbcFrom, e.dbcTo, e.modelComponents, this.pixiApp)
             break
+          case 'container':
+            this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
+            this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
+            this.diagramComponents[e.id].sprite.rotation = e.layout.rotation
+            this.diagramComponents[e.id].sprite.scalingFactorX = e.layout.xScale
+            this.diagramComponents[e.id].sprite.scalingFactorY = e.layout.yScale
+            this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
+            this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
+            break
         }
-        e.modelComponents.forEach(component => {
-          this.watchedmodels.push(component)
-        })
-      }
-
-      if (e.type === 'container') {
-        if (!this.watchedmodels.includes(e.id)) {
-          this.diagramComponents[e.id] = new DiagramContainer(e.id, e.label, e.modelComponents, this.pixiApp)
-          this.diagramComponents[e.id].sprite.x = e.layout.xSprite * this.stage.width
-          this.diagramComponents[e.id].sprite.y = e.layout.ySprite * this.stage.height
-          this.diagramComponents[e.id].sprite.text.x = e.layout.xSprite * this.stage.width
-          this.diagramComponents[e.id].sprite.text.y = e.layout.ySprite * this.stage.height
-          this.watchedmodels.push(e.id)
-        }
+        this.watchedmodels.push(e.id)
       }
       this.$root.$emit('rt_watch_diagram', this.watchedmodels)
-    },
-    buildDiagram () {
-      // this.watchedmodels = ['LA', 'LV', 'RA', 'RV', 'LA_LV', 'RA_RV']
-      // this.diagramComponents.RA = new DiagramBloodCompartment('RA', 'RA', ['RA'], this.pixiApp)
-      // this.diagramComponents.RV = new DiagramBloodCompartment('RV', 'RV', ['RV'], this.pixiApp)
-      // this.diagramComponents.LA = new DiagramBloodCompartment('LA', 'LA', ['LA'], this.pixiApp)
-      // this.diagramComponents.LV = new DiagramBloodCompartment('LV', 'LV', ['LV'], this.pixiApp)
-
-      // this.diagramConnectors.LA_LV = new DiagramBloodConnector('LA_LV', 'LA_LV', 'LA', 'LV', ['LA_LV'], this.pixiApp)
-      // this.diagramConnectors.RA_RV = new DiagramBloodConnector('RA_RV', 'RA_RV', 'RA', 'RV', ['RA_RV'], this.pixiApp)
     },
     redrawConnector () {
       if (!this.isRunning) {
@@ -317,14 +390,16 @@ export default {
     },
     handleResize () {
       // get stage sizes
-      this.stage.width = canvas.getBoundingClientRect().width
-      this.stage.height = canvas.getBoundingClientRect().width * this.stage.aspectRatio
-      // get the center of the stage
-      this.stage.centerX = this.stage.width * 0.5
-      this.stage.centerY = this.stage.height * 0.5
-      // resize the pixi app
-      if (this.pixiApp) {
-        this.pixiApp.renderer.resize(this.stage.width, this.stage.height)
+      if (canvas) {
+        this.stage.width = canvas.getBoundingClientRect().width
+        this.stage.height = canvas.getBoundingClientRect().width * this.stage.aspectRatio
+        // get the center of the stage
+        this.stage.centerX = this.stage.width * 0.5
+        this.stage.centerY = this.stage.height * 0.5
+        // resize the pixi app
+        if (this.pixiApp) {
+          this.pixiApp.renderer.resize(this.stage.width, this.stage.height)
+        }
       }
     },
     processProperties () {

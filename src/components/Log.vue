@@ -8,7 +8,7 @@
   <div v-if="isEnabled" class="row q-mt-es">
       <q-virtual-scroll
       clas="col"
-        style="max-height: 500px;"
+        style="max-height: 210px;"
         :items="log"
         >
       <template v-slot="{ item, index }">

@@ -32,6 +32,7 @@
     </div>
 
   </div>
+  <q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -172,6 +173,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart) {
+        this.chart.engine.renderFrame(size.width, 350)
+      }
+    },
     toggleIsEnabled () {
       this.isEnabled = !this.isEnabled
       if (this.isEnabled) {
@@ -413,8 +419,10 @@ export default {
     }
 
   },
-  destroyed () {
+  beforeDestroy () {
     delete this.modelEventListener
+    this.$root.$off('hires_on')
+    this.$root.$off('hires_off')
   },
   beforeMount () {
     this.id = 'test' + Math.floor((Math.random() * 1000) + 1)

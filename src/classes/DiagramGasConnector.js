@@ -100,7 +100,9 @@ class DiagramGasConnector {
     let angle = 0
     if (rtData) {
       this.connectors.forEach(connector => {
-        flow += rtData[0][connector].real_flow * this.speed
+        if (rtData[0][connector] !== undefined) {
+          flow += rtData[0][connector].real_flow * this.speed
+        }
       })
     }
     this.sprite.tint = tint1

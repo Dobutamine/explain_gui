@@ -93,7 +93,7 @@
         </q-popup-edit>
      </q-btn>
   </div>
-
+<q-resize-observer @resize="onResize" />
 </q-card>
 </template>
 
@@ -180,6 +180,11 @@ export default {
     }
   },
   methods: {
+    onResize (size) {
+      if (this.chart) {
+        this.chart.engine.renderFrame(size.width, 350)
+      }
+    },
     exportData () {
       // download to local disk
       const data = JSON.stringify(this.chartCh1Data)
@@ -558,7 +563,10 @@ export default {
       this.setDatalogger()
     }
   },
-  destroyed () {
+  beforeDestroy () {
+    this.$root.$off('add_to_graph1')
+    this.$root.$off('add_to_graph2')
+    this.$root.$off('remove_from_diagram')
     delete this.modelEventListener
   },
   beforeMount () {
@@ -610,12 +618,12 @@ export default {
 <style>
 .rectangle {
   display: flex;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 300px;
+  height: 350px;
   width: 100%;
 }
 .gutter {

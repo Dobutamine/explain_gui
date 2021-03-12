@@ -116,6 +116,8 @@ export default {
     this.$model.getProperties(null)
   },
   beforeDestroy () {
+    this.$root.$off('add_to_graph1')
+    this.$root.$off('show_selected_comp')
     delete this.modelEventListener
   },
   methods: {
@@ -131,7 +133,6 @@ export default {
           this.$model.setPropertyDirect(this.selectedComponentName, prop.name, prop.value)
         }
       })
-      this.$model.getProperties(null)
     },
     changeProperties (event, name) {
       this.selectedComponentPropertyList.forEach(prop => {
