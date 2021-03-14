@@ -129,7 +129,7 @@
     "sa_ph": 7.6,
     "tc_po2_hp": 3.0,
     "tc_map_hp": 2.0,
-    "tc_map_cont": 2.0,
+    "tc_map_cont": 20.0,
     "tc_map_venpool": 2.0,
     "tc_map_res": 2.0,
     "tc_po2_ve": 10.0,

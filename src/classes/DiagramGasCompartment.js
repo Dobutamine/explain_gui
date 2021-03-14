@@ -90,10 +90,10 @@ class DiagramGasCompartment {
       this.sprite.modelComponents.forEach(modelComponent => {
         if (!rtData[0][modelComponent].fixed_composition) {
           volume += rtData[0][modelComponent].vol
-          // co2 += rtData[0][modelComponent].co2
+          co2 += rtData[0][modelComponent].po2
         } else {
           volume = 0.05
-          co2 += rtData[0][modelComponent].co2
+          co2 += rtData[0][modelComponent].po2
         }
       })
     }
@@ -245,8 +245,8 @@ class DiagramGasCompartment {
   }
 
   CalculateColor (co2) {
-    if (co2 > 8.4) { co2 = 8.4 }
-    let remap = this.Remap(co2, 0, 8.4, -10, 1)
+    if (co2 > 100) { co2 = 100 }
+    let remap = this.Remap(co2, 0, 100, 0, 1)
     if (remap < 0) remap = 0
     const red = (remap * 210).toFixed(0)
     const green = (remap * 80).toFixed(0)
