@@ -283,11 +283,11 @@ export default {
           this.$root.$emit('show_selected_comp', this.chartCh1Model)
         }
       }
-      if (this.channel1Props.length > 0) {
-        this.chartCh1Prop = this.channel1Props[0]
-      } else {
-        this.chartCh1Prop = ''
-      }
+      // if (this.channel1Props.length > 0) {
+      //   this.chartCh1Prop = this.channel1Props[0]
+      // } else {
+      //   this.chartCh1Prop = ''
+      // }
       this.setDatalogger()
     },
     ch2Changed () {
@@ -299,11 +299,11 @@ export default {
           }
         })
       }
-      if (this.channel2Props.length > 0) {
-        this.chartCh2Prop = this.channel2Props[0]
-      } else {
-        this.chartCh2Prop = ''
-      }
+      // if (this.channel2Props.length > 0) {
+      //   this.chartCh2Prop = this.channel2Props[0]
+      // } else {
+      //   this.chartCh2Prop = ''
+      // }
       this.setDatalogger()
     },
     drawRTGraph () {
