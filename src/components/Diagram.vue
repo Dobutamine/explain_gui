@@ -54,7 +54,7 @@ export default {
         centerX: 0,
         centerY: 0,
         scaling: 60,
-        aspectRatio: 0.85
+        aspectRatio: 0.80
       },
       activeDiagramComponent: null,
       activeSprite: null,

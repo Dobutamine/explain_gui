@@ -51,7 +51,6 @@
                 :options="[
                   { label: 'chart1', value: 'modelchart' },
                   { label: 'chart2', value: 'modelchart2' },
-                  { label: 'trends', value: 'vitaltrends' },
                   { label: 'diagram', value: 'diagram' },
                   { label: 'ventilator', value: 'ventilator' },
                   { label: 'config', value: 'json' }]"
@@ -79,10 +78,10 @@
               <LightningChart chartNo="2" ></LightningChart>
                 <Controller></Controller>
              </q-carousel-slide>
-             <q-carousel-slide name="vitaltrends">
+             <!-- <q-carousel-slide name="vitaltrends">
               <VitalTrends></VitalTrends>
                 <Controller></Controller>
-             </q-carousel-slide>
+             </q-carousel-slide> -->
              <q-carousel-slide name="diagram">
               <ModelDiagram></ModelDiagram>
                 <Controller></Controller>
@@ -102,9 +101,10 @@
                 size="sm"
                 v-model="slide_right"
                 :options="[
+                { label: 'numbers', value: 'bignumbers' },
                   { label: 'monitoring', value: 'monitor' },
-                  { label: 'diagram editor', value: 'editor' },
-                  { label: 'intellivue', value: 'intellivue' }]"
+                  { label: 'editor', value: 'editor' }
+                  ]"
                 />
             </div>
             <q-carousel
@@ -113,6 +113,7 @@
             transition-next="slide-left"
             animated
             dark
+            keep-alive
             :height="height"
             >
             <q-carousel-slide name="editor">
@@ -124,6 +125,9 @@
             </q-carousel-slide>
             <q-carousel-slide name="intellivue">
             <Intellivue></Intellivue>
+            </q-carousel-slide>
+            <q-carousel-slide name="bignumbers">
+            <BigNumbers></BigNumbers>
             </q-carousel-slide>
             </q-carousel>
         </div>
@@ -142,9 +146,10 @@ import DiagramBuilder from 'components/DiagramBuilder'
 import ModelProps from 'components/PropertyEditor'
 import PatientMonitor from 'components/Monitoring'
 import Intellivue from 'components/Intellivue'
-import VitalTrends from 'components/VitalTrends'
+// import VitalTrends from 'components/VitalTrends'
 import Ventilator from 'components/VentilatorController'
 import JSONEditor from 'components/JSONEditor'
+import BigNumbers from 'components/BigNumbers'
 import Log from 'components/Log'
 
 export default {
@@ -159,9 +164,9 @@ export default {
     ModelProps,
     PatientMonitor,
     Intellivue,
-    VitalTrends,
     Ventilator,
     JSONEditor,
+    BigNumbers,
     Log
   },
   data () {
@@ -169,7 +174,7 @@ export default {
       height: '2024px',
       slide: 'modelchart',
       slide_left: 'files',
-      slide_right: 'monitor'
+      slide_right: 'bignumbers'
     }
   },
   mounted () {

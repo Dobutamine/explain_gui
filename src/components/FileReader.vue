@@ -1,10 +1,5 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-  <div class="row q-mt-es">
-    <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        model snapshot
-    </div>
-  </div>
 
   <div v-if="isEnabled" class="row q-ml-md q-mr-md">
         <q-input type="text" label="new model name" v-model='json_filename' class="col q-mr-sm" dense color="teal-7" ></q-input>

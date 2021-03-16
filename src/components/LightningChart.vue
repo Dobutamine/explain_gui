@@ -1,10 +1,5 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-   <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     model graph
-     </div>
-   </div>
 
   <div :class="graphClass" :id="id"></div>
   <div v-if="isEnabled" class="row q-mt-sm">
@@ -118,7 +113,7 @@ export default {
       label: 'filename',
       box: false,
       isEnabled: true,
-      showSummary: false,
+      showSummary: true,
       chart: null,
       autoScale: true,
       minY: 0,
@@ -182,7 +177,7 @@ export default {
   methods: {
     onResize (size) {
       if (this.chart) {
-        this.chart.engine.renderFrame(size.width, 350)
+        this.chart.engine.renderFrame(size.width, 300)
       }
     },
     exportData () {
@@ -618,12 +613,12 @@ export default {
 <style>
 .rectangle {
   display: flex;
-  height: 350px;
+  height: 300px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 350px;
+  height: 300px;
   width: 100%;
 }
 .gutter {

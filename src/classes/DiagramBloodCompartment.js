@@ -44,8 +44,8 @@ class DiagramBloodCompartment {
 
     this.sprite.textStyle = new PIXI.TextStyle({
       fill: 'white',
-      fontSize: 9,
-      fontFamily: 'Tahoma',
+      fontSize: 12,
+      fontFamily: 'Roboto',
       strokeThickness: 0
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)

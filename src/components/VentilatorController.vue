@@ -1,11 +1,5 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-   <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     ventilator
-     </div>
-   </div>
-
   <div class="row q-mt-es">
     <div :class="graphClass" :id="id1"></div>
   </div>
@@ -193,7 +187,7 @@ export default {
   methods: {
     onResize (size) {
       if (this.chart1) {
-        this.chart1.engine.renderFrame(size.width, 350)
+        this.chart1.engine.renderFrame(size.width, 250)
       }
     },
     toggleIsEnabled () {
@@ -501,12 +495,12 @@ export default {
 <style scoped>
 .rectangle {
   display: flex;
-  height: 350px;
+  height: 250px;
   width: 100%;
 }
 .rectangleHide {
   display: none;
-  height: 350px;
+  height: 250px;
   width: 100%;
 }
 .gutter {

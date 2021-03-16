@@ -1,10 +1,5 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-    <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-        model properties
-      </div>
-    </div>
 
     <div v-if="isEnabled && !newComponentMode" class="q-mt-md">
       <div class="row q-mt-sm">

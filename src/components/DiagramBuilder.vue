@@ -1,10 +1,5 @@
 <template>
   <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-   <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-      diagram editor
-     </div>
-   </div>
 
    <div v-if="isEnabled && !newStateEnabled" class="row q-mt-es q-ml-md q-mr-md q-mb-sm">
     <q-select :options="stateNames" class="col q-mr-sm" v-model="selectedState" @input="selectState" label="select existing diagram">
