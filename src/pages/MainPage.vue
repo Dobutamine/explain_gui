@@ -53,6 +53,7 @@
                   { label: 'chart2', value: 'modelchart2' },
                   { label: 'diagram', value: 'diagram' },
                   { label: 'ventilator', value: 'ventilator' },
+                  { label: 'ecmo', value: 'ecmo' },
                   { label: 'config', value: 'json' }]"
                 />
             </div>
@@ -68,6 +69,10 @@
           >
              <q-carousel-slide name="ventilator">
               <Ventilator></Ventilator>
+                <Controller></Controller>
+             </q-carousel-slide>
+             <q-carousel-slide name="ecmo">
+              <ECMO></ECMO>
                 <Controller></Controller>
              </q-carousel-slide>
              <q-carousel-slide name="modelchart">
@@ -149,6 +154,7 @@ import Intellivue from 'components/Intellivue'
 // import VitalTrends from 'components/VitalTrends'
 import Ventilator from 'components/VentilatorController'
 import JSONEditor from 'components/JSONEditor'
+import ECMO from 'components/ECMO'
 import BigNumbers from 'components/BigNumbers'
 import Log from 'components/Log'
 
@@ -167,6 +173,7 @@ export default {
     Ventilator,
     JSONEditor,
     BigNumbers,
+    ECMO,
     Log
   },
   data () {

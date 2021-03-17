@@ -20,7 +20,7 @@ export class ModelInterface {
 
     // if no model definition is provided then we load the de fault normal neonate
     if (!default_model_definition) {
-      default_model_definition = 'cdh_meeting'
+      default_model_definition = 'normal_neonate_v2'
     }
 
     this.loadedModelName = default_model_definition

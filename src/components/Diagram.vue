@@ -196,14 +196,14 @@ export default {
     drawCircle () {
       this.skeletonGraphics.clear()
 
-      // // get center stage
-      // const xCenter = this.pixiApp.renderer.width / 4
-      // const yCenter = (this.pixiApp.renderer.height / 4) * 1.15
-      // this.skeletonGraphics.beginFill(0x444444)
-      // this.skeletonGraphics.lineStyle(1, 0x444444, 1)
-      // this.skeletonGraphics.drawCircle(xCenter, yCenter, xCenter * 0.6)
-      // this.skeletonGraphics.endFill()
-      // this.pixiApp.stage.addChild(this.skeletonGraphics)
+      // get center stage
+      const xCenter = this.pixiApp.renderer.width / 4
+      const yCenter = (this.pixiApp.renderer.height / 4) * 1.15
+      this.skeletonGraphics.beginFill(0x444444)
+      this.skeletonGraphics.lineStyle(1, 0x444444, 1)
+      this.skeletonGraphics.drawCircle(xCenter, yCenter, xCenter * 0.6)
+      this.skeletonGraphics.endFill()
+      this.pixiApp.stage.addChild(this.skeletonGraphics)
     },
     drawGrid () {
       // build the grid
