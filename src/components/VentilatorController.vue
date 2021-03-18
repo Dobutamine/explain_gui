@@ -57,7 +57,7 @@
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
         <div class="q-mb-sm" style="font-size: 12px">FiO2</div>
-        <q-knob :min="21" :max="120" v-model="vent_set_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
+        <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
         <div class="q-mt-sm" style="font-size: 8px">%</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>

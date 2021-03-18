@@ -24,7 +24,7 @@ class DiagramGasExchanger {
     this.sprite.interactive = true
     this.sprite.buttonMode = true
     this.sprite.tint = '0xffffff'
-    this.sprite.zIndex = 1
+    this.sprite.zIndex = 3
     this.pos = 0
     this.sprite.scale.set(0.1, 0.1)
     this.pixiApp.stage.addChild(this.sprite)

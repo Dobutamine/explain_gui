@@ -63,6 +63,11 @@
             <q-input class="col" v-model="lungshunt_flow" filled dense square label="lung shunt" />
             <q-input class="col" v-model="ecmo_flow" filled dense square label="ecmo_flow" />
         </div>
+        <div class="row">
+            <q-input class="col" v-model="ecinp" filled dense square label="pre oxy pres" />
+            <q-input class="col" v-model="ecoutp" filled dense square label="post oxy pres" />
+            <q-input class="col" v-model="ecoutp" filled dense square label="" />
+        </div>
       </div>
     </div>
     <q-separator></q-separator>
@@ -94,6 +99,8 @@ export default {
       abp: '-/-',
       pap: '-/-',
       cvp: '-',
+      ecinp: '-',
+      ecoutp: '-',
       sao2_pre: '-',
       sao2_post: '-',
       resp_rate: '-',
@@ -206,6 +213,8 @@ export default {
           this.etco2 = this.checkIsNaN(parseInt(data.monitor.etco2), 0)
           this.temp = this.checkIsNaN((data.monitor.temperature), 1)
           this.cvp = this.checkIsNaN((data.monitor.cvp), 1)
+          this.ecinp = this.checkIsNaN((data.monitor.ecinp), 1)
+          this.ecoutp = this.checkIsNaN((data.monitor.ecoutp), 1)
         }
 
         if (this.bloodgasEnabled) {
