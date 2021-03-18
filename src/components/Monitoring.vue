@@ -109,7 +109,11 @@ export default {
       kidney_flow: 0,
       liver_flow: 0,
       brain_flow: 0,
+      ub_flow: 0,
+      lb_flow: 0,
       lungshunt_flow: 0,
+      oxy_flow_ub: 0,
+      oxy_flow_lb: 0,
       lvo: 0,
       rvo: 0,
       lv_stroke: 0,
@@ -224,6 +228,8 @@ export default {
           this.kidney_flow = this.checkIsNaN((data.monitor.kidney_flow), 4)
           this.liver_flow = this.checkIsNaN((data.monitor.liver_flow), 4)
           this.brain_flow = this.checkIsNaN((data.monitor.brain_flow), 4)
+          this.ub_flow = this.checkIsNaN((data.monitor.ub_flow), 4)
+          this.lb_flow = this.checkIsNaN((data.monitor.lb_flow), 4)
 
           this.lvo = this.checkIsNaN((data.monitor.lvo), 4)
           this.lv_stroke = this.checkIsNaN((data.monitor.lv_stroke), 4)

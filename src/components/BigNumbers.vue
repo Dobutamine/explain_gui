@@ -37,6 +37,12 @@
          <div class="col text-h2 text-green-13">
           {{ temp }}
         </div>
+        <div class="col text-green-13">
+          svo2 (svc / ivc)
+        </div>
+         <div class="col text-h2 text-green-13">
+          {{ svo2_svc }} / {{ svo2_ivc }}
+        </div>
 
   </q-card>
 </template>
@@ -56,6 +62,8 @@ export default {
       cvp: '-',
       sao2_pre: '-',
       sao2_post: '-',
+      svo2_ivc: '-',
+      svo2_svc: '-',
       resp_rate: '-',
       etco2: '-',
       temp: '-',
@@ -162,6 +170,8 @@ export default {
           this.etco2 = this.checkIsNaN(parseInt(data.monitor.etco2), 0)
           this.temp = this.checkIsNaN((data.monitor.temperature), 1)
           this.cvp = this.checkIsNaN((data.monitor.cvp), 1)
+          this.svo2_ivc = this.checkIsNaN((data.monitor.svO2), 0)
+          this.svo2_svc = this.checkIsNaN((data.monitor.svO2_svc), 0)
         }
 
         if (this.bloodgasEnabled) {

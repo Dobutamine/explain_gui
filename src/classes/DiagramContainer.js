@@ -43,7 +43,7 @@ class DiagramContainer {
 
     this.sprite.textStyle = new PIXI.TextStyle({
       fill: 'white',
-      fontSize: 10,
+      fontSize: 6,
       fontFamily: 'Roboto',
       strokeThickness: 0
     })
