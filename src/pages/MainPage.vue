@@ -186,8 +186,8 @@ export default {
     return {
       height: '2024px',
       slide: 'modelchart',
-      slide_left: 'files',
-      slide_right: 'bignumbers'
+      slide_left: 'props',
+      slide_right: 'monitor'
     }
   },
   mounted () {
