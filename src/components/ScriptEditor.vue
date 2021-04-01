@@ -1,10 +1,5 @@
 <template>
 <q-card class="q-pb-sm q-pt-es q-ma-sm" bordered>
-   <div class="row q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="toggleIsEnabled">
-     script editor
-     </div>
-   </div>
 
    <div v-if="isEnabled && !newScriptEnabled" class="row q-mt-es q-ml-sm q-mr-sm q-mb-sm">
     <q-select :options="scriptNames" class="col q-mr-sm" v-model="selectedScript" @input="selectScript" label="select existing script">

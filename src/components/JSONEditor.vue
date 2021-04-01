@@ -1,12 +1,6 @@
 <template>
   <q-card class="q-pb-es q-pt-es q-ma-sm" bordered>
 
-    <div class="q-mt-es">
-      <div class="q-gutter-es q-mt-es row gutter text-overline" @click="isEnabled = !isEnabled">
-        configuration file editor
-      </div>
-    </div>
-
     <div v-if="isEnabled" class="q-mt-es">
       <div class="q-ma-sm row">
         <!-- <q-input class="q-ma-sm col" type="text" stack-label label="current json file on display" v-model='currentDisplayedJsonName' dense color="teal-7" ></q-input> -->

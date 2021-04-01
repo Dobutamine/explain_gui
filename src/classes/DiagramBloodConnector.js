@@ -49,7 +49,7 @@ class DiagramBloodConnector {
     const y2 = diagramCompartments[this.graphics.dbcTo].sprite.y
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(1, 0xaaaaaa, 1)
+    this.graphics.lineStyle(2, 0xaaaaaa, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()
@@ -85,7 +85,7 @@ class DiagramBloodConnector {
     const tint2 = diagramCompartments[this.graphics.dbcTo].sprite.tint
 
     this.graphics.beginFill(0xFF3300)
-    this.graphics.lineStyle(1, 0xaaaaaa, 1)
+    this.graphics.lineStyle(2, 0xaaaaaa, 1)
     this.graphics.moveTo(x1, y1)
     this.graphics.lineTo(x2, y2)
     this.graphics.endFill()

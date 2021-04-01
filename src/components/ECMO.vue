@@ -13,57 +13,36 @@
       @input="sourceSelector"
       :options="[
         { label: 'pressure', value: 'pressure' },
-        { label: 'flow', value: 'flow' },
-        { label: 'volume', value: 'volume' }]"
+        { label: 'flow', value: 'flow' }]"
       />
       <q-checkbox v-model="hires" dense label="hi-res" @input="hiresToggle" style="font-size: 12px" class="q-ml-md"/>
   </div>
 
    <div class="q-gutter-xs row q-mb-sm justify-center">
-      <q-card v-if="!hfov && !volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">Pinsp</div>
-        <q-knob :min="0" :max="40" v-model="vent_set_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changePIP"/>
-        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
+      <q-card v-if="rollerEnabled" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Flow</div>
+          <q-knob :min="0" :max="1000" v-model="ecmo_flow" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"/>
+        <div class="q-mt-sm" style="font-size: 8px">ml/min</div>
       </q-card>
-      <q-card v-if="!hfov && volumeGaranteed" class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">Pmax</div>
-        <q-knob :min="0" :max="40" v-model="vent_set_max_pip" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"  @input="changeMaxPIP"/>
-        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
-      </q-card>
-      <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">PEEP</div>
-        <q-knob :min="0" :max="20" v-model="vent_set_peep" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changePEEP"/>
-        <div class="q-mt-sm" style="font-size: 8px">cmH2o</div>
-      </q-card>
-      <q-card v-if="!hfov && volumeGaranteed " class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">TV</div>
-        <q-knob :min="0" :max="50" v-model="vent_set_target_tv" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeTV"/>
-        <div class="q-mt-sm" style="font-size: 8px">ml</div>
+       <q-card v-if="!rollerEnabled" class="q-pa-sm q-ma-sm" bordered>
+        <div class="q-mb-sm" style="font-size: 12px">Rotations</div>
+          <q-knob :min="0" :max="4000" v-model="ecmo_rotations" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"/>
+        <div class="q-mt-sm" style="font-size: 8px">RPM</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">{{labelFreq}}</div>
-        <q-knob :min="0" :max="70" v-model="vent_set_freq" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 8px">/min</div>
-      </q-card>
-      <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered >
-        <div class="q-mb-sm" style="font-size: 12px">I-time</div>
-        <q-knob :min="0.1" :max="1" v-model="vent_set_tin" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" :step="0.05" @input="changeFrequency"/>
-        <div class="q-mt-sm" style="font-size: 8px">sec</div>
-      </q-card>
-      <q-card v-if="!hfov" class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">I-flow</div>
-        <q-knob :min="0" :max="20" v-model="vent_set_insp_flow" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeInspFlow"/>
+        <div class="q-mb-sm" style="font-size: 12px">Sweep</div>
+          <q-knob :min="0" :max="4" v-model="ecmo_sweep" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"/>
         <div class="q-mt-sm" style="font-size: 8px">l/min</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
         <div class="q-mb-sm" style="font-size: 12px">FiO2</div>
-        <q-knob :min="21" :max="100" v-model="vent_set_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changeFiO2"/>
+          <q-knob :min="21" :max="100" v-model="ecmo_fio2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"/>
         <div class="q-mt-sm" style="font-size: 8px">%</div>
       </q-card>
       <q-card class="q-pa-sm q-ma-sm" bordered>
-        <div class="q-mb-sm" style="font-size: 12px">Trigger</div>
-        <q-knob :min="0.1" :max="10" v-model="vent_set_trigger_volume" :step="0.05" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5" @input="changerTrigger"/>
-        <div class="q-mt-sm" style="font-size: 8px">ml</div>
+        <div class="q-mb-sm" style="font-size: 12px">CO2</div>
+          <q-knob :min="0" :max="60" v-model="ecmo_fico2" show-value size="lg" :thickness="0.22" color="teal-10" track-color="grey-5"/>
+        <div class="q-mt-sm" style="font-size: 8px">ml/min</div>
       </q-card>
     </div>
 
@@ -72,29 +51,28 @@
       color="grey-10"
       toggle-color="red-10"
       size="sm"
-      v-model="ventModeSelector"
-      @input="changeVentilatorMode"
-      :options="fabianOptions"
+      v-model="ecmoSystemSelector"
+      @input="changeECMOMode"
+      :options="ecmoSystemOptions"
       />
-      <q-toggle class="q-mt-es text-overline" v-model="volumeGaranteed" size="sm" color="red-10" @input="changeVolumeGaranteed">volume garanteed</q-toggle>
-    </div>
-
-        <div class="row q-mt-lg">
-            <q-input class="col" v-model="vent_plateau_pressure" filled dense square label="peak pressure (cmH2O)" style="font-size: 14px"  />
-            <q-input class="col" v-model="vent_mean" filled dense square label="mean pressure (cmH2O)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_peep" filled dense square label="peep (cmH2O)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_minute_volume" filled dense square label="minute volume (l/min)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_tidal_volume" filled dense square label="tidal volume (l)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_freq" filled dense square label="frequency (/min)" style="font-size: 14px" />
-        </div>
-        <div class="row">
-          <q-input class="col" v-model="vent_fio2" filled dense square label="fio2 (%)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_leak" filled dense square label="leak (%)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_ie_ratio" filled dense square label="I:E" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_exp_time" filled dense square label="exp time (s)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_insp_flow" filled dense square label="insp flow (l/min)" style="font-size: 14px" />
-            <q-input class="col" v-model="vent_tin" filled dense square label="i-time" style="font-size: 14px" />
-        </div>
+      <q-btn-toggle
+      class="q-ml-lg"
+      color="grey-10"
+      toggle-color="red-10"
+      size="sm"
+      v-model="ecmoModeSelector"
+      :options="ecmoModeOptions"
+      />
+     </div>
+      <div class="row q-mt-lg">
+            <q-input class="col" v-model="current_ecmo_flow" filled dense square label="flow (l/min)" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_p1" filled dense square label="p1" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_p2" filled dense square label="p2" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_delta_p" filled dense square label="deltaP" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_hb" filled dense square label="hemoglobin" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_post_so2" filled dense square label="post sO2" style="font-size: 14px" />
+            <q-input class="col" v-model="ecmo_post_pco2" filled dense square label="post pCO2" style="font-size: 14px" />
+      </div>
 <q-resize-observer @resize="onResize" />
 </q-card>
 </template>
@@ -108,6 +86,7 @@ export default {
   data () {
     return {
       id1: 'chart',
+      rollerEnabled: true,
       style: { width: '200px', height: '200px' },
       graphClass: 'rectangle',
       componentKey: 0,
@@ -117,7 +96,8 @@ export default {
       hires: false,
       autoScale: false,
       graphSelector: 'pressure',
-      ventModeSelector: 'simv',
+      ecmoSystemSelector: 'roller',
+      ecmoModeSelector: 'VA',
       hfov: false,
       volumeGaranteed: false,
       timeCyclingSelector: 'time',
@@ -126,12 +106,12 @@ export default {
       xAxisModels: [],
       xAxisProps: [],
       labelFreq: 'Fbackup',
-      fabianOptions: [
-        { label: 'SIPPV', value: 'sippv' },
-        { label: 'SIMV', value: 'simv' },
-        { label: 'SIMV+PSV', value: 'simv_psv' },
-        { label: 'PSV', value: 'psv' },
-        { label: 'HFOV', value: 'hfov' }],
+      ecmoSystemOptions: [
+        { label: 'roller', value: 'roller' },
+        { label: 'centrifugal', value: 'centrifugal' }],
+      ecmoModeOptions: [
+        { label: 'VA', value: 'VA' },
+        { label: 'VV', value: 'VV' }],
       chart1: null,
       chart1XAxis: null,
       chart1YAxis: null,
@@ -155,7 +135,18 @@ export default {
       vent_set_fio2: 21,
       vent_set_trigger_volume: 1.2,
 
-      vent_fio2: 21,
+      ecmo_flow: 250,
+      ecmo_rotations: 2500,
+      ecmo_sweep: 1,
+      ecmo_fio2: 21,
+      ecmo_fico2: 40,
+      current_ecmo_flow: 250,
+      ecmo_p1: -10,
+      ecmo_p2: 160,
+      ecmo_delta_p: 15,
+      ecmo_hb: 8,
+      ecmo_post_so2: 100,
+      ecmo_post_pco2: 45,
       vent_ie_ratio: '1:3',
       vent_peak_presssure: 0,
       vent_plateau_pressure: 0,
@@ -259,47 +250,8 @@ export default {
     changeFiO2 () {
       this.$model.setPropertyByFunction('ventilator', 'setFiO2', this.vent_set_fio2 / 100)
     },
-    changeVentilatorMode () {
-      switch (this.ventModeSelector) {
-        case 'sippv':
-          this.hfov = false
-          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 't_in', this.vent_set_tin)
-          this.$model.setPropertyDirect('ventilator', 't_ex', (60 / this.vent_set_freq) - this.vent_set_tin)
-          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
-          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'time')
-          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
-          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', false)
-          this.labelFreq = 'Fbackup'
-
-          break
-        case 'simv':
-          this.hfov = false
-          this.$model.setPropertyDirect('ventilator', 'max_pip', this.vent_set_max_pip / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 't_in', this.vent_set_tin)
-          this.$model.setPropertyDirect('ventilator', 't_ex', (60 / this.vent_set_freq) - this.vent_set_tin)
-          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
-          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'time')
-          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
-          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', true)
-          this.labelFreq = 'Freq'
-          break
-        case 'psv':
-          this.$model.setPropertyDirect('ventilator', 'pip', this.vent_set_pip / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'peep', this.vent_set_peep / 1.35951)
-          this.$model.setPropertyDirect('ventilator', 'cycling_mode', 'flow')
-          this.$model.setPropertyDirect('ventilator', 'ventilator_mode', 'pressure')
-          this.$model.setPropertyDirect('ventilator', 'target_tidal_volume', this.vent_set_target_tv / 1000)
-          this.$model.setPropertyDirect('ventilator', 'mandatory_mode', false)
-          this.hfov = false
-          break
-        case 'hfov':
-          this.hfov = true
-      }
+    changeECMOMode () {
+      this.rollerEnabled = !this.rollerEnabled
     },
     changeFrequency () {
       if (this.ventModeSelector !== 'hfov') {

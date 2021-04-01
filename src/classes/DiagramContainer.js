@@ -25,7 +25,7 @@ class DiagramContainer {
     this.sprite.prevX = 0
     this.sprite.prevY = 0
     this.sprite.scale.set(0.05, 0.05)
-    this.sprite.tint = '0x999999'
+    this.sprite.tint = '0x666666'
     this.sprite.interactive = true
     this.sprite.buttonMode = true
     this.sprite.on('mousedown', this.onDragStart)
@@ -36,15 +36,15 @@ class DiagramContainer {
     this.sprite.on('touchend', this.onDragEnd)
     this.sprite.on('mousemove', this.onDragMove)
     this.sprite.on('touchmove', this.onDragMove)
-    this.sprite.zIndex = 1
+    this.sprite.zIndex = 0
     this.sprite.firstRun = true
     this.sprite.editMode = this.pixiApp.spriteMode
     this.pixiApp.stage.addChild(this.sprite)
 
     this.sprite.textStyle = new PIXI.TextStyle({
       fill: 'white',
-      fontSize: 9,
-      fontFamily: 'Tahoma',
+      fontSize: 4,
+      fontFamily: 'Roboto',
       strokeThickness: 0
     })
     this.sprite.text = new PIXI.Text(this.sprite.label, this.sprite.textStyle)

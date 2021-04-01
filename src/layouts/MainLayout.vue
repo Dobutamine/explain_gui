@@ -4,7 +4,7 @@
       <q-header elevated>
         <q-bar>
           <q-icon name="laptop_chromebook" />
-          <div>Explain - Explanatory models in perinatology - research environment</div>
+          <div>Explain - Explanatory models in neonatology -> research environment</div>
         </q-bar>
       </q-header>
       <q-page-container>
